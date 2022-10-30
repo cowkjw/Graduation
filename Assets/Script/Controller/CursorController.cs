@@ -9,11 +9,11 @@ public class CursorController : MonoBehaviour
     Texture2D _attackIcon;
     public GameObject _clickEffect;
 
+
     Ray ray;
     RaycastHit hit;
     bool raycastHit;
-
-    int _mask = (1 << 6) | (1 << 8)|(1<<7);
+    int _mask = (1 << 6) | (1 << 8)| (1<<7);
 
 
     Define.CursorType _cursorType = Define.CursorType.Arrow;
@@ -32,19 +32,18 @@ public class CursorController : MonoBehaviour
 
     void MousePointEffect(Define.MouseState evt)
     {
-        if (evt == Define.MouseState.Press)
-            return;
-
-        if (hit.collider.gameObject.layer == 6 && evt == Define.MouseState.ButtonDown) // ¶¥ÀÏ¶§¸¸ Ç¥½Ã
+       
+        if (evt == Define.MouseState.ButtonDown && hit.collider.gameObject != null) // ¶¥ÀÏ¶§¸¸ Ç¥½Ã
         {
+
             GameObject clickParticle = Instantiate(_clickEffect);
             clickParticle.transform.position = hit.point;
             Destroy(clickParticle, 0.5f);
         }
-              
+
     }
 
-    void Update()
+    void SetCursorIcon()
     {
 
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -74,6 +73,11 @@ public class CursorController : MonoBehaviour
             }
 
         }
+    }
+
+    void Update()
+    {
+        SetCursorIcon();
     }
 
 }

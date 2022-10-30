@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -56,6 +57,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+       
         switch (State)
         {
             case Define.State.Die:
@@ -149,7 +151,7 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
             case Define.MouseState.ButtonUp:
-                State = Define.State.Idle;
+                //State = Define.State.Moving;
                 break;
 
         }
@@ -170,13 +172,12 @@ public class PlayerController : MonoBehaviour
         else
         {
             float moveDist = Mathf.Clamp(5 * Time.deltaTime, 0, dir.magnitude);
-
             transform.position += dir.normalized * moveDist;// ¿Ãµø
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 25 * Time.deltaTime);
 
+        
         }
 
-        // State = Define.State.Moving;
     }
 
     void ArrowShoot()
@@ -201,6 +202,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.layer == 9)
         {
             Debug.Log("Enter");
+            SceneManager.LoadScene(1);
         }
     }
 
