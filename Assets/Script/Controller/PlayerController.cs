@@ -7,15 +7,15 @@ public class PlayerController : MonoBehaviour
 {
 
     int _mask = 1 << 6 | 1 << 8 | 1 << 9; // 6 Ground 8 Enemy
-    [SerializeField]
+ 
     Vector3 _destPos;
 
     GameObject _enemyTarget;
 
     public GameObject _arrowObject;
-    public Transform _arrowPos;
+    public Transform _arrowPos; // 쏘는 위치
 
-    // [SerializeField]
+    
     Define.State _state = Define.State.Idle;
 
     public Define.State State
@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
         if (_enemyTarget != null)
         {
             float disEnemy = Vector3.Distance(_enemyTarget.transform.position, transform.position);
-            Vector3 dirEnemy = (_enemyTarget.transform.position - transform.position) + new Vector3(0, -0.85f, 0);
+            Vector3 dirEnemy = (_enemyTarget.transform.position - transform.position) + new Vector3(0, 0, 0);
             Quaternion lookEnemy = Quaternion.LookRotation(dirEnemy);
 
             if (disEnemy <= 4) // 일정거리에 들어왔는지 판단
@@ -151,7 +151,7 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
             case Define.MouseState.ButtonUp:
-                //State = Define.State.Moving;
+                State = Define.State.Moving;
                 break;
 
         }
@@ -186,14 +186,15 @@ public class PlayerController : MonoBehaviour
             GameObject arrow = Instantiate(_arrowObject, _arrowPos.transform.position, _arrowPos.transform.rotation);
             if (_enemyTarget != null)
             {
-                arrow.GetComponent<Arrow>()._target = _enemyTarget.transform.position;
+                arrow.GetComponent<Arrow>()._target = _enemyTarget.transform.position+new Vector3(0,0.8f,0);
             }
       
     }
     IEnumerator Attack()
     {
        
-        yield return new WaitForSeconds(1f);
+        ArrowShoot();
+        yield return new WaitForSeconds(3f);
         ArrowShoot();
     }
 
