@@ -38,4 +38,10 @@ public class Managers : MonoBehaviour
 
         }
     }
+
+
+    public static void Clear()
+    {
+        Input.Clear();
+    }
 }

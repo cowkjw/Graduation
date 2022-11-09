@@ -51,4 +51,10 @@ public class InputManager : MonoBehaviour
 
         }
     }
+
+    public void Clear() // 씬 이동때 초기화
+    {
+        KeyAction = null;
+        MouseAction = null;
+    }
 }

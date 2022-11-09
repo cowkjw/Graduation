@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour
 
     List<Renderer> _obsList;
 
-    // public void SetPlayer(GameObject player) { _player = player; }
+     public void SetPlayer(GameObject player) { _player = player; } // æ¿ ¿ÃµøΩ√ø° player set
 
 
     private void Start()
