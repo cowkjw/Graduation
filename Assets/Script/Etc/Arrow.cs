@@ -14,7 +14,7 @@ public class Arrow : MonoBehaviour
 
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _target, 15 * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, _target, 25 * Time.deltaTime);
     }
 
 }

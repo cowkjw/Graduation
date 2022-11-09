@@ -7,15 +7,10 @@ public class PlayerController : MonoBehaviour
 {
 
     int _mask = 1 << 6 | 1 << 8 | 1 << 9; // 6 Ground 8 Enemy
-    [SerializeField]
     Vector3 _destPos;
 
     GameObject _enemyTarget;
 
-    public GameObject _arrowObject;
-    public Transform _arrowPos;
-
-    // [SerializeField]
     Define.State _state = Define.State.Idle;
 
     public Define.State State
@@ -50,14 +45,14 @@ public class PlayerController : MonoBehaviour
 
 
     void Start()
-    {
+    { 
         Managers.Input.MouseAction -= MouseEvent;
         Managers.Input.MouseAction += MouseEvent;
     }
 
     void Update()
     {
-       
+
         switch (State)
         {
             case Define.State.Die:
@@ -65,7 +60,6 @@ public class PlayerController : MonoBehaviour
                 break;
             case Define.State.Moving:
                 Moving();
-                StopCoroutine(Attack()); // 공격 중지
                 break;
             case Define.State.Attack:
                 AttackEnemy();
@@ -98,18 +92,17 @@ public class PlayerController : MonoBehaviour
         if (_enemyTarget != null)
         {
             float disEnemy = Vector3.Distance(_enemyTarget.transform.position, transform.position);
-            Vector3 dirEnemy = (_enemyTarget.transform.position - transform.position) + new Vector3(0, -0.85f, 0);
+            Vector3 dirEnemy = (_enemyTarget.transform.position - transform.position);
             Quaternion lookEnemy = Quaternion.LookRotation(dirEnemy);
 
-            if (disEnemy <= 4) // 일정거리에 들어왔는지 판단
+            if (disEnemy <= 1f) // 일정거리에 들어왔는지 판단
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookEnemy, 30 * Time.deltaTime);
-                StartCoroutine(Attack());
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookEnemy, 25 * Time.deltaTime);
                 State = Define.State.Attack;
                 return;
             }
 
-           
+
         }
     }
 
@@ -119,7 +112,7 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         bool raycastHit = Physics.Raycast(ray, out hit, 100f, _mask);
-    
+
 
         switch (evt)
         {
@@ -133,7 +126,7 @@ public class PlayerController : MonoBehaviour
                     if (hit.collider.gameObject.layer == 8)
                     {
                         _enemyTarget = hit.collider.gameObject;
-                       
+
                     }
                     else
                     {
@@ -147,7 +140,6 @@ public class PlayerController : MonoBehaviour
                     {
                         _destPos = hit.point;
                     }
-
                 }
                 break;
             case Define.MouseState.ButtonUp:
@@ -174,35 +166,20 @@ public class PlayerController : MonoBehaviour
             float moveDist = Mathf.Clamp(5 * Time.deltaTime, 0, dir.magnitude);
             transform.position += dir.normalized * moveDist;// 이동
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 25 * Time.deltaTime);
-
-        
         }
 
     }
 
-    void ArrowShoot()
-    {
-     
-            GameObject arrow = Instantiate(_arrowObject, _arrowPos.transform.position, _arrowPos.transform.rotation);
-            if (_enemyTarget != null)
-            {
-                arrow.GetComponent<Arrow>()._target = _enemyTarget.transform.position;
-            }
-      
-    }
-    IEnumerator Attack()
-    {
-       
-        yield return new WaitForSeconds(1f);
-        ArrowShoot();
-    }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 9)
+        if (other.gameObject.layer == 9) // 던전1 
         {
-            Debug.Log("Enter");
             SceneManager.LoadScene(1);
+        }
+        else if(other.gameObject.layer == 10)
+        {
+            SceneManager.LoadScene(0);
         }
     }
 
