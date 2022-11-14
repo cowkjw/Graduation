@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
 
     GameObject _enemyTarget;
 
+    Stat _stat;
+
     Define.State _state = Define.State.Idle;
 
     public Define.State State
@@ -26,15 +28,25 @@ public class PlayerController : MonoBehaviour
             switch (_state)
             {
                 case Define.State.Idle:
+                    anim.SetBool("Attacking", false); // 나머지에는 false처리 
                     anim.CrossFade("Idle", 0.1f);
                     break;
                 case Define.State.Moving:
+                    anim.SetBool("Attacking", false);
                     anim.CrossFade("Run", 0.005f);
                     break;
                 case Define.State.Attack:
-                    anim.CrossFade("Attack", 0.005f);
+                    //  anim.CrossFade("Attack", 0.0005f);
+                    //  anim.CrossFade("Slash", 0.0005f);
+                    if (!anim.GetBool("Attacking")) // 만약 false라면
+                    {
+                        anim.SetBool("Attacking", true);
+                        ComboAttackAnim(anim);
+
+                    }
                     break;
                 case Define.State.Die:
+                    anim.SetBool("Attacking", false);
                     anim.CrossFade("Die", 0.1f);
                     break;
 
@@ -43,9 +55,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //void Init()
+    //{
+    //    _stat = gameObject.GetComponent<>
+    //}
 
     void Start()
-    { 
+    {
         Managers.Input.MouseAction -= MouseEvent;
         Managers.Input.MouseAction += MouseEvent;
     }
@@ -95,7 +111,7 @@ public class PlayerController : MonoBehaviour
             Vector3 dirEnemy = (_enemyTarget.transform.position - transform.position);
             Quaternion lookEnemy = Quaternion.LookRotation(dirEnemy);
 
-            if (disEnemy <= 1f) // 일정거리에 들어왔는지 판단
+            if (disEnemy <= 0.8f) // 일정거리에 들어왔는지 판단
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookEnemy, 25 * Time.deltaTime);
                 State = Define.State.Attack;
@@ -113,7 +129,7 @@ public class PlayerController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         bool raycastHit = Physics.Raycast(ray, out hit, 100f, _mask);
 
-
+        
         switch (evt)
         {
 
@@ -177,9 +193,19 @@ public class PlayerController : MonoBehaviour
         {
             SceneManager.LoadScene(1);
         }
-        else if(other.gameObject.layer == 10)
+        else if (other.gameObject.layer == 10)
         {
             SceneManager.LoadScene(0);
+        }
+    }
+
+
+    void ComboAttackAnim(Animator anim) // 콤보 애니메이션 함수
+    {
+
+        if (anim.GetBool("Attacking"))
+        {
+            anim.Play("Slash1");
         }
     }
 

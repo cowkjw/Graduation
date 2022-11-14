@@ -38,7 +38,6 @@ public class InputManager : MonoBehaviour
                 {
                     if (Time.time < _pressedTime + 0.3f) // 현재 시간이 누른 
                     {
-                     
                         MouseAction.Invoke(Define.MouseState.Click);
                     }
                     MouseAction.Invoke(Define.MouseState.ButtonUp);

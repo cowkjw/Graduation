@@ -8,7 +8,9 @@ public class Managers : MonoBehaviour
     static Managers Instance { get { Init(); return s_Instance; } } // 프로퍼티 사용
 
     InputManager _input = new InputManager();
+    GameManagerExt _game = new GameManagerExt();
 
+    public static GameManagerExt game { get { return Instance._game; } }
     public static InputManager Input { get { return Instance._input; } }
 
 
