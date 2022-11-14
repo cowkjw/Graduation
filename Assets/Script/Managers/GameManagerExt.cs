@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManagerExt : MonoBehaviour
 {
-    GameObject _player;
+    GameObject _player = null;
 
     public GameObject SpawnPlayer(Vector3 spawnPos)
     {
@@ -32,6 +32,5 @@ public class GameManagerExt : MonoBehaviour
         {
             return null;
         }
-
     }
 }

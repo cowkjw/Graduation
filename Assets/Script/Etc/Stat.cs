@@ -5,17 +5,17 @@ using UnityEngine;
 public class Stat : MonoBehaviour
 {
     [SerializeField]
-    int _hp;
+    protected int _hp;
     [SerializeField]
-    int _maxHp;
+    protected int _maxHp;
     [SerializeField]
-    int _attack;
+    protected int _attack;
     [SerializeField]
-    int _defense;
+    protected int _defense;
     [SerializeField]
-    int _mp;
+    protected int _mp;
     [SerializeField]
-    int _maxMp;
+    protected int _maxMp;
 
 
     public int Hp { get { return _hp; } set { _hp = value; } }
@@ -34,5 +34,19 @@ public class Stat : MonoBehaviour
         _attack = 15;
         _defense = 10;
     }
+
+    public void Attacked(Stat attackObject)
+    {
+        int damage = Mathf.Max(0, attackObject.Attack - Defense);
+        Hp -= damage;
+
+        if(Hp<=0)
+        {
+            Hp = 0;
+    
+        }
+    }
+    
+  
 
 }

@@ -11,9 +11,12 @@ public class PlayerController : MonoBehaviour
 
     GameObject _enemyTarget;
 
-    Stat _stat;
+    PlayerStat _stat;
 
     Define.State _state = Define.State.Idle;
+
+    bool _stopAttack = false;
+        
 
     public Define.State State
     {
@@ -55,13 +58,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //void Init()
-    //{
-    //    _stat = gameObject.GetComponent<>
-    //}
+    void Init()
+    {
+        _stat = gameObject.GetComponent<PlayerStat>();
+    }
 
     void Start()
     {
+        Init();
         Managers.Input.MouseAction -= MouseEvent;
         Managers.Input.MouseAction += MouseEvent;
     }
@@ -72,7 +76,7 @@ public class PlayerController : MonoBehaviour
         switch (State)
         {
             case Define.State.Die:
-                //UpdateDie();
+                Dying();
                 break;
             case Define.State.Moving:
                 Moving();
@@ -97,7 +101,7 @@ public class PlayerController : MonoBehaviour
             case Define.State.Attack:
                 {
                     if (evt == Define.MouseState.ButtonUp) // 마우스 떼면 공격 x
-                        State = Define.State.Idle;
+                        _stopAttack = true;
                 }
                 break;
         }
@@ -138,7 +142,7 @@ public class PlayerController : MonoBehaviour
                 {
                     _destPos = hit.point;
                     State = Define.State.Moving;
-
+                    _stopAttack = false;
                     if (hit.collider.gameObject.layer == 8)
                     {
                         _enemyTarget = hit.collider.gameObject;
@@ -159,7 +163,7 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
             case Define.MouseState.ButtonUp:
-                //State = Define.State.Moving;
+                _stopAttack = true;
                 break;
 
         }
@@ -179,11 +183,26 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            if (Physics.Raycast(transform.position + Vector3.up * 0.5f, dir, 1.0f, LayerMask.GetMask("Wall")))
+            {
+                if (Input.GetMouseButton(0) == false)
+                    State = Define.State.Idle;
+                return;
+            }
+
             float moveDist = Mathf.Clamp(5 * Time.deltaTime, 0, dir.magnitude);
             transform.position += dir.normalized * moveDist;// 이동
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 25 * Time.deltaTime);
         }
 
+    }
+
+    void Dying()
+    {
+        if(_stat.Hp == 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
 
@@ -199,6 +218,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    void HitEvent() // 애니메이션 event
+    {
+        if(_enemyTarget!=null)
+        {
+            Debug.Log("타격");
+            Stat enemyStat = _enemyTarget.GetComponent<Stat>();
+            enemyStat.Attacked(_stat);
+        }
+
+        if(_stopAttack)
+        {
+            State = Define.State.Idle;
+        }
+        else
+        {
+            State = Define.State.Attack;
+        }
+
+    }
 
     void ComboAttackAnim(Animator anim) // 콤보 애니메이션 함수
     {

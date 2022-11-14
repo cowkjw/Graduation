@@ -6,7 +6,7 @@ public class BaseScene : MonoBehaviour
 {
     
     protected Vector3 _playerPos;
-    protected GameObject _player;
+    protected GameObject _player =null;
 
     void Awake()
     {
