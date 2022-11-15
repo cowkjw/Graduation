@@ -5,8 +5,8 @@ using UnityEngine;
 public class CursorController : MonoBehaviour
 {
 
-    Texture2D _idleIcon;
-    Texture2D _attackIcon;
+    Texture2D _idleCursor;
+    Texture2D _attackCursor;
     public GameObject _clickEffect;
 
 
@@ -21,9 +21,9 @@ public class CursorController : MonoBehaviour
     void Start()
     {
 
-        _idleIcon = (Texture2D)Resources.Load("Texture/Cursor_Basic"); // Texture2D 타입캐스팅
-        _attackIcon = (Texture2D)Resources.Load("Texture/Cursor_Shoot");
-        Cursor.SetCursor(_idleIcon, new Vector2(_idleIcon.width / 5, 0), CursorMode.Auto);
+        _idleCursor = (Texture2D)Resources.Load("Texture/Cursor_Basic"); // Texture2D 타입캐스팅
+        _attackCursor = (Texture2D)Resources.Load("Texture/Cursor_Attack");
+        Cursor.SetCursor(_idleCursor, new Vector2(_idleCursor.width / 5, 0), CursorMode.Auto);
 
         Managers.Input.MouseAction -= MousePointEffect;
         Managers.Input.MouseAction += MousePointEffect;
@@ -32,15 +32,18 @@ public class CursorController : MonoBehaviour
 
     void MousePointEffect(Define.MouseState evt)
     {
-       
+
+        if (hit.collider.gameObject.layer==8)// 몬스터라면 포인터를 생성 x
+            return;
         if (evt == Define.MouseState.ButtonDown && hit.collider.gameObject != null) // 땅일때만 표시
         {
 
             GameObject clickParticle = Instantiate(_clickEffect);
             clickParticle.transform.position = hit.point;
-            Destroy(clickParticle, 0.5f);
+            if(clickParticle!=null)
+                Destroy(clickParticle, 0.5f);
         }
-
+       
     }
 
     void SetCursorIcon()
@@ -57,7 +60,7 @@ public class CursorController : MonoBehaviour
 
                 if (_cursorType != Define.CursorType.Attack)
                 {
-                    Cursor.SetCursor(_attackIcon, new Vector2(_attackIcon.width / 5, 0), CursorMode.Auto);
+                    Cursor.SetCursor(_attackCursor, new Vector2(_attackCursor.width / 5, 0), CursorMode.Auto);
                     _cursorType = Define.CursorType.Attack;
                 }
 
@@ -67,7 +70,7 @@ public class CursorController : MonoBehaviour
                 if (_cursorType != Define.CursorType.Arrow)
 
                 {
-                    Cursor.SetCursor(_idleIcon, new Vector2(_idleIcon.width / 5, 0), CursorMode.Auto);
+                    Cursor.SetCursor(_idleCursor, new Vector2(_idleCursor.width / 5, 0), CursorMode.Auto);
                     _cursorType = Define.CursorType.Arrow;
                 }
             }

@@ -7,16 +7,17 @@ public class EnemyController : MonoBehaviour
 {
 
     Vector3 _destPos;
+    Vector3 re2Pos; // 원래 위치로
 
     [SerializeField]
     Define.State _state = Define.State.Idle;
     NavMeshAgent nma;
 
-    public GameObject _player; // 임시로 설정
+    Stat _stat;
+    GameObject _player; // 임시로 설정
 
     float _findRange = 5f;
 
-    Vector3 re2Pos;
 
     public Define.State State
     {
@@ -40,7 +41,7 @@ public class EnemyController : MonoBehaviour
                     anim.CrossFade("Attack", 0.1f);
                     break;
                 case Define.State.Die:
-                    //  anim.CrossFade("Die", 0.1f);
+                    anim.CrossFade("Die", 0.005f);
                     break;
             }
 
@@ -56,11 +57,9 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
+        DyingCheck();
         switch (State)
         {
-            case Define.State.Die:
-                //Die();
-                break;
             case Define.State.Moving:
                 Movig();
                 break;
@@ -75,12 +74,23 @@ public class EnemyController : MonoBehaviour
 
     void Init()
     {
+        _stat = GetComponent<Stat>();
         _player = Managers.game.GetPlayer();
         nma = gameObject.GetComponent<NavMeshAgent>();
         nma.speed = 2.5f;// 임시로 이동속도 설정
         re2Pos = transform.position;
     }
 
+    void DyingCheck()
+    {
+        if (_stat.Hp == 0)
+        {
+            State = Define.State.Die;
+            Destroy(gameObject, 3f);
+        }
+        else
+            return;
+    }
 
     void Idle()
     {

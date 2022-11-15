@@ -25,7 +25,7 @@ public class Stat : MonoBehaviour
     public int Attack { get { return _attack; } set { _attack = value; } }
     public int Defense { get { return _defense; } set { _defense = value;  } }
 
-    private void Start()
+    protected virtual void Init()
     {
         _hp = 100;
         _maxHp = 100;
@@ -33,6 +33,11 @@ public class Stat : MonoBehaviour
         _maxMp = 100;
         _attack = 15;
         _defense = 10;
+    }
+
+    private void Start()
+    {
+        Init();
     }
 
     public void Attacked(Stat attackObject)
@@ -43,7 +48,6 @@ public class Stat : MonoBehaviour
         if(Hp<=0)
         {
             Hp = 0;
-    
         }
     }
     

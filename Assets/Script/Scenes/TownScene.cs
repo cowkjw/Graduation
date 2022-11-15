@@ -14,4 +14,6 @@ public class TownScene : BaseScene
 
         Camera.main.gameObject.GetComponent<CameraController>().SetPlayer(_player);
     }
+
+
 }

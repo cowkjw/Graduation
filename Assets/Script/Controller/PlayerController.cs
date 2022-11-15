@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
 
-    int _mask = 1 << 6 | 1 << 8 | 1 << 9; // 6 Ground 8 Enemy
+    int _mask = 1 << 6 | 1 << 8 | 1 << 9; // 6 Ground 8 Enemy 9 Dungeon1
     Vector3 _destPos;
 
     GameObject _enemyTarget;
@@ -15,8 +15,10 @@ public class PlayerController : MonoBehaviour
 
     Define.State _state = Define.State.Idle;
 
+    Dungeon1Scene _scene;
+
     bool _stopAttack = false;
-        
+
 
     public Define.State State
     {
@@ -60,14 +62,15 @@ public class PlayerController : MonoBehaviour
 
     void Init()
     {
+        _scene = FindObjectOfType<BaseScene>().GetComponent<Dungeon1Scene>();
         _stat = gameObject.GetComponent<PlayerStat>();
+        Managers.Input.MouseAction -= MouseEvent;
+        Managers.Input.MouseAction += MouseEvent;
     }
 
     void Start()
     {
         Init();
-        Managers.Input.MouseAction -= MouseEvent;
-        Managers.Input.MouseAction += MouseEvent;
     }
 
     void Update()
@@ -133,7 +136,7 @@ public class PlayerController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         bool raycastHit = Physics.Raycast(ray, out hit, 100f, _mask);
 
-        
+
         switch (evt)
         {
 
@@ -143,10 +146,10 @@ public class PlayerController : MonoBehaviour
                     _destPos = hit.point;
                     State = Define.State.Moving;
                     _stopAttack = false;
+
                     if (hit.collider.gameObject.layer == 8)
                     {
                         _enemyTarget = hit.collider.gameObject;
-
                     }
                     else
                     {
@@ -199,7 +202,7 @@ public class PlayerController : MonoBehaviour
 
     void Dying()
     {
-        if(_stat.Hp == 0)
+        if (_stat.Hp == 0)
         {
             Destroy(gameObject);
         }
@@ -221,15 +224,22 @@ public class PlayerController : MonoBehaviour
 
     void HitEvent() // 애니메이션 event
     {
-        if(_enemyTarget!=null)
+        if (_enemyTarget != null)
         {
             Debug.Log("타격");
-            Stat enemyStat = _enemyTarget.GetComponent<Stat>();
-            enemyStat.Attacked(_stat);
+            if (!_stopAttack) // 애니메이션에 event로 넣었기 때문에 stopAttack을 다시 확인해서 데미지가 들어가지 않게 함
+            {
+                Stat enemyStat = _enemyTarget.GetComponent<Stat>();
+                enemyStat.Attacked(_stat);
+
+                _scene.SetStat(enemyStat); // hp bar ratio를 위한 stat전달
+                _scene.GetHpBar().gameObject.SetActive(true); // UI 활성화
+            }
         }
 
-        if(_stopAttack)
+        if (_stopAttack)
         {
+            _scene.GetHpBar().gameObject.SetActive(false);
             State = Define.State.Idle;
         }
         else
