@@ -33,7 +33,7 @@ public class CursorController : MonoBehaviour
     void MousePointEffect(Define.MouseState evt)
     {
 
-        if (hit.collider.gameObject.layer==8)// 몬스터라면 포인터를 생성 x
+        if (hit.collider.gameObject.layer == 8)// 몬스터라면 포인터를 생성 x
             return;
         if (evt == Define.MouseState.ButtonDown && hit.collider.gameObject != null) // 땅일때만 표시
         {

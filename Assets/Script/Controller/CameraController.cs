@@ -5,17 +5,17 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField]
-    GameObject _player = null;
-
+    GameObject _player =null;
+    public GameObject temp;
     [SerializeField]
-    Vector3 _delta = new Vector3(0.0f, 6.0f, -5.0f); // 더 해줄 vector
+    Vector3 _delta = new Vector3(-9f, 9f, 3f); // 더 해줄 vector
 
     Renderer _obstacleRenderer;
     Material _material;
     Color matColor;
 
     List<Renderer> _obsList;
-
+   
      public void SetPlayer(GameObject player) { _player = player; } // 씬 이동시에 player set
 
 
@@ -27,13 +27,15 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         RaycastHit hit;
+      
         if (Physics.Raycast(_player.transform.position, _delta, out hit, _delta.magnitude, LayerMask.GetMask("Wall")))
         {
             
             _obsList.Add(hit.transform.gameObject.GetComponentInChildren<Renderer>());
-        
-            foreach(var i in _obsList)
+           
+            foreach (var i in _obsList)
             {
+            //Instantiate(temp, _player.transform.position, _player.transform.rotation);
                 _material = i.material;
                 matColor = _material.color;
                 matColor.a = 0f;
@@ -43,6 +45,7 @@ public class CameraController : MonoBehaviour
         }
         else
         {
+            
 
             foreach (var i in _obsList)
             {

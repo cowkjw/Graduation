@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     Define.State _state = Define.State.Idle;
 
     Dungeon1Scene _scene;
+    public ParticleSystem swordEffect;
 
     bool _stopAttack = false;
 
@@ -240,6 +241,7 @@ public class PlayerController : MonoBehaviour
         if (_stopAttack)
         {
             _scene.GetHpBar().gameObject.SetActive(false);
+            swordEffect.Stop();
             State = Define.State.Idle;
         }
         else
@@ -249,12 +251,19 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    void AttackEffect()
+    {
+        swordEffect.Play();
+       
+    }
+
     void ComboAttackAnim(Animator anim) // 콤보 애니메이션 함수
     {
-
+        
         if (anim.GetBool("Attacking"))
         {
             anim.Play("Slash1");
+            
         }
     }
 

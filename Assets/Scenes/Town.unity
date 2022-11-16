@@ -1981,6 +1981,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 0}
+  temp: {fileID: 0}
   _delta: {x: 0, y: 5, z: 5}
 --- !u!114 &963194230
 MonoBehaviour:
