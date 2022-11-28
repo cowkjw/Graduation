@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField]
     GameObject _player =null;
-    public GameObject temp;
+
     [SerializeField]
     Vector3 _delta = new Vector3(-9f, 9f, 3f); // ¥ı «ÿ¡Ÿ vector
 
@@ -35,7 +35,6 @@ public class CameraController : MonoBehaviour
            
             foreach (var i in _obsList)
             {
-            //Instantiate(temp, _player.transform.position, _player.transform.rotation);
                 _material = i.material;
                 matColor = _material.color;
                 matColor.a = 0f;

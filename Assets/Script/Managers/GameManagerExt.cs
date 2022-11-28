@@ -6,6 +6,9 @@ public class GameManagerExt : MonoBehaviour
 {
     GameObject _player = null;
 
+    public GameObject _Player { get { return _player; } }
+
+
     public GameObject SpawnPlayer(Vector3 spawnPos)
     {
 

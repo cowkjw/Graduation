@@ -1,0 +1,23 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class Slot : MonoBehaviour
+{
+
+    public Image _itemImage;
+   
+    
+    void Start()
+    {
+        
+    }
+
+
+    public void AddItem()
+    {
+
+    }
+
+}

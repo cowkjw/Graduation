@@ -27,8 +27,21 @@ public class Define
         Attack,
     }
 
+    public enum ItemType
+    {
+        Equipment,
+        Used
+    }
+
+    public enum UI
+    {
+        Inventory,
+        Stat,
+        Store
+    }
+
 
 }
-    
+
 
 

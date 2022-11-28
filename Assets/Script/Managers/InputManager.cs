@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour
 
     public Action KeyAction = null;
     public Action<Define.MouseState> MouseAction = null;
+    public Action<Define.UI> KeyboardAction = null;
 
     bool _press = false;
     float _pressedTime = 0;
@@ -51,6 +52,20 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    public void KeyboardUpdate()
+    {
+        if (Input.anyKey && KeyAction != null)
+        {
+            KeyAction.Invoke();
+        }
+        if (KeyboardAction != null)
+        {
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                KeyboardAction.Invoke(Define.UI.Inventory);
+            }
+        }
+    }
     public void Clear() // 씬 이동때 초기화
     {
         KeyAction = null;
