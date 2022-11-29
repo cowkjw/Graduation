@@ -6,10 +6,15 @@ using UnityEngine.UI;
 public class Item : MonoBehaviour
 {
 
-    public Image item;
+    public Sprite itemSprite;
+    string itemName;
+    public bool isDrop = true;
+
+    public string ItemName { get { return itemName; } }
 
     private void Awake()
     {
-        item.sprite = GetComponent<Image>().sprite;
+        itemName = transform.name;
+        itemSprite = Resources.Load<Sprite>($"Items/{itemName}");
     }
 }

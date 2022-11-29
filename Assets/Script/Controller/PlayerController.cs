@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
             switch (_state)
             {
                 case Define.State.Idle:
-                    anim.SetBool("Attacking", false); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ falseÃ³ï¿½ï¿½ 
+                    anim.SetBool("Attacking", false); // ? ì™?™å ?™ì˜™? ì™?™å ?™ì˜™? ì™??falseì²˜å ?™ì˜™ 
                     anim.CrossFade("Idle", 0.1f);
                     break;
                 case Define.State.Moving:
@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
                 case Define.State.Attack:
                     //  anim.CrossFade("Attack", 0.0005f);
                     //  anim.CrossFade("Slash", 0.0005f);
-                    if (!anim.GetBool("Attacking")) // ï¿½ï¿½ï¿½ï¿½ falseï¿½ï¿½ï¿½
+                    if (!anim.GetBool("Attacking")) // ? ì™?™å ?™ì˜™ false? ì™?™å ?
                     {
                         anim.SetBool("Attacking", true);
                         ComboAttackAnim(anim);
@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case Define.State.Attack:
                 {
-                    if (evt == Define.MouseState.ButtonUp) // ï¿½ï¿½ï¿½ì½º ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ x
+                    if (evt == Define.MouseState.ButtonUp) // ? ì™?™å ?ŒìŠ¤ ? ì™?™å ?™ì˜™ ? ì™?™å ?™ì˜™ x
                         _stopAttack = true;
                 }
                 break;
@@ -119,7 +119,7 @@ public class PlayerController : MonoBehaviour
             Vector3 dirEnemy = (_enemyTarget.transform.position - transform.position);
             Quaternion lookEnemy = Quaternion.LookRotation(dirEnemy);
 
-            if (disEnemy <= 0.8f) // ï¿½ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½
+            if (disEnemy <= 0.8f) // ? ì™?™å ?™ì˜™? ì‹ ëªŒì˜™? ì™??? ì™?™å ?‰ëŒ?™å ?™ì˜™ ? ì‹¤?ì˜™
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookEnemy, 25 * Time.deltaTime);
                 State = Define.State.Attack;
@@ -177,7 +177,7 @@ public class PlayerController : MonoBehaviour
     void Moving()
     {
         Vector3 dir = _destPos - transform.position;
-        dir.y = 0; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ x
+        dir.y = 0; // ¸ó½ºÅÍ À§·Î ÀÌµ¿ x
 
         AttackEnemy();
 
@@ -195,7 +195,7 @@ public class PlayerController : MonoBehaviour
             }
 
             float moveDist = Mathf.Clamp(5 * Time.deltaTime, 0, dir.magnitude);
-            transform.position += dir.normalized * moveDist;// ï¿½Ìµï¿½
+            transform.position += dir.normalized * moveDist;// ? ì‹±?¸ì˜™
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 25 * Time.deltaTime);
         }
 
@@ -212,7 +212,7 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 9) // ï¿½ï¿½ï¿½ï¿½1 
+        if (other.gameObject.layer == 9) // ´øÀü ·¹ÀÌ¾î
         {
             SceneManager.LoadScene(1);
         }
@@ -223,18 +223,18 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void HitEvent() // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ event
+    void HitEvent() // ? ìŒ?ˆëªŒ?™å ?±ì‡½??event
     {
         if (_enemyTarget != null)
         {
-            Debug.Log("Å¸ï¿½ï¿½");
-            if (!_stopAttack) // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼Ç¿ï¿½ eventï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ stopAttackï¿½ï¿½ ï¿½Ù½ï¿½ È®ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½ï¿½
+           
+            if (!_stopAttack) // ? ìŒ?ˆëªŒ?™å ?±ì…˜?¸ì˜™ event? ì™??? ìŒ?µì˜™? ì™??? ì™?™å ?™ì˜™? ì™??stopAttack? ì™??? ìŒ•?™ì˜™ ?•å ?™ì˜™? ìŒ”?½ì˜™ ? ì™?™å ?™ì˜™? ì™?™å ?™ì˜™ ? ì™?™è¼‰?½ì˜™??? ì‹­ê³¤ì˜™ ? ì™??
             {
                 Stat enemyStat = _enemyTarget.GetComponent<Stat>();
                 enemyStat.Attacked(_stat);
 
-                _scene.SetStat(enemyStat); // hp bar ratioï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ statï¿½ï¿½ï¿½ï¿½
-                _scene.GetHpBar().gameObject.SetActive(true); // UI È°ï¿½ï¿½È­
+                _scene.SetStat(enemyStat); // hp bar ratio? ì™??? ì™?™å ?™ì˜™ stat? ì™?™å ?™ì˜™
+                _scene.GetHpBar().gameObject.SetActive(true); // UI ?œå ?™ì˜™??
             }
         }
 
@@ -257,13 +257,12 @@ public class PlayerController : MonoBehaviour
        
     }
 
-    void ComboAttackAnim(Animator anim) // ï¿½Şºï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½Ô¼ï¿½
+    void ComboAttackAnim(Animator anim) // ? ìŒ¨ë¸ì˜™ ? ìŒ?ˆëªŒ?™å ?±ì‡½??? ìŒ‰?½ì˜™
     {
         
         if (anim.GetBool("Attacking"))
         {
             anim.Play("Slash1");
-            
         }
     }
 

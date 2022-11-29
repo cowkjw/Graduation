@@ -4,20 +4,9 @@ using UnityEngine;
 
 public class UI_Button : MonoBehaviour
 {
-    
-    void Start()
-    {
-        
-    }
-
-    
-    void Update()
-    {
-        
-    }
 
     public void CloseButton()
     {
-        transform.GetChild(0).Find("CloseButton").parent.gameObject.SetActive(false);
+        transform.GetChild(0).GetChild(0).Find("CloseButton").parent.parent.gameObject.SetActive(false);
     }
 }

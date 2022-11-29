@@ -5,19 +5,15 @@ using UnityEngine.UI;
 
 public class Slot : MonoBehaviour
 {
+    public struct ItemInfo
+    {
+        public string itemName;
+        public Define.ItemType itemType;
+    }
 
-    public Image _itemImage;
-   
+
+    Image _itemImage;
+    public ItemInfo _itemInfo;
+
     
-    void Start()
-    {
-        
-    }
-
-
-    public void AddItem()
-    {
-
-    }
-
 }

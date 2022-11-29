@@ -4,21 +4,30 @@ using UnityEngine;
 
 public class BaseScene : MonoBehaviour
 {
-    
+
     protected Vector3 _playerPos;
-    protected GameObject _player =null;
+    protected GameObject _player = null;
+    protected GameObject _ui = null;
+
+
+    
 
     void Awake()
     {
         Init();
     }
 
-    public virtual void Init()
+    private void Start()
     {
-
-        Managers.Clear(); // 备刀沁带芭 null贸府
         Managers.Input.KeyboardAction -= InputUIHotKey;
         Managers.Input.KeyboardAction += InputUIHotKey;
+    }
+
+    public virtual void Init()
+    {
+        Managers.Clear(); // 备刀沁带芭 null贸府
+        _ui = Instantiate(Resources.Load<GameObject>("Prefabs/UI_Prefab/UI"));
+        _ui.name = "UI";
     }
 
     void InputUIHotKey(Define.UI uiType)

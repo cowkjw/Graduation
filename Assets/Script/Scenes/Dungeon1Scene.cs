@@ -20,9 +20,12 @@ public class Dungeon1Scene : BaseScene  // @Scene¿¡ Add
 
         Camera.main.gameObject.GetComponent<CameraController>().SetPlayer(_player);
 
-        GameObject uiObj = Instantiate(Resources.Load<GameObject>("Prefabs/UI_Prefab/UI_HP"));
-        hpBar = uiObj.transform.GetChild(0).GetComponent<Slider>();
-        hpValue = uiObj.transform.GetChild(0).transform.GetChild(3).GetComponent<Text>();
+        //// GameObject uiObj = Instantiate(Resources.Load<GameObject>("Prefabs/UI_Prefab/UI_HP"));
+        // hpBar = uiObj.transform.GetChild(0).GetComponent<Slider>();
+        // hpValue = uiObj.transform.GetChild(0).transform.GetChild(3).GetComponent<Text>();    
+        GameObject _ui = GameObject.Find("UI");
+        hpBar = _ui.transform.GetChild(1).GetComponent<Slider>();
+        hpValue = hpBar.transform.GetChild(3).GetComponent<Text>();
 
     }
 

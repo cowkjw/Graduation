@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class CursorController : MonoBehaviour
 {
@@ -21,7 +23,7 @@ public class CursorController : MonoBehaviour
 
     void Start()
     {
-        _inventory = GameObject.FindObjectOfType<InventoryController>();
+        _inventory = GameObject.Find("UI").transform.Find("Inventory").GetComponent<InventoryController>();
         _idleCursor = (Texture2D)Resources.Load("Texture/Cursor_Basic"); // Texture2D 타입캐스팅
         _attackCursor = (Texture2D)Resources.Load("Texture/Cursor_Attack");
         Cursor.SetCursor(_idleCursor, new Vector2(_idleCursor.width / 5, 0), CursorMode.Auto);
@@ -33,26 +35,15 @@ public class CursorController : MonoBehaviour
 
     void MousePointEvent(Define.MouseState evt)
     {
-
-        //if (hit.collider.gameObject.layer == 8)// 몬스터라면 포인터를 생성 x
-        //    return;
-        //if (evt == Define.MouseState.ButtonDown && hit.collider.gameObject != null) // 땅일때만 표시
-        //{
-
-        //    GameObject clickParticle = Instantiate(_clickEffect);
-        //    clickParticle.transform.position = hit.point;
-        //    if(clickParticle!=null)
-        //        Destroy(clickParticle, 0.5f);
-        //}
         ClickEffect(evt);
         ClickItem(evt);
-
-
     }
 
     void ClickEffect(Define.MouseState evt)
     {
-        if (hit.collider.gameObject.layer == 8||hit.collider.gameObject.layer==11)// 몬스터라면 포인터를 생성 x
+        if (hit.collider == null)
+            return;
+        if (hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 11)// 몬스터라면 포인터를 생성 x
             return;
 
         if (evt == Define.MouseState.ButtonDown && hit.collider.gameObject != null)
@@ -66,14 +57,20 @@ public class CursorController : MonoBehaviour
 
     void ClickItem(Define.MouseState evt)
     {
+        if (hit.collider == null)
+            return;
         // 아이템이라면
         if (hit.collider.gameObject.layer == 11&&evt == Define.MouseState.Click)
         {
             Vector3 dis = hit.collider.transform.position - Managers.game._Player.transform.position;
             if (dis.magnitude<=2f)
             {
-                _inventory.AchiveItem();
-             //   Destroy(hit.collider.gameObject);
+                if(Managers.Data.InventoryCount<16)
+                {
+                    _inventory.AchiveItem(hit.collider.name);
+                    Destroy(hit.collider.gameObject);
+
+                }
             }
         }
                 
@@ -113,7 +110,8 @@ public class CursorController : MonoBehaviour
 
     void Update()
     {
-        SetCursorIcon();
+        SetCursorIcon(); // 이 함수에서 계속해서 ray를 쏴 hit을 바꿈
     }
 
+    
 }

@@ -70,5 +70,6 @@ public class InputManager : MonoBehaviour
     {
         KeyAction = null;
         MouseAction = null;
+        KeyboardAction = null;
     }
 }
