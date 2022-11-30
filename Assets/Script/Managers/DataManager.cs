@@ -11,6 +11,9 @@ public class DataManager : MonoBehaviour
 
     public int InventoryCount { get { return _inventoryDict.Count; } }
 
+    int _gold = 0;
+    public int Gold { get { return _gold; } set { _gold = value; } }
+
     public void InventoryDataChange(int idx, string itemName, bool Input=true) // 기본적으로 아이템을 넣는 bool값 
     {
         if (!_inventoryDict.ContainsKey(idx)&&Input)

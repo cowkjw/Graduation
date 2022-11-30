@@ -223,24 +223,27 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void HitEvent() // ? ìŒ?ˆëªŒ?™å ?±ì‡½??event
+    void HitEvent()
     {
         if (_enemyTarget != null)
         {
            
-            if (!_stopAttack) // ? ìŒ?ˆëªŒ?™å ?±ì…˜?¸ì˜™ event? ì™??? ìŒ?µì˜™? ì™??? ì™?™å ?™ì˜™? ì™??stopAttack? ì™??? ìŒ•?™ì˜™ ?•å ?™ì˜™? ìŒ”?½ì˜™ ? ì™?™å ?™ì˜™? ì™?™å ?™ì˜™ ? ì™?™è¼‰?½ì˜™??? ì‹­ê³¤ì˜™ ? ì™??
+            if (!_stopAttack) 
             {
                 Stat enemyStat = _enemyTarget.GetComponent<Stat>();
                 enemyStat.Attacked(_stat);
 
-                _scene.SetStat(enemyStat); // hp bar ratio? ì™??? ì™?™å ?™ì˜™ stat? ì™?™å ?™ì˜™
-                _scene.GetHpBar().gameObject.SetActive(true); // UI ?œå ?™ì˜™??
+                _scene.ObjStat = enemyStat;
+                _scene.ObjName = enemyStat.name;
+                _scene.ObjNameText.gameObject.SetActive(true);
+                _scene.HpBar.gameObject.SetActive(true);
             }
         }
 
         if (_stopAttack)
         {
-            _scene.GetHpBar().gameObject.SetActive(false);
+            _scene.HpBar.gameObject.SetActive(false);
+            _scene.ObjNameText.gameObject.SetActive(false);
             swordEffect.Stop();
             State = Define.State.Idle;
         }

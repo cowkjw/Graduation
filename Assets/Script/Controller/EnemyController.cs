@@ -6,6 +6,8 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
 
+    public GameObject[] _coin;
+
     Vector3 _destPos;
     Vector3 re2Pos; // 원래 위치로
 
@@ -57,7 +59,8 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
-        DyingCheck();
+        if (State != Define.State.Die)
+            DyingCheck();
         switch (State)
         {
             case Define.State.Moving:
@@ -86,6 +89,8 @@ public class EnemyController : MonoBehaviour
         if (_stat.Hp == 0)
         {
             State = Define.State.Die;
+            StartCoroutine(DropCoin());
+            //dropTest();
             Destroy(gameObject, 3f);
         }
         else
@@ -173,5 +178,21 @@ public class EnemyController : MonoBehaviour
                 State = Define.State.Moving;
             }
         }
+    }
+
+    IEnumerator DropCoin()
+    {
+        int itemCnt = Random.Range(5, 15);
+
+        for (int i = 0; i < itemCnt; i++)
+        {
+            int idx = Random.Range(0, 3);
+            float randX = Random.Range(-0.5f, 0.5f);
+            float randZ = Random.Range(-0.5f, 0.5f);
+
+            yield return new WaitForSeconds(0.1f);
+            Instantiate(_coin[idx], transform.position + new Vector3(randX, 0, randZ), Quaternion.identity);
+        }
+
     }
 }

@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems; 
+ 
 
-public class Slot : MonoBehaviour
+public class Slot : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler
 {
     public struct ItemInfo
     {
@@ -15,5 +17,12 @@ public class Slot : MonoBehaviour
     Image _itemImage;
     public ItemInfo _itemInfo;
 
-    
+    public void OnPointerExit(PointerEventData eventData)
+    {
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+      
+    }
 }

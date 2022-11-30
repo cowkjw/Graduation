@@ -7,10 +7,16 @@ public class Dungeon1Scene : BaseScene  // @Scene¿¡ Add
 {
 
 
-    Slider hpBar;
-    Stat _stat;
-    Text hpValue;
+    Slider _hpBar;
+    Stat _objStat;
+    Text _hpValue;
+    Text _objNameText;
+    string _objName;
 
+    public Slider HpBar { get { return _hpBar; } }
+    public Stat ObjStat { set { _objStat = value; } }
+    public string ObjName { set { _objName= value; } }
+    public Text ObjNameText { get { return _objNameText; } }
     public override void Init()
     {
         base.Init();
@@ -24,34 +30,40 @@ public class Dungeon1Scene : BaseScene  // @Scene¿¡ Add
         // hpBar = uiObj.transform.GetChild(0).GetComponent<Slider>();
         // hpValue = uiObj.transform.GetChild(0).transform.GetChild(3).GetComponent<Text>();    
         GameObject _ui = GameObject.Find("UI");
-        hpBar = _ui.transform.GetChild(1).GetComponent<Slider>();
-        hpValue = hpBar.transform.GetChild(3).GetComponent<Text>();
+        _hpBar = _ui.transform.GetChild(1).GetComponent<Slider>();
+        _hpValue = _hpBar.transform.GetChild(3).GetComponent<Text>();
+        _objNameText = _hpBar.transform.GetChild(4).GetComponent<Text>();
+        
 
     }
 
     private void Update()
     {
-        if (_stat != null)
+        if (_objStat != null)
         {
             SetHpRatio();
             SetHpPrint();
+            SetObjNamePrint();
         }
     }
 
     public Slider GetHpBar()
     {
-        return hpBar;
+        return _hpBar;
     }
-    public void SetStat(Stat stat)
-    {
-        this._stat = stat;
-    }
+
     void SetHpPrint()
     {
-        hpValue.text = _stat.Hp.ToString() + "/" + _stat.MaxHp.ToString();
+        _hpValue.text = _objStat.Hp.ToString() + "/" + _objStat.MaxHp.ToString();
     }
     void SetHpRatio()
     {
-        hpBar.value = _stat.Hp / (float)_stat.MaxHp;
+        _hpBar.value = _objStat.Hp / (float)_objStat.MaxHp;
     }
+
+    void SetObjNamePrint()
+    {
+        _objNameText.text = _objName;
+    }
+    
 }

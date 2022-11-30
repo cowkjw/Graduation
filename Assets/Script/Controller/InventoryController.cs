@@ -9,9 +9,11 @@ public class InventoryController : MonoBehaviour
     int _idx;
     Dictionary<int, string> _inventory = Managers.Data.Inventory;
 
+    Text _goldText;
 
     void Awake()
     {
+        _goldText = transform.GetChild(1).GetChild(0).GetComponent<Text>();
         for (int idx = 0; idx < Managers.Data.InventoryCount; idx++) // 시작전에 DataManager에 있는 숫자만큼 인벤토리를 채움
         {
             if(_inventory.ContainsKey(idx))
@@ -20,7 +22,13 @@ public class InventoryController : MonoBehaviour
                 slot.SetActive(true); // 활성화
                 slot.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Items/{_inventory[idx]}"); // 해당 슬롯에 이미지를 바꿈
             }
-        }      
+        }
+      
+    }
+
+    private void Update()
+    {
+        _goldText.text = Managers.Data.Gold.ToString(); // 수정 예정
     }
 
     public void AchiveItem(string itemName)

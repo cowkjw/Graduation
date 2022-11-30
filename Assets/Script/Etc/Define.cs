@@ -40,6 +40,12 @@ public class Define
         Store
     }
 
+    public enum Coin
+    {
+        Gold,
+        Sliver,
+        Bronze
+    }
 
 }
 

@@ -24,8 +24,8 @@ public class CursorController : MonoBehaviour
     void Start()
     {
         _inventory = GameObject.Find("UI").transform.Find("Inventory").GetComponent<InventoryController>();
-        _idleCursor = (Texture2D)Resources.Load("Texture/Cursor_Basic"); // Texture2D 타입캐스팅
-        _attackCursor = (Texture2D)Resources.Load("Texture/Cursor_Attack");
+        _idleCursor = (Texture2D)Resources.Load("Textures/Cursor_Basic"); // Texture2D 타입캐스팅
+        _attackCursor = (Texture2D)Resources.Load("Textures/Cursor_Attack");
         Cursor.SetCursor(_idleCursor, new Vector2(_idleCursor.width / 5, 0), CursorMode.Auto);
 
         Managers.Input.MouseAction -= MousePointEvent;
