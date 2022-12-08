@@ -6,12 +6,20 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
 
-    int _mask = 1 << 6 | 1 << 8 | 1 << 9; // 6 Ground 8 Enemy
+    int _mask = 1 << 6 | 1 << 8 | 1 << 9; // 6 Ground 8 Enemy 9 Dungeon1
     Vector3 _destPos;
 
     GameObject _enemyTarget;
 
+    PlayerStat _stat;
+
     Define.State _state = Define.State.Idle;
+
+    Dungeon1Scene _scene;
+    public ParticleSystem swordEffect;
+
+    bool _stopAttack = false;
+
 
     public Define.State State
     {
@@ -26,15 +34,25 @@ public class PlayerController : MonoBehaviour
             switch (_state)
             {
                 case Define.State.Idle:
+                    anim.SetBool("Attacking", false); // ?좎룞?쇿뜝?숈삕?좎룞?쇿뜝?숈삕?좎룞??false泥섇뜝?숈삕 
                     anim.CrossFade("Idle", 0.1f);
                     break;
                 case Define.State.Moving:
+                    anim.SetBool("Attacking", false);
                     anim.CrossFade("Run", 0.005f);
                     break;
                 case Define.State.Attack:
-                    anim.CrossFade("Attack", 0.005f);
+                    //  anim.CrossFade("Attack", 0.0005f);
+                    //  anim.CrossFade("Slash", 0.0005f);
+                    if (!anim.GetBool("Attacking")) // ?좎룞?쇿뜝?숈삕 false?좎룞?쇿뜝?
+                    {
+                        anim.SetBool("Attacking", true);
+                        ComboAttackAnim(anim);
+
+                    }
                     break;
                 case Define.State.Die:
+                    anim.SetBool("Attacking", false);
                     anim.CrossFade("Die", 0.1f);
                     break;
 
@@ -43,11 +61,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-    void Start()
-    { 
+    void Init()
+    {
+        _scene = FindObjectOfType<BaseScene>().GetComponent<Dungeon1Scene>();
+        _stat = gameObject.GetComponent<PlayerStat>();
         Managers.Input.MouseAction -= MouseEvent;
         Managers.Input.MouseAction += MouseEvent;
+    }
+
+    void Start()
+    {
+        Init();
     }
 
     void Update()
@@ -56,7 +80,7 @@ public class PlayerController : MonoBehaviour
         switch (State)
         {
             case Define.State.Die:
-                //UpdateDie();
+                Dying();
                 break;
             case Define.State.Moving:
                 Moving();
@@ -80,8 +104,8 @@ public class PlayerController : MonoBehaviour
                 break;
             case Define.State.Attack:
                 {
-                    if (evt == Define.MouseState.ButtonUp) // 마우스 떼면 공격 x
-                        State = Define.State.Idle;
+                    if (evt == Define.MouseState.ButtonUp) // ?좎룞?쇿뜝?뚯뒪 ?좎룞?쇿뜝?숈삕 ?좎룞?쇿뜝?숈삕 x
+                        _stopAttack = true;
                 }
                 break;
         }
@@ -95,7 +119,7 @@ public class PlayerController : MonoBehaviour
             Vector3 dirEnemy = (_enemyTarget.transform.position - transform.position);
             Quaternion lookEnemy = Quaternion.LookRotation(dirEnemy);
 
-            if (disEnemy <= 1f) // 일정거리에 들어왔는지 판단
+            if (disEnemy <= 0.8f) // ?좎룞?쇿뜝?숈삕?좎떊紐뚯삕?좎룞???좎룞?쇿뜝?됰뙋?쇿뜝?숈삕 ?좎떎?먯삕
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookEnemy, 25 * Time.deltaTime);
                 State = Define.State.Attack;
@@ -122,11 +146,11 @@ public class PlayerController : MonoBehaviour
                 {
                     _destPos = hit.point;
                     State = Define.State.Moving;
+                    _stopAttack = false;
 
                     if (hit.collider.gameObject.layer == 8)
                     {
                         _enemyTarget = hit.collider.gameObject;
-
                     }
                     else
                     {
@@ -143,7 +167,7 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
             case Define.MouseState.ButtonUp:
-                //State = Define.State.Moving;
+                _stopAttack = true;
                 break;
 
         }
@@ -153,7 +177,7 @@ public class PlayerController : MonoBehaviour
     void Moving()
     {
         Vector3 dir = _destPos - transform.position;
-        dir.y = 0; // 몬스터 위로 x
+        dir.y = 0; // 몬스터 위로 이동 x
 
         AttackEnemy();
 
@@ -163,23 +187,85 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            if (Physics.Raycast(transform.position + Vector3.up * 0.5f, dir, 1.0f, LayerMask.GetMask("Wall")))
+            {
+                if (Input.GetMouseButton(0) == false)
+                    State = Define.State.Idle;
+                return;
+            }
+
             float moveDist = Mathf.Clamp(5 * Time.deltaTime, 0, dir.magnitude);
-            transform.position += dir.normalized * moveDist;// 이동
+            transform.position += dir.normalized * moveDist;// ?좎떛?몄삕
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 25 * Time.deltaTime);
         }
 
     }
 
+    void Dying()
+    {
+        if (_stat.Hp == 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 9) // 던전1 
+        if (other.gameObject.layer == 9) // 던전 레이어
         {
             SceneManager.LoadScene(1);
         }
-        else if(other.gameObject.layer == 10)
+        else if (other.gameObject.layer == 10)
         {
             SceneManager.LoadScene(0);
+        }
+    }
+
+
+    void HitEvent()
+    {
+        if (_enemyTarget != null)
+        {
+           
+            if (!_stopAttack) 
+            {
+                Stat enemyStat = _enemyTarget.GetComponent<Stat>();
+                enemyStat.Attacked(_stat);
+
+                _scene.ObjStat = enemyStat;
+                _scene.ObjName = enemyStat.name;
+                _scene.ObjNameText.gameObject.SetActive(true);
+                _scene.HpBar.gameObject.SetActive(true);
+            }
+        }
+
+        if (_stopAttack)
+        {
+            _scene.HpBar.gameObject.SetActive(false);
+            _scene.ObjNameText.gameObject.SetActive(false);
+            swordEffect.Stop();
+            State = Define.State.Idle;
+        }
+        else
+        {
+            State = Define.State.Attack;
+        }
+
+    }
+
+    void AttackEffect()
+    {
+        swordEffect.Play();
+       
+    }
+
+    void ComboAttackAnim(Animator anim) // ?좎뙣釉앹삕 ?좎뙇?덈챿?쇿뜝?깆눦???좎뙃?쎌삕
+    {
+        
+        if (anim.GetBool("Attacking"))
+        {
+            anim.Play("Slash1");
         }
     }
 

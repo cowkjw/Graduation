@@ -8,8 +8,12 @@ public class Managers : MonoBehaviour
     static Managers Instance { get { Init(); return s_Instance; } } // 프로퍼티 사용
 
     InputManager _input = new InputManager();
+    GameManagerExt _game = new GameManagerExt();
+    DataManager _data = new DataManager();
 
+    public static GameManagerExt game { get { return Instance._game; } }
     public static InputManager Input { get { return Instance._input; } }
+    public static DataManager Data { get { return Instance._data; } }
 
 
     void Start()
@@ -21,6 +25,7 @@ public class Managers : MonoBehaviour
     void Update()
     { 
         _input.MouseUpdate();
+        _input.KeyboardUpdate();
     }
 
     static void Init()
