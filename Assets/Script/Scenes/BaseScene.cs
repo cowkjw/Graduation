@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BaseScene : MonoBehaviour
 {
@@ -9,8 +10,9 @@ public class BaseScene : MonoBehaviour
     protected GameObject _player = null;
     protected GameObject _ui = null;
 
+    protected Slider _playerHpBar;
+    protected Stat _playerStat;
 
-    
 
     void Awake()
     {
@@ -19,10 +21,15 @@ public class BaseScene : MonoBehaviour
 
     private void Start()
     {
+        _playerStat = Managers.game._Player.GetComponent<PlayerStat>();
+        _playerHpBar = GameObject.FindGameObjectWithTag("PlayerUI").transform.GetChild(1).GetComponent<Slider>();
         Managers.Input.KeyboardAction -= InputUIHotKey;
         Managers.Input.KeyboardAction += InputUIHotKey;
     }
-
+    protected virtual void Update() // 플레이어의 HPUI 업데이트를 위함
+    {
+        _playerHpBar.value = _playerStat.Hp / (float)_playerStat.MaxHp;
+    }
     public virtual void Init()
     {
         Managers.Clear(); // 구독했던거 null처리
@@ -47,4 +54,5 @@ public class BaseScene : MonoBehaviour
             }
         }
     }
+    public virtual void SetPlayerHp() { }
 }

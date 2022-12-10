@@ -7,9 +7,11 @@ public class DataManager : MonoBehaviour
 
     Dictionary<int, string> _inventoryDict = new Dictionary<int, string>();
 
-    public Dictionary<int,string> Inventory { get { return _inventoryDict; } }
+    public Dictionary<int,string> Inventory { get { return _inventoryDict; } } //인벤토리 프로퍼티
 
     public int InventoryCount { get { return _inventoryDict.Count; } }
+
+    public PlayerStat PlayerStat { get { return Managers.game._Player.gameObject.GetComponent<PlayerStat>(); } }
 
     int _gold = 0;
     public int Gold { get { return _gold; } set { _gold = value; } }

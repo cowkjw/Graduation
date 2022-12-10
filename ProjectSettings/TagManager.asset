@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Item
   - Coin
+  - PlayerUI
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Ground

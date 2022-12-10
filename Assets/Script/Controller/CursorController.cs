@@ -20,7 +20,7 @@ public class CursorController : MonoBehaviour
     InventoryController _inventory;
 
     Define.CursorType _cursorType = Define.CursorType.Arrow;
-
+ 
     void Start()
     {
         _inventory = GameObject.Find("UI").transform.Find("Inventory").GetComponent<InventoryController>();
