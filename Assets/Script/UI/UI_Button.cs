@@ -1,12 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_Button : MonoBehaviour
 {
-
-    public void CloseButton()
+    [SerializeField]
+    GameObject npcUI;
+    [SerializeField]
+    GameObject inventoryUI;
+    [SerializeField]
+    GameObject shop;
+    [SerializeField]
+    GameObject combination;
+    public void NPCCloseButton()
     {
-        transform.GetChild(0).GetChild(0).Find("CloseButton").parent.parent.gameObject.SetActive(false);
+
+        if (npcUI.activeSelf)
+            npcUI.SetActive(false);
+     
+    }
+
+    public void InventoryClose()
+    {
+        if (inventoryUI.activeSelf)
+            inventoryUI.SetActive(false);
+    }
+
+    public void DisplayShop()
+    {
+        combination.SetActive(false);
+        shop.SetActive(true);
+    }
+
+    public void DisPlayCombination()
+    {
+        shop.SetActive(false);
+        combination.SetActive(true);
     }
 }

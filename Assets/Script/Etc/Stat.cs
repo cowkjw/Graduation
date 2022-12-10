@@ -50,7 +50,4 @@ public class Stat : MonoBehaviour
             Hp = 0;
         }
     }
-    
-  
-
 }

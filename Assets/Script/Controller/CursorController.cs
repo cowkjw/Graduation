@@ -20,7 +20,7 @@ public class CursorController : MonoBehaviour
     InventoryController _inventory;
 
     Define.CursorType _cursorType = Define.CursorType.Arrow;
-
+ 
     void Start()
     {
         _inventory = GameObject.Find("UI").transform.Find("Inventory").GetComponent<InventoryController>();
@@ -41,6 +41,9 @@ public class CursorController : MonoBehaviour
 
     void ClickEffect(Define.MouseState evt)
     {
+        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true) // UI 눌렀다면
+            return;
+
         if (hit.collider == null)
             return;
         if (hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 11)// 몬스터라면 포인터를 생성 x

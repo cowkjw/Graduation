@@ -9,6 +9,8 @@ public class PlayerStat : Stat
     {
         base.Init();
         Attack = 30;
+        Hp = 500;
+        MaxHp = 500;
     }
    
 }

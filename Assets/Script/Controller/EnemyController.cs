@@ -17,7 +17,7 @@ public class EnemyController : MonoBehaviour
 
     Stat _stat;
     GameObject _player; // 임시로 설정
-
+    //Dungeon1Scene _scene;
     float _findRange = 5f;
 
 
@@ -82,6 +82,7 @@ public class EnemyController : MonoBehaviour
         nma = gameObject.GetComponent<NavMeshAgent>();
         nma.speed = 2.5f;// 임시로 이동속도 설정
         re2Pos = transform.position;
+     //   _scene = FindObjectOfType<BaseScene>().GetComponent<Dungeon1Scene>();
     }
 
     void DyingCheck()
@@ -171,12 +172,24 @@ public class EnemyController : MonoBehaviour
             if (dir.magnitude < nma.stoppingDistance)
             {
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
+               // State = Define.State.Attack;
             }
             else
             {
                 nma.SetDestination(_player.transform.position);
                 State = Define.State.Moving;
             }
+        }
+    }
+
+
+    void PlayerHit()
+    {
+        if(_player!=null)
+        {
+            PlayerStat playerStat = _player.GetComponent<PlayerStat>(); // 플레이어 스탯 가져옴
+            playerStat.Attacked(_stat); // 몬스터의 스탯을 넘겨줌
+          //  _scene.SetPlayerHp(playerStat.Hp, playerStat.MaxHp);
         }
     }
 

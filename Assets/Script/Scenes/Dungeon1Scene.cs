@@ -37,14 +37,16 @@ public class Dungeon1Scene : BaseScene  // @Scene¿¡ Add
 
     }
 
-    private void Update()
+     protected override void Update()
     {
+        base.Update();
         if (_objStat != null)
         {
             SetHpRatio();
             SetHpPrint();
             SetObjNamePrint();
         }
+        SetPlayerHp();
     }
 
     public Slider GetHpBar()
@@ -56,7 +58,7 @@ public class Dungeon1Scene : BaseScene  // @Scene¿¡ Add
     {
         _hpValue.text = _objStat.Hp.ToString() + "/" + _objStat.MaxHp.ToString();
     }
-    void SetHpRatio()
+   void SetHpRatio()
     {
         _hpBar.value = _objStat.Hp / (float)_objStat.MaxHp;
     }
@@ -65,5 +67,7 @@ public class Dungeon1Scene : BaseScene  // @Scene¿¡ Add
     {
         _objNameText.text = _objName;
     }
-    
+
+   
+
 }

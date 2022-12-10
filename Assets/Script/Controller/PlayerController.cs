@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
 
-    int _mask = 1 << 6 | 1 << 8 | 1 << 9; // 6 Ground 8 Enemy 9 Dungeon1
+    int _mask = 1 << 6 | 1 << 8 | 1 << 9; // 6 Ground 8 Enemy 9 Dungeon1 5 UI
     Vector3 _destPos;
 
     GameObject _enemyTarget;
@@ -137,6 +137,8 @@ public class PlayerController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         bool raycastHit = Physics.Raycast(ray, out hit, 100f, _mask);
 
+        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true) // UI ´­·¶´Ù¸é
+            return;
 
         switch (evt)
         {
@@ -152,6 +154,7 @@ public class PlayerController : MonoBehaviour
                     {
                         _enemyTarget = hit.collider.gameObject;
                     }
+                
                     else
                     {
                         _enemyTarget = null;
