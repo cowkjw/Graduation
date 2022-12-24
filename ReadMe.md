@@ -1,6 +1,6 @@
 # 졸업작품
 
-## Treasure Hunter
+## 게임 타이틀: Treasure Hunter
 
 
 ## 게임 개요
