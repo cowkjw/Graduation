@@ -9,6 +9,8 @@ public class BaseScene : MonoBehaviour
     protected Vector3 _playerPos;
     protected GameObject _player = null;
     protected GameObject _ui = null;
+    protected GameObject inventory = null; //inventory UI
+    protected GameObject npcUI = null; // NPC UI 오브젝트
 
     protected Slider _playerHpBar;
     protected Stat _playerStat;
@@ -22,6 +24,7 @@ public class BaseScene : MonoBehaviour
     private void Start()
     {
         _playerStat = Managers.game._Player.GetComponent<PlayerStat>();
+        inventory = GameObject.Find("UI").transform.Find("Inventory").gameObject;
         _playerHpBar = GameObject.FindGameObjectWithTag("PlayerUI").transform.GetChild(1).GetComponent<Slider>();
         Managers.Input.KeyboardAction -= InputUIHotKey;
         Managers.Input.KeyboardAction += InputUIHotKey;
@@ -41,18 +44,25 @@ public class BaseScene : MonoBehaviour
     {
         if (uiType == Define.UI.Inventory)
         {
-            GameObject inventory = GameObject.Find("UI").transform.Find("Inventory").gameObject;
+
             if (inventory.activeSelf == true)
             {
-                inventory.SetActive(false);
+                if (npcUI != null && !npcUI.activeSelf)
+                {
+
+                    inventory.SetActive(false);
+                }
 
             }
             else if (inventory.activeSelf == false)
             {
+
                 inventory.SetActive(true);
 
             }
         }
     }
+
+    protected virtual void ClickNPC(Define.MouseState evt) { }
     public virtual void SetPlayerHp() { }
 }

@@ -28,7 +28,7 @@ public class TooltipController : MonoBehaviour,IPointerEnterHandler,IPointerClic
 
     void Start()
     {
-        
+        toolTip.gameObject.SetActive(false);
     }
 
     

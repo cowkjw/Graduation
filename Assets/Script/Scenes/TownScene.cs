@@ -7,7 +7,7 @@ public class TownScene : BaseScene
 
     Vector3 npcPos; // NPC 위치
     Vector3 dis; // NPC와 나의 거리
-    GameObject npcUI; // NPC UI 오브젝트
+    
     public override void Init()
     {
         base.Init();
@@ -21,7 +21,7 @@ public class TownScene : BaseScene
         Managers.Input.MouseAction += ClickNPC;
     }
 
-    void ClickNPC(Define.MouseState evt)
+    protected override void ClickNPC(Define.MouseState evt)
     {
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -29,7 +29,7 @@ public class TownScene : BaseScene
 
         if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true) // UI 눌렀다면
             return;
-        if (evt == Define.MouseState.ButtonDown || evt == Define.MouseState.Click||evt==Define.MouseState.Press)
+        if (evt == Define.MouseState.ButtonDown || evt == Define.MouseState.Click || evt == Define.MouseState.Press)
         {
             if (hit.collider == null)
                 return;
@@ -43,6 +43,7 @@ public class TownScene : BaseScene
                     if (npcUI.activeSelf == false)
                     {
                         npcUI.SetActive(true);
+                        inventory.SetActive(true);
                     }
                 }
             }
@@ -55,6 +56,7 @@ public class TownScene : BaseScene
                     if (npcUI.activeSelf == true)
                     {
                         npcUI.SetActive(false);
+                        inventory.SetActive(false);
                     }
                 }
             }
