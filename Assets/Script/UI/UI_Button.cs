@@ -21,11 +21,11 @@ public class UI_Button : MonoBehaviour
      
     }
 
-    public void InventoryClose()
-    {
-        if (inventoryUI.activeSelf)
-            inventoryUI.SetActive(false);
-    }
+    //public void InventoryClose()
+    //{
+    //    if (inventoryUI.activeSelf)
+    //        inventoryUI.SetActive(false);
+    //}
 
     public void DisplayShop()
     {

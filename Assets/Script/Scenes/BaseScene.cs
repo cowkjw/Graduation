@@ -45,11 +45,18 @@ public class BaseScene : MonoBehaviour
         if (uiType == Define.UI.Inventory)
         {
 
-            if (inventory.activeSelf == true)
+            if (inventory.activeSelf == true) // 인벤토리가 켜져있다면
             {
-                if (npcUI != null && !npcUI.activeSelf)
+                if (GameObject.Find("NPC")) // 해당 맵에 상점 NPC가 있다면
                 {
+                    if (npcUI != null && !npcUI.activeSelf) // NPC 널체크 상점이 안켜져있을 때 인벤토리 비활성화
+                    {
 
+                        inventory.SetActive(false);
+                    }
+                }
+                else
+                {
                     inventory.SetActive(false);
                 }
 

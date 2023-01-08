@@ -16,4 +16,13 @@ public class Slot : MonoBehaviour
         public string itemName;
         public Define.ItemType itemType;
     }
+
+    private void Start()
+    {
+        if(GetComponent<Image>().sprite.name!="emptySlot")
+        {
+            _itemInfo.itemName = GetComponent<Image>().sprite.name;
+            _itemInfo.itemType = Define.ItemType.Equipment;
+        }
+    }
 }

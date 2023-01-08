@@ -15,7 +15,7 @@ public class CursorController : MonoBehaviour
     Ray ray;
     RaycastHit hit;
     bool raycastHit;
-    int _mask = (1 << 6) | (1 << 8)| (1<<7)|(1<<11);
+    int _mask = (1 << 6) | (1 << 8)| (1<<7)|(1<<11)|(1<<9)|(1<<10)|(1<<12);
 
     InventoryController _inventory;
 
@@ -23,9 +23,9 @@ public class CursorController : MonoBehaviour
  
     void Start()
     {
-        _inventory = GameObject.Find("UI").transform.Find("Inventory").GetComponent<InventoryController>();
         _idleCursor = (Texture2D)Resources.Load("Textures/Cursor_Basic"); // Texture2D 타입캐스팅
         _attackCursor = (Texture2D)Resources.Load("Textures/Cursor_Attack");
+        _inventory = GameObject.Find("UI").transform.Find("Inventory").GetComponent<InventoryController>();
         Cursor.SetCursor(_idleCursor, new Vector2(_idleCursor.width / 5, 0), CursorMode.Auto);
 
         Managers.Input.MouseAction -= MousePointEvent;
