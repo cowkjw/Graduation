@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3056546845043826575}
   - component: {fileID: 3056546845043826570}
   - component: {fileID: 3056546845043826569}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,9 +87,9 @@ GameObject:
   - component: {fileID: 3056546845470218664}
   - component: {fileID: 3056546845470218665}
   - component: {fileID: 7930594363299359000}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: SlotGridSetting
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -175,7 +175,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3056546845486394716}
   - component: {fileID: 3056546845486394717}
-  m_Layer: 5
+  - component: {fileID: 2126969916524410527}
+  m_Layer: 14
   m_Name: Inventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,6 +236,19 @@ MonoBehaviour:
   - {fileID: 581551379982884387}
   - {fileID: 581551381015438739}
   toolTip: {fileID: 0}
+--- !u!114 &2126969916524410527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3056546845486394691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39117c98b5aa2404dbc0ce3b8763f011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toolTip: {fileID: 0}
 --- !u!1 &6274437204778755594
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,7 +261,7 @@ GameObject:
   - component: {fileID: 1539149150038537768}
   - component: {fileID: 8587907283224880009}
   - component: {fileID: 1156390717089702501}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: CloseButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -463,6 +477,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slot
       objectReference: {fileID: 0}
+    - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 2484048346430828286, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -578,6 +596,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slot (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 6935777957539250561, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: toolTip
       value: 
@@ -688,6 +710,10 @@ PrefabInstance:
     - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: m_Name
       value: Slot (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 6935777957539250561, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: toolTip
@@ -800,6 +826,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slot (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 6935777957539250561, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: toolTip
       value: 
@@ -910,6 +940,10 @@ PrefabInstance:
     - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: m_Name
       value: Slot (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 6935777957539250561, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: toolTip
@@ -1022,6 +1056,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slot (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 6935777957539250561, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: toolTip
       value: 
@@ -1132,6 +1170,10 @@ PrefabInstance:
     - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: m_Name
       value: Slot (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 6935777957539250561, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: toolTip
@@ -1244,6 +1286,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slot (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 6935777957539250561, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: toolTip
       value: 
@@ -1354,6 +1400,10 @@ PrefabInstance:
     - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: m_Name
       value: Slot (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 6935777957539250561, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: toolTip
@@ -1466,6 +1516,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slot (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 6935777957539250561, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: toolTip
       value: 
@@ -1576,6 +1630,10 @@ PrefabInstance:
     - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: m_Name
       value: Slot (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 6935777957539250561, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: toolTip
@@ -1688,6 +1746,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slot (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 6935777957539250561, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: toolTip
       value: 
@@ -1798,6 +1860,10 @@ PrefabInstance:
     - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: m_Name
       value: Slot (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 6935777957539250561, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: toolTip
@@ -1910,6 +1976,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slot (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 6935777957539250561, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: toolTip
       value: 
@@ -2021,6 +2091,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slot (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 6935777957539250561, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: toolTip
       value: 
@@ -2131,6 +2205,10 @@ PrefabInstance:
     - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: m_Name
       value: Slot (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2484048345162704797, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 6935777957539250561, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: toolTip

@@ -137,8 +137,8 @@ public class PlayerController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         bool raycastHit = Physics.Raycast(ray, out hit, 100f, _mask);
 
-        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true) // UI ´­·¶´Ù¸é
-            return;
+        //if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true) // UI ´­·¶´Ù¸é
+        //    return;
 
         switch (evt)
         {

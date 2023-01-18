@@ -41,8 +41,8 @@ public class CursorController : MonoBehaviour
 
     void ClickEffect(Define.MouseState evt)
     {
-        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true) // UI ´­·¶´Ù¸é
-            return;
+        //if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true) // UI ´­·¶´Ù¸é
+        //    return;
 
         if (hit.collider == null)
             return;

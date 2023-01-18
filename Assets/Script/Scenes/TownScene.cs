@@ -27,8 +27,8 @@ public class TownScene : BaseScene
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         bool raycastHit = Physics.Raycast(ray, out hit, 100f, 1 << 12 | 1 << 6);
 
-        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true) // UI ´­·¶´Ù¸é
-            return;
+        //if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true) // UI ´­·¶´Ù¸é
+        //    return;
         if (evt == Define.MouseState.ButtonDown || evt == Define.MouseState.Click || evt == Define.MouseState.Press)
         {
             if (hit.collider == null)
