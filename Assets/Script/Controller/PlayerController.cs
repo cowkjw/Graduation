@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour
         switch (evt)
         {
 
-            case Define.MouseState.ButtonDown:
+            case Define.MouseState.LButtonDown:
                 if (raycastHit)
                 {
                     _destPos = hit.point;

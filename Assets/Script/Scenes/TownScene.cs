@@ -7,13 +7,15 @@ public class TownScene : BaseScene
 
     Vector3 npcPos; // NPC 위치
     Vector3 dis; // NPC와 나의 거리
-    
+
+    public GameObject NPCUI { get { return npcUI; } }
+
     public override void Init()
     {
         base.Init();
 
         _playerPos = new Vector3(0, -0.7f, 0);
-        _player = Managers.game.SpawnPlayer(_playerPos);
+        _player = Managers.Game.SpawnPlayer(_playerPos);
 
         Camera.main.gameObject.GetComponent<CameraController>().SetPlayer(_player);
         npcUI = GameObject.Find("UI").transform.Find("NPC").gameObject;
@@ -29,7 +31,7 @@ public class TownScene : BaseScene
 
         //if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true) // UI 눌렀다면
         //    return;
-        if (evt == Define.MouseState.ButtonDown || evt == Define.MouseState.Click || evt == Define.MouseState.Press)
+        if (evt == Define.MouseState.LButtonDown || evt == Define.MouseState.Click || evt == Define.MouseState.Press)
         {
             if (hit.collider == null)
                 return;

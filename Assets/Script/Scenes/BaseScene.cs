@@ -23,7 +23,7 @@ public class BaseScene : MonoBehaviour
 
     private void Start()
     {
-        _playerStat = Managers.game._Player.GetComponent<PlayerStat>();
+        _playerStat = Managers.Game._Player.GetComponent<PlayerStat>();
         inventory = GameObject.Find("UI").transform.Find("Inventory").gameObject;
         _playerHpBar = GameObject.FindGameObjectWithTag("PlayerUI").transform.GetChild(1).GetComponent<Slider>();
         Managers.Input.KeyboardAction -= InputUIHotKey;

@@ -70,7 +70,7 @@ public class EnemyController : MonoBehaviour
                 Idle();
                 break;
             case Define.State.Attack:
-                Attacking();
+                Attacking();  
                 break;
         }
     }
@@ -78,7 +78,7 @@ public class EnemyController : MonoBehaviour
     void Init()
     {
         _stat = GetComponent<Stat>();
-        _player = Managers.game.GetPlayer();
+        _player = Managers.Game.GetPlayer();
         nma = gameObject.GetComponent<NavMeshAgent>();
         nma.speed = 2.5f;// 임시로 이동속도 설정
         re2Pos = transform.position;

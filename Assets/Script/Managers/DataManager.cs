@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DataManager : MonoBehaviour
+
+public class DataManager
 {
 
     Dictionary<int, string> _inventoryDict;
@@ -17,13 +18,14 @@ public class DataManager : MonoBehaviour
                 _inventoryDict = new Dictionary<int, string>();
             return _inventoryDict.Count; } }
 
-    public PlayerStat PlayerStat { get { return Managers.game._Player.gameObject.GetComponent<PlayerStat>(); } }
+    public PlayerStat PlayerStat { get { return Managers.Game._Player.gameObject.GetComponent<PlayerStat>(); } }
 
-    int _gold = 0;
+    int _gold;
     public int Gold { get { return _gold; } set { _gold = value; } }
 
     private void Awake()
     {
+        _gold = 0;
         _inventoryDict = new Dictionary<int, string>();
     }
 

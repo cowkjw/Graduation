@@ -16,7 +16,7 @@ public class Define
     public enum MouseState
     {
         Press,
-        ButtonDown,
+        LButtonDown,
         ButtonUp,
         Click,
         RButtonDown

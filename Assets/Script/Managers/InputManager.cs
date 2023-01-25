@@ -17,22 +17,30 @@ public class InputManager
 
     public void MouseUpdate()
     {
-
-        SellPurchase();
-        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true) // UI 눌렀다면 리턴 
-            return;
-        //if (Input.anyKey && KeyAction != null)
-        //{
-        //    KeyAction.Invoke();
-        //}
+        if (Input.anyKey && KeyAction != null)
+        {
+            KeyAction.Invoke();
+        }
 
         if (MouseAction != null)
         {
             if (Input.GetMouseButton(0))
             {
+                if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true) // UI 눌렀다면 리턴 
+                    return;
                 if (!_press)
                 {
-                    MouseAction.Invoke(Define.MouseState.ButtonDown);
+                    MouseAction.Invoke(Define.MouseState.LButtonDown); 
+                    _pressedTime = Time.time;
+                }
+                MouseAction.Invoke(Define.MouseState.Press);
+                _press = true;
+            }
+            else if (Input.GetMouseButton(1))
+            {
+                if (!_press)
+                {
+                    MouseAction.Invoke(Define.MouseState.RButtonDown);
                     _pressedTime = Time.time;
                 }
                 MouseAction.Invoke(Define.MouseState.Press);
@@ -72,18 +80,6 @@ public class InputManager
         }
     }
 
-    public void SellPurchase() // 상점과 인벤토리 판매 구매 입력 판단 함수
-    {
-        if (Input.anyKey && KeyAction != null)
-        {
-            KeyAction.Invoke();
-        }
-
-        if (Input.GetMouseButton(1))
-        {
-            MouseAction.Invoke(Define.MouseState.RButtonDown);
-        }
-    }
     public void Clear() // 씬 이동때 초기화
     {
         KeyAction = null;

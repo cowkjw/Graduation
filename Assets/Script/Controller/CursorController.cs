@@ -49,7 +49,7 @@ public class CursorController : MonoBehaviour
         if (hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 11)// 몬스터라면 포인터를 생성 x
             return;
 
-        if (evt == Define.MouseState.ButtonDown && hit.collider.gameObject != null)
+        if (evt == Define.MouseState.LButtonDown && hit.collider.gameObject != null)
         {
             GameObject clickParticle = Instantiate(_clickEffect);
             clickParticle.transform.position = hit.point;
@@ -65,7 +65,7 @@ public class CursorController : MonoBehaviour
         // 아이템이라면
         if (hit.collider.gameObject.layer == 11&&evt == Define.MouseState.Click)
         {
-            Vector3 dis = hit.collider.transform.position - Managers.game._Player.transform.position;
+            Vector3 dis = hit.collider.transform.position - Managers.Game._Player.transform.position;
             if (dis.magnitude<=2f)
             {
                 if(Managers.Data.InventoryCount<16)
