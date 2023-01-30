@@ -13,7 +13,7 @@ public class CameraController : MonoBehaviour
 
     Renderer _obstacleRenderer;
     Material _material;
-    Color matColor;
+    Color matColor; 
 
     List<Renderer> _obsList;
    
@@ -67,7 +67,4 @@ public class CameraController : MonoBehaviour
         transform.position = _player.transform.position + _delta;
         transform.LookAt(_player.transform);
     }
-
-
-    
 }
