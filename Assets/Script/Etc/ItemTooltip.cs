@@ -8,6 +8,8 @@ public class ItemTooltip : MonoBehaviour
 {
     [SerializeField]
     Text ItemNameTooltip;// 아이템 이름 툴팁
+    
+    public Text sellOrPurchase;
 
 
     public void SetItemInfo(string name)

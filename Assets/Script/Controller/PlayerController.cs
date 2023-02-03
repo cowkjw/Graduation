@@ -3,25 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : BaseCharacterController//MonoBehaviour
 {
 
     int _mask = 1 << 6 | 1 << 8 | 1 << 9; // 6 Ground 8 Enemy 9 Dungeon1 5 UI
-    Vector3 _destPos;
-
-    GameObject _enemyTarget;
-
-    PlayerStat _stat;
-
-    Define.State _state = Define.State.Idle;
 
     Dungeon1Scene _scene;
     public ParticleSystem swordEffect;
-
     bool _stopAttack = false;
 
 
-    public Define.State State
+    public override Define.State State
     {
         get { return _state; }
 
@@ -34,7 +26,7 @@ public class PlayerController : MonoBehaviour
             switch (_state)
             {
                 case Define.State.Idle:
-                    anim.SetBool("Attacking", false); // ?†Ïèô?ôÂç†?ôÏòô?†Ïèô?ôÂç†?ôÏòô?†Ïèô??falseÏ≤òÂç†?ôÏòô 
+                    anim.SetBool("Attacking", false); 
                     anim.CrossFade("Idle", 0.1f);
                     break;
                 case Define.State.Moving:
@@ -42,13 +34,10 @@ public class PlayerController : MonoBehaviour
                     anim.CrossFade("Run", 0.005f);
                     break;
                 case Define.State.Attack:
-                    //  anim.CrossFade("Attack", 0.0005f);
-                    //  anim.CrossFade("Slash", 0.0005f);
-                    if (!anim.GetBool("Attacking")) // ?†Ïèô?ôÂç†?ôÏòô false?†Ïèô?ôÂç†?
+                    if (!anim.GetBool("Attacking")) 
                     {
                         anim.SetBool("Attacking", true);
                         ComboAttackAnim(anim);
-
                     }
                     break;
                 case Define.State.Die:
@@ -61,36 +50,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Init()
+    override protected void Init() 
     {
         _scene = FindObjectOfType<BaseScene>().GetComponent<Dungeon1Scene>();
-        _stat = gameObject.GetComponent<PlayerStat>();
+        _stat = gameObject.GetComponent<PlayerStat>() as PlayerStat;
         Managers.Input.MouseAction -= MouseEvent;
         Managers.Input.MouseAction += MouseEvent;
     }
-
-    void Start()
-    {
-        Init();
-    }
-
-    void Update()
-    {
-
-        switch (State)
-        {
-            case Define.State.Die:
-                Dying();
-                break;
-            case Define.State.Moving:
-                Moving();
-                break;
-            case Define.State.Attack:
-                AttackEnemy();
-                break;
-        }
-    }
-
 
     void MouseEvent(Define.MouseState evt)
     {
@@ -111,22 +77,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void AttackEnemy()
+    override protected void Attacking()
     {
-        if (_enemyTarget != null)
+        if (_target != null)
         {
-            float disEnemy = Vector3.Distance(_enemyTarget.transform.position, transform.position);
-            Vector3 dirEnemy = (_enemyTarget.transform.position - transform.position);
+            float disEnemy = Vector3.Distance(_target.transform.position, transform.position);
+            Vector3 dirEnemy = (_target.transform.position - transform.position);
             Quaternion lookEnemy = Quaternion.LookRotation(dirEnemy);
 
-            if (disEnemy <= 0.8f) // ?†Ïèô?ôÂç†?ôÏòô?†Ïã†Î™åÏòô?†Ïèô???†Ïèô?ôÂç†?âÎåê?ôÂç†?ôÏòô ?†Ïã§?êÏòô
+            if (disEnemy <= 0.8f) 
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookEnemy, 25 * Time.deltaTime);
                 State = Define.State.Attack;
                 return;
             }
-
-
         }
     }
 
@@ -137,13 +101,10 @@ public class PlayerController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         bool raycastHit = Physics.Raycast(ray, out hit, 100f, _mask);
 
-        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true) // UI ¥≠∑∂¥Ÿ∏È
-            return;
-
         switch (evt)
         {
 
-            case Define.MouseState.ButtonDown:
+            case Define.MouseState.LButtonDown:
                 if (raycastHit)
                 {
                     _destPos = hit.point;
@@ -152,18 +113,18 @@ public class PlayerController : MonoBehaviour
 
                     if (hit.collider.gameObject.layer == 8)
                     {
-                        _enemyTarget = hit.collider.gameObject;
+                        _target = hit.collider.gameObject;
                     }
                 
                     else
                     {
-                        _enemyTarget = null;
+                        _target = null;
                     }
                 }
                 break;
             case Define.MouseState.Press:
                 {
-                    if (_enemyTarget == null && raycastHit)
+                    if (_target == null && raycastHit)
                     {
                         _destPos = hit.point;
                     }
@@ -177,12 +138,12 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void Moving()
+    protected override void Moving()
     {
         Vector3 dir = _destPos - transform.position;
         dir.y = 0; // ∏ÛΩ∫≈Õ ¿ß∑Œ ¿Ãµø x
 
-        AttackEnemy();
+        Attacking();
 
         if (dir.magnitude < 0.1f)
         {
@@ -198,13 +159,13 @@ public class PlayerController : MonoBehaviour
             }
 
             float moveDist = Mathf.Clamp(5 * Time.deltaTime, 0, dir.magnitude);
-            transform.position += dir.normalized * moveDist;// ?†Ïã±?∏Ïòô
+            transform.position += dir.normalized * moveDist;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 25 * Time.deltaTime);
         }
 
     }
 
-    void Dying()
+    protected override void Dying()
     {
         if (_stat.Hp == 0)
         {
@@ -228,12 +189,12 @@ public class PlayerController : MonoBehaviour
 
     void HitEvent()
     {
-        if (_enemyTarget != null)
+        if (_target != null)
         {
            
             if (!_stopAttack) 
             {
-                Stat enemyStat = _enemyTarget.GetComponent<Stat>();
+                Stat enemyStat = _target.GetComponent<Stat>();
                 enemyStat.Attacked(_stat);
 
                 _scene.ObjStat = enemyStat;
@@ -263,7 +224,7 @@ public class PlayerController : MonoBehaviour
        
     }
 
-    void ComboAttackAnim(Animator anim) // ?†Ïå®Î∏ùÏòô ?†Ïåç?àÎ™å?ôÂç†?±ÏáΩ???†Ïåâ?ΩÏòô
+    void ComboAttackAnim(Animator anim) 
     {
         
         if (anim.GetBool("Attacking"))

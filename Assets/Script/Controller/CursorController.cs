@@ -15,7 +15,7 @@ public class CursorController : MonoBehaviour
     Ray ray;
     RaycastHit hit;
     bool raycastHit;
-    int _mask = (1 << 6) | (1 << 8)| (1<<7)|(1<<11);
+    int _mask = (1 << 6) | (1 << 8)| (1<<7)|(1<<11)|(1<<9)|(1<<10)|(1<<12);
 
     InventoryController _inventory;
 
@@ -23,9 +23,9 @@ public class CursorController : MonoBehaviour
  
     void Start()
     {
-        _inventory = GameObject.Find("UI").transform.Find("Inventory").GetComponent<InventoryController>();
         _idleCursor = (Texture2D)Resources.Load("Textures/Cursor_Basic"); // Texture2D 타입캐스팅
         _attackCursor = (Texture2D)Resources.Load("Textures/Cursor_Attack");
+        _inventory = GameObject.Find("UI").transform.Find("Inventory").GetComponent<InventoryController>();
         Cursor.SetCursor(_idleCursor, new Vector2(_idleCursor.width / 5, 0), CursorMode.Auto);
 
         Managers.Input.MouseAction -= MousePointEvent;
@@ -41,15 +41,15 @@ public class CursorController : MonoBehaviour
 
     void ClickEffect(Define.MouseState evt)
     {
-        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true) // UI 눌렀다면
-            return;
+        //if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true) // UI 눌렀다면
+        //    return;
 
         if (hit.collider == null)
             return;
         if (hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 11)// 몬스터라면 포인터를 생성 x
             return;
 
-        if (evt == Define.MouseState.ButtonDown && hit.collider.gameObject != null)
+        if (evt == Define.MouseState.LButtonDown && hit.collider.gameObject != null)
         {
             GameObject clickParticle = Instantiate(_clickEffect);
             clickParticle.transform.position = hit.point;
@@ -65,7 +65,7 @@ public class CursorController : MonoBehaviour
         // 아이템이라면
         if (hit.collider.gameObject.layer == 11&&evt == Define.MouseState.Click)
         {
-            Vector3 dis = hit.collider.transform.position - Managers.game._Player.transform.position;
+            Vector3 dis = hit.collider.transform.position - Managers.Game._Player.transform.position;
             if (dis.magnitude<=2f)
             {
                 if(Managers.Data.InventoryCount<16)

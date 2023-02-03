@@ -2,20 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class InputManager : MonoBehaviour
+public class InputManager
 {
 
     public Action KeyAction = null;
     public Action<Define.MouseState> MouseAction = null;
     public Action<Define.UI> KeyboardAction = null;
 
+
     bool _press = false;
     float _pressedTime = 0;
 
     public void MouseUpdate()
     {
-
         if (Input.anyKey && KeyAction != null)
         {
             KeyAction.Invoke();
@@ -25,9 +26,21 @@ public class InputManager : MonoBehaviour
         {
             if (Input.GetMouseButton(0))
             {
+                if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true) // UI 눌렀다면 리턴 
+                    return;
                 if (!_press)
                 {
-                    MouseAction.Invoke(Define.MouseState.ButtonDown);
+                    MouseAction.Invoke(Define.MouseState.LButtonDown); 
+                    _pressedTime = Time.time;
+                }
+                MouseAction.Invoke(Define.MouseState.Press);
+                _press = true;
+            }
+            else if (Input.GetMouseButton(1))
+            {
+                if (!_press)
+                {
+                    MouseAction.Invoke(Define.MouseState.RButtonDown);
                     _pressedTime = Time.time;
                 }
                 MouseAction.Invoke(Define.MouseState.Press);
@@ -66,6 +79,7 @@ public class InputManager : MonoBehaviour
             }
         }
     }
+
     public void Clear() // 씬 이동때 초기화
     {
         KeyAction = null;

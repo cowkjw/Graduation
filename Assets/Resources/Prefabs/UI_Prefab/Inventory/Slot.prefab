@@ -12,10 +12,9 @@ GameObject:
   - component: {fileID: 2484048345162704794}
   - component: {fileID: 2484048345162704795}
   - component: {fileID: 3593762531495583933}
-  - component: {fileID: 2512607309322981045}
   m_Layer: 5
   m_Name: Slot
-  m_TagString: Untagged
+  m_TagString: Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -91,16 +90,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inItem: 0
---- !u!114 &2512607309322981045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2484048345162704797}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39117c98b5aa2404dbc0ce3b8763f011, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  toolTip: {fileID: 0}

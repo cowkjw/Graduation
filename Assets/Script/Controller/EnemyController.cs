@@ -3,68 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : BaseCharacterController
 {
 
     public GameObject[] _coin;
 
-    Vector3 _destPos;
     Vector3 re2Pos; // 원래 위치로
-
-    [SerializeField]
-    Define.State _state = Define.State.Idle;
     NavMeshAgent nma;
 
-    Stat _stat;
-    GameObject _player; // 임시로 설정
-    //Dungeon1Scene _scene;
     float _findRange = 5f;
 
-
-    public Define.State State
-    {
-        get { return _state; }
-
-        set
-        {
-            _state = value;
-
-            Animator anim = GetComponent<Animator>();
-
-            switch (_state)
-            {
-                case Define.State.Idle:
-                    anim.CrossFade("Idle", 0.1f);
-                    break;
-                case Define.State.Moving:
-                    anim.CrossFade("Run", 0.1f);
-                    break;
-                case Define.State.Attack:
-                    anim.CrossFade("Attack", 0.1f);
-                    break;
-                case Define.State.Die:
-                    anim.CrossFade("Die", 0.005f);
-                    break;
-            }
-
-        }
-    }
-
-    void Start()
-    {
-        Init();
-
-    }
-
-
-    void Update()
+    protected override void Update()
     {
         if (State != Define.State.Die)
-            DyingCheck();
+            Dying();
+
         switch (State)
         {
             case Define.State.Moving:
-                Movig();
+                Moving();
                 break;
             case Define.State.Idle:
                 Idle();
@@ -75,23 +32,21 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void Init()
+    protected override void Init()
     {
         _stat = GetComponent<Stat>();
-        _player = Managers.game.GetPlayer();
+        _target = Managers.Game.GetPlayer();
         nma = gameObject.GetComponent<NavMeshAgent>();
         nma.speed = 2.5f;// 임시로 이동속도 설정
         re2Pos = transform.position;
-     //   _scene = FindObjectOfType<BaseScene>().GetComponent<Dungeon1Scene>();
     }
 
-    void DyingCheck()
+    protected override void Dying()
     {
         if (_stat.Hp == 0)
         {
             State = Define.State.Die;
             StartCoroutine(DropCoin());
-            //dropTest();
             Destroy(gameObject, 3f);
         }
         else
@@ -100,28 +55,26 @@ public class EnemyController : MonoBehaviour
 
     void Idle()
     {
-        if (_player == null)
+        if (_target == null)
             return;
-        float dis = (_player.transform.position - transform.position).magnitude;
+        float dis = (_target.transform.position - transform.position).magnitude;
 
         if (dis <= _findRange)
         {
             State = Define.State.Moving;
             return;
         }
-
-
     }
-    void Movig()
+    protected override void Moving()
     {
-        if (_player == null)
+        if (_target == null)
             return;
 
-        _destPos = _player.transform.position;
+        _destPos = _target.transform.position;
 
         Vector3 dir = _destPos - transform.position;
 
-        // dir.y = 0;// 플레이어 위로
+        dir.y = 0;// 플레이어 위로 방지
 
         if (dir.magnitude <= nma.stoppingDistance) // 공격할지 판단
         {
@@ -133,13 +86,6 @@ public class EnemyController : MonoBehaviour
 
             nma.SetDestination(_destPos);
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
-
-            //Vector2 temp = new Vector2(transform.position.z, transform.position.x);
-            //Vector2 st = new Vector2(nma.steeringTarget.z, nma.steeringTarget.x);
-
-            //dir = st - temp;
-            //float ang = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-            //transform.eulerAngles = Vector3.up * ang;
         }
         else
         {
@@ -154,12 +100,12 @@ public class EnemyController : MonoBehaviour
     }
 
 
-    void Attacking()
+    protected override void Attacking()
     {
-        if (_player == null)
+        if (_target == null)
             return;
 
-        Vector3 dir = _player.transform.position - transform.position;
+        Vector3 dir = _target.transform.position - transform.position;
 
         if (dir.magnitude > _findRange)
         {
@@ -176,7 +122,7 @@ public class EnemyController : MonoBehaviour
             }
             else
             {
-                nma.SetDestination(_player.transform.position);
+                nma.SetDestination(_target.transform.position);
                 State = Define.State.Moving;
             }
         }
@@ -185,9 +131,9 @@ public class EnemyController : MonoBehaviour
 
     void PlayerHit()
     {
-        if(_player!=null)
+        if(_target!=null)
         {
-            PlayerStat playerStat = _player.GetComponent<PlayerStat>(); // 플레이어 스탯 가져옴
+            PlayerStat playerStat = _target.GetComponent<PlayerStat>(); // 플레이어 스탯 가져옴
             playerStat.Attacked(_stat); // 몬스터의 스탯을 넘겨줌
           //  _scene.SetPlayerHp(playerStat.Hp, playerStat.MaxHp);
         }

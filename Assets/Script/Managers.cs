@@ -11,7 +11,7 @@ public class Managers : MonoBehaviour
     GameManagerExt _game = new GameManagerExt();
     DataManager _data = new DataManager();
 
-    public static GameManagerExt game { get { return Instance._game; } }
+    public static GameManagerExt Game { get { return Instance._game; } }
     public static InputManager Input { get { return Instance._input; } }
     public static DataManager Data { get { return Instance._data; } }
 
@@ -24,7 +24,7 @@ public class Managers : MonoBehaviour
 
     void Update()
     {
-        _input.MouseUpdate();
+        _input.MouseUpdate(); 
         _input.KeyboardUpdate();
     }
 
@@ -47,6 +47,6 @@ public class Managers : MonoBehaviour
 
     public static void Clear()
     {
-        Input.Clear();
+        Input.Clear(); 
     }
 }

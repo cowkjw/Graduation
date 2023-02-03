@@ -9,6 +9,8 @@ public class BaseScene : MonoBehaviour
     protected Vector3 _playerPos;
     protected GameObject _player = null;
     protected GameObject _ui = null;
+    protected GameObject inventory = null; //inventory UI
+    protected GameObject npcUI = null; // NPC UI 오브젝트
 
     protected Slider _playerHpBar;
     protected Stat _playerStat;
@@ -21,7 +23,8 @@ public class BaseScene : MonoBehaviour
 
     private void Start()
     {
-        _playerStat = Managers.game._Player.GetComponent<PlayerStat>();
+        _playerStat = Managers.Game._Player.GetComponent<PlayerStat>();
+        inventory = GameObject.Find("UI").transform.Find("Inventory").gameObject;
         _playerHpBar = GameObject.FindGameObjectWithTag("PlayerUI").transform.GetChild(1).GetComponent<Slider>();
         Managers.Input.KeyboardAction -= InputUIHotKey;
         Managers.Input.KeyboardAction += InputUIHotKey;
@@ -41,18 +44,32 @@ public class BaseScene : MonoBehaviour
     {
         if (uiType == Define.UI.Inventory)
         {
-            GameObject inventory = GameObject.Find("UI").transform.Find("Inventory").gameObject;
-            if (inventory.activeSelf == true)
+
+            if (inventory.activeSelf == true) // 인벤토리가 켜져있다면
             {
-                inventory.SetActive(false);
+                if (GameObject.Find("NPC")) // 해당 맵에 상점 NPC가 있다면
+                {
+                    if (npcUI != null && !npcUI.activeSelf) // NPC 널체크 상점이 안켜져있을 때 인벤토리 비활성화
+                    {
+
+                        inventory.SetActive(false);
+                    }
+                }
+                else
+                {
+                    inventory.SetActive(false);
+                }
 
             }
             else if (inventory.activeSelf == false)
             {
+
                 inventory.SetActive(true);
 
             }
         }
     }
+
+    protected virtual void ClickNPC(Define.MouseState evt) { }
     public virtual void SetPlayerHp() { }
 }

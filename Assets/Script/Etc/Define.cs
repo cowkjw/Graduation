@@ -16,9 +16,10 @@ public class Define
     public enum MouseState
     {
         Press,
-        ButtonDown,
+        LButtonDown,
         ButtonUp,
-        Click
+        Click,
+        RButtonDown
     }
 
     public enum CursorType
@@ -35,9 +36,9 @@ public class Define
 
     public enum UI
     {
-        Inventory,
+        Inventory=14,
+        Shop,
         Stat,
-        Store
     }
 
     public enum Coin

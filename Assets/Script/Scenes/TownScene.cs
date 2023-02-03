@@ -7,13 +7,15 @@ public class TownScene : BaseScene
 
     Vector3 npcPos; // NPC 위치
     Vector3 dis; // NPC와 나의 거리
-    GameObject npcUI; // NPC UI 오브젝트
+
+    public GameObject NPCUI { get { return npcUI; } }
+
     public override void Init()
     {
         base.Init();
 
         _playerPos = new Vector3(0, -0.7f, 0);
-        _player = Managers.game.SpawnPlayer(_playerPos);
+        _player = Managers.Game.SpawnPlayer(_playerPos);
 
         Camera.main.gameObject.GetComponent<CameraController>().SetPlayer(_player);
         npcUI = GameObject.Find("UI").transform.Find("NPC").gameObject;
@@ -21,15 +23,15 @@ public class TownScene : BaseScene
         Managers.Input.MouseAction += ClickNPC;
     }
 
-    void ClickNPC(Define.MouseState evt)
+    protected override void ClickNPC(Define.MouseState evt)
     {
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         bool raycastHit = Physics.Raycast(ray, out hit, 100f, 1 << 12 | 1 << 6);
 
-        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true) // UI 눌렀다면
-            return;
-        if (evt == Define.MouseState.ButtonDown || evt == Define.MouseState.Click||evt==Define.MouseState.Press)
+        //if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true) // UI 눌렀다면
+        //    return;
+        if (evt == Define.MouseState.LButtonDown || evt == Define.MouseState.Click || evt == Define.MouseState.Press)
         {
             if (hit.collider == null)
                 return;
@@ -43,6 +45,7 @@ public class TownScene : BaseScene
                     if (npcUI.activeSelf == false)
                     {
                         npcUI.SetActive(true);
+                        inventory.SetActive(true);
                     }
                 }
             }
@@ -55,6 +58,7 @@ public class TownScene : BaseScene
                     if (npcUI.activeSelf == true)
                     {
                         npcUI.SetActive(false);
+                        inventory.SetActive(false);
                     }
                 }
             }
