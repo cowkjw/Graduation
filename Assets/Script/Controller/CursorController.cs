@@ -39,22 +39,20 @@ public class CursorController : MonoBehaviour
         ClickItem(evt);
     }
 
+
     void ClickEffect(Define.MouseState evt)
     {
-        //if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == true) // UI 눌렀다면
-        //    return;
-
-        if (hit.collider == null)
-            return;
-        if (hit.collider.gameObject.layer == 8 || hit.collider.gameObject.layer == 11)// 몬스터라면 포인터를 생성 x
+        if (!hit.collider)
             return;
 
-        if (evt == Define.MouseState.LButtonDown && hit.collider.gameObject != null)
+        int hitLayer = hit.collider.gameObject.layer;
+        if (hitLayer == 8 || hitLayer == 11)
+            return;
+
+        if (evt == Define.MouseState.LButtonDown)
         {
-            GameObject clickParticle = Instantiate(_clickEffect);
-            clickParticle.transform.position = hit.point;
-            if (clickParticle != null)
-                Destroy(clickParticle, 0.5f);
+            GameObject clickParticle = Instantiate(_clickEffect, hit.point, Quaternion.identity);
+            Destroy(clickParticle, 0.5f);
         }
     }
 

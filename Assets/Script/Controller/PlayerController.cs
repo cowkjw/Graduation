@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class PlayerController : BaseCharacterController//MonoBehaviour
 {
 
+
+ 
     int _mask = 1 << 6 | 1 << 8 | 1 << 9; // 6 Ground 8 Enemy 9 Dungeon1 5 UI
 
     Dungeon1Scene _scene;
@@ -26,7 +28,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
             switch (_state)
             {
                 case Define.State.Idle:
-                    anim.SetBool("Attacking", false); 
+                    anim.SetBool("Attacking", false);
                     anim.CrossFade("Idle", 0.1f);
                     break;
                 case Define.State.Moving:
@@ -34,7 +36,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
                     anim.CrossFade("Run", 0.005f);
                     break;
                 case Define.State.Attack:
-                    if (!anim.GetBool("Attacking")) 
+                    if (!anim.GetBool("Attacking"))
                     {
                         anim.SetBool("Attacking", true);
                         ComboAttackAnim(anim);
@@ -50,7 +52,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
         }
     }
 
-    override protected void Init() 
+    override protected void Init()
     {
         _scene = FindObjectOfType<BaseScene>().GetComponent<Dungeon1Scene>();
         _stat = gameObject.GetComponent<PlayerStat>() as PlayerStat;
@@ -70,27 +72,47 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
                 break;
             case Define.State.Attack:
                 {
-                    if (evt == Define.MouseState.ButtonUp) // ?좎룞?쇿뜝?뚯뒪 ?좎룞?쇿뜝?숈삕 ?좎룞?쇿뜝?숈삕 x
+                    if (evt == Define.MouseState.ButtonUp)
                         _stopAttack = true;
                 }
                 break;
         }
     }
 
+    //override protected void Attacking()
+    //{
+    //    if(_target)
+    //    if (_target != null)
+    //    {
+    //        float disEnemy = Vector3.Distance(_target.transform.position, transform.position);
+    //        Vector3 dirEnemy = (_target.transform.position - transform.position);
+    //        Quaternion lookEnemy = Quaternion.LookRotation(dirEnemy);
+
+    //        if (disEnemy <= 0.8f) 
+    //        {
+    //            transform.rotation = Quaternion.Slerp(transform.rotation, lookEnemy, 25 * Time.deltaTime);
+    //            State = Define.State.Attack;
+    //            return;
+    //        }
+    //    }
+    //}
+
     override protected void Attacking()
     {
-        if (_target != null)
+        if (_target == null)
         {
-            float disEnemy = Vector3.Distance(_target.transform.position, transform.position);
-            Vector3 dirEnemy = (_target.transform.position - transform.position);
-            Quaternion lookEnemy = Quaternion.LookRotation(dirEnemy);
+            return;
+        }
 
-            if (disEnemy <= 0.8f) 
-            {
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookEnemy, 25 * Time.deltaTime);
-                State = Define.State.Attack;
-                return;
-            }
+        float distanceToTarget = Vector3.Distance(_target.transform.position, transform.position);
+
+        if (distanceToTarget <= 0.8f)
+        {
+            Vector3 directionToTarget = (_target.transform.position - transform.position).normalized;
+            Quaternion lookAtTarget = Quaternion.LookRotation(directionToTarget);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 25 * Time.deltaTime);
+
+            State = Define.State.Attack;
         }
     }
 
@@ -115,7 +137,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
                     {
                         _target = hit.collider.gameObject;
                     }
-                
+
                     else
                     {
                         _target = null;
@@ -138,10 +160,38 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
     }
 
+    //protected override void Moving()
+    //{
+    //    Vector3 dir = _destPos - transform.position;
+    //    dir.y = 0; // 몬스터 위로 이동 x
+
+    //    Attacking();
+
+    //    if (dir.magnitude < 0.1f)
+    //    {
+    //        State = Define.State.Idle;
+    //    }
+    //    else
+    //    {
+    //        if (Physics.Raycast(transform.position + Vector3.up * 0.5f, dir, 1.0f, LayerMask.GetMask("Wall")))
+    //        {
+    //            if (Input.GetMouseButton(0) == false)
+    //                State = Define.State.Idle;
+    //            return;
+    //        }
+
+    //        // float moveDist = Mathf.Clamp(5 * Time.deltaTime, 0, dir.magnitude);
+    //        float moveDist = Mathf.Min(5 * Time.deltaTime, dir.magnitude);
+    //        transform.position += dir.normalized * moveDist;
+    //        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 25 * Time.deltaTime);
+    //    }
+
+    //}
+
     protected override void Moving()
     {
         Vector3 dir = _destPos - transform.position;
-        dir.y = 0; // 몬스터 위로 이동 x
+        dir.y = 0;
 
         Attacking();
 
@@ -153,16 +203,18 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
         {
             if (Physics.Raycast(transform.position + Vector3.up * 0.5f, dir, 1.0f, LayerMask.GetMask("Wall")))
             {
-                if (Input.GetMouseButton(0) == false)
+                if (!Input.GetMouseButton(0))
+                {
                     State = Define.State.Idle;
+                }
+
                 return;
             }
 
-            float moveDist = Mathf.Clamp(5 * Time.deltaTime, 0, dir.magnitude);
-            transform.position += dir.normalized * moveDist;
+            float moveDistance = Mathf.Min(5 * Time.deltaTime, dir.magnitude);
+            transform.position += dir.normalized * moveDistance;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 25 * Time.deltaTime);
         }
-
     }
 
     protected override void Dying()
@@ -189,44 +241,40 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
     void HitEvent()
     {
-        if (_target != null)
+
+        if (_target == null) return;
+
+        if (!_stopAttack)
         {
-           
-            if (!_stopAttack) 
-            {
-                Stat enemyStat = _target.GetComponent<Stat>();
-                enemyStat.Attacked(_stat);
+            Stat enemyStat = _target.GetComponent<Stat>();
+            enemyStat.Attacked(_stat);
 
-                _scene.ObjStat = enemyStat;
-                _scene.ObjName = enemyStat.name;
-                _scene.ObjNameText.gameObject.SetActive(true);
-                _scene.HpBar.gameObject.SetActive(true);
-            }
+            _scene.ObjStat = enemyStat;
+            _scene.ObjName = enemyStat.name;
+            Debug.Log(enemyStat.name);
+            _scene.ObjNameText.gameObject.SetActive(true);
+            _scene.HpBar.gameObject.SetActive(true);
+            State = Define.State.Attack;
         }
-
-        if (_stopAttack)
+        else//(_stopAttack)
         {
             _scene.HpBar.gameObject.SetActive(false);
             _scene.ObjNameText.gameObject.SetActive(false);
             swordEffect.Stop();
             State = Define.State.Idle;
         }
-        else
-        {
-            State = Define.State.Attack;
-        }
-
     }
+
 
     void AttackEffect()
     {
         swordEffect.Play();
-       
+
     }
 
-    void ComboAttackAnim(Animator anim) 
+    void ComboAttackAnim(Animator anim)
     {
-        
+
         if (anim.GetBool("Attacking"))
         {
             anim.Play("Slash1");

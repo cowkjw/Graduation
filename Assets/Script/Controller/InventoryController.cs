@@ -14,6 +14,8 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
     public ItemTooltip toolTip;
     Text _goldText;
 
+    int _inventorySize = 15;
+
     int sellSlotIdx;
     public bool clickInven;
 
@@ -22,7 +24,7 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
         clickInven = false;
         _inventory = Managers.Data.Inventory;
         _goldText = transform.GetChild(1).GetChild(0).GetComponent<Text>();
-        for (int idx = 0; idx < 16; idx++) // 시작전에 DataManager에 있는 숫자만큼 인벤토리를 채움
+        for (int idx = 0; idx < _inventorySize+1; idx++) // 시작전에 DataManager에 있는 숫자만큼 인벤토리를 채움
         {
             if (_inventory.ContainsKey(idx))
             {
@@ -51,7 +53,7 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
     public void AchiveItem(string itemName) // 아이템을 먹었을때
     {
         _idx = Managers.Data.InventoryCount;
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < _inventorySize; i++)
         {
             if (!Managers.Data.Inventory.ContainsKey(i))
             {
@@ -59,7 +61,7 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
                 break;
             }
         }
-        if (_idx > 15) // 인벤토리 꽉참
+        if (_idx > _inventorySize) // 인벤토리 꽉참
         {
             Debug.LogError("인벤토리가 꽉 찼습니다");
             return;

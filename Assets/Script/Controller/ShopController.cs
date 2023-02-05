@@ -16,24 +16,24 @@ public class ShopController : MonoBehaviour, IPointerDownHandler, IPointerExitHa
         Managers.Input.MouseAction += BuyingItem;
     }
 
+
     public void OnPointerDown(PointerEventData eventData)
     {
-        // 레이어가 인벤토리이고 클린된 곳의 태그가 슬롯이라면 ( 굳이 슬롯에도 태그를 넣어야할까?)
-        if (eventData.pointerPressRaycast.gameObject.CompareTag("Slot") &&
-            eventData.pointerPressRaycast.gameObject.layer == (int)Define.UI.Shop)
+        if (eventData.button != PointerEventData.InputButton.Left) 
+            return;
+
+        GameObject pointer = eventData.pointerPressRaycast.gameObject;
+        buySlot = pointer.gameObject.GetComponent<Slot>();
+
+        if (pointer.CompareTag("Slot") && pointer.layer == (int)Define.UI.Shop)
         {
-            Slot tempSlot = eventData.pointerPressRaycast.gameObject.GetComponent<Slot>();
-            if (tempSlot == null)
+            Slot slot = pointer.GetComponent<Slot>();
+            if (slot == null || !slot.inItem)
                 return;
-            buySlot = tempSlot;
-            if (tempSlot.inItem)
-            {
 
-                toolTip.sellOrPurchase.text = "우클릭 구매"; // 인벤토리 텍스 판매로 변경
-                toolTip.gameObject.SetActive(true); // 툴팁 활성화
-                toolTip.SetItemInfo(tempSlot._itemInfo.itemName); // 툴팁에 해당 슬롯 아이템 정보 설정
-            }
-
+            toolTip.sellOrPurchase.text = "우클릭 구매";
+            toolTip.gameObject.SetActive(true);
+            toolTip.SetItemInfo(slot._itemInfo.itemName);
         }
     }
 
@@ -41,23 +41,20 @@ public class ShopController : MonoBehaviour, IPointerDownHandler, IPointerExitHa
     {
         if (buySlot == null) // null 판단
             return;
-        if (evt == Define.MouseState.RButtonDown && buySlot.gameObject.layer == (int)Define.UI.Shop)
-        {
+        if (evt != Define.MouseState.RButtonDown && buySlot.gameObject.layer != (int)Define.UI.Shop)
+            return;
 
-            int haveGold = Convert.ToInt32(buySlot.transform.GetChild(0).GetComponent<Text>().text.Trim('G'));
-            InventoryController inventory = FindObjectOfType<InventoryController>();
-            inventory.AchiveItem(buySlot.GetComponent<Image>().sprite.name);
-            if (Managers.Data.Gold >= haveGold)
-            {
-                Debug.Log("구매 가능");
-                 
-            }
-            else
-            {
-                Debug.Log("구매 불가");
-            }
-            buySlot = null;
+        int haveGold = Convert.ToInt32(buySlot.transform.GetChild(0).GetComponent<Text>().text.Trim('G'));
+        InventoryController inventory = FindObjectOfType<InventoryController>();
+        if (Managers.Data.Gold < haveGold)
+        {
+            Debug.Log("구매 불가");
+           // return;
         }
+
+        inventory.AchiveItem(buySlot.GetComponent<Image>().sprite.name);
+        Debug.Log("구매 가능");
+        buySlot = null;
     }
 
 

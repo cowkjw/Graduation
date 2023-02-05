@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
     GameObject _player =null;
 
     [SerializeField]
-    Vector3 _delta = new Vector3(-9f, 9f, 3f); // ´õ ÇØÁÙ vector
+    Vector3 _delta = new Vector3(-9f, 9f, 3f); // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ vector
 
     Renderer _obstacleRenderer;
     Material _material;
@@ -17,7 +17,7 @@ public class CameraController : MonoBehaviour
 
     List<Renderer> _obsList;
    
-     public void SetPlayer(GameObject player) { _player = player; } // ¾À ÀÌµ¿½Ã¿¡ player set
+     public void SetPlayer(GameObject player) { _player = player; } // ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ã¿ï¿½ player set
 
 
     private void Start()
@@ -28,41 +28,35 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         RaycastHit hit;
-      
         if (Physics.Raycast(_player.transform.position, _delta, out hit, _delta.magnitude, LayerMask.GetMask("Wall")))
         {
-            
-            _obsList.Add(hit.transform.gameObject.GetComponentInChildren<Renderer>());
-           
-            foreach (var i in _obsList)
+            var obs = hit.transform.gameObject.GetComponentInChildren<Renderer>();
+            if (!_obsList.Contains(GetComponent<Renderer>()))
             {
-                _material = i.material;
+                _obsList.Add(GetComponent<Renderer>());
+                _material = GetComponent<Renderer>().material;
                 matColor = _material.color;
                 matColor.a = 0f;
                 _material.color = matColor;
             }
-           
         }
         else
         {
-            
-
-            foreach (var i in _obsList)
+            foreach (var renderer in _obsList)
             {
-                _material = i.material;
+                _material = renderer.material;
                 matColor = _material.color;
-                if(matColor.a == 0f)
+                if (matColor.a == 0f)
                 {
-                matColor.a = 1f;
-                _material.color = matColor;
-
+                    matColor.a = 1f;
+                    _material.color = matColor;
                 }
             }
             _obsList.Clear();
         }
     }
 
-    void LateUpdate() // Update ÈÄ¿¡ Ä«¸Þ¶ó°¡ ÀÌµ¿ÇÏµµ·Ï
+    void LateUpdate() 
     {
         transform.position = _player.transform.position + _delta;
         transform.LookAt(_player.transform);
