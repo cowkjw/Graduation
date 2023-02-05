@@ -1441,6 +1441,10 @@ PrefabInstance:
       value: SM_Env_RockPile_Square_06
       objectReference: {fileID: 0}
     - target: {fileID: 156408, guid: 51e254adee22b4d40bca863a6138e8af, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 156408, guid: 51e254adee22b4d40bca863a6138e8af, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -2400,7 +2404,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 2763774367042099228, guid: 26430834ea307e24083f9e03d7fc4f0f, type: 3}
---- !u!114 &1015919349
+--- !u!114 &1015919353
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2409,10 +2413,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1015919344}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1409e7537e38d59419cf33ec01d12b26, type: 3}
+  m_Script: {fileID: 11500000, guid: f28a277d3444b3f40b582270d05efa21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inItem: 0
+  Name: 
+  ItemType: 0
+  Id: 0
 --- !u!1001 &1032647300
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2423,6 +2429,10 @@ PrefabInstance:
     - target: {fileID: 162548, guid: 6fd36fc025171e6429f9d552f29abbff, type: 3}
       propertyPath: m_Name
       value: SM_Env_RockPile_Square_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 162548, guid: 6fd36fc025171e6429f9d552f29abbff, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 162548, guid: 6fd36fc025171e6429f9d552f29abbff, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -2850,6 +2860,10 @@ PrefabInstance:
     - target: {fileID: 160846, guid: cc039b3c30759d544adad101fc990039, type: 3}
       propertyPath: m_Name
       value: SM_Env_Rock_Flat_Large_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 160846, guid: cc039b3c30759d544adad101fc990039, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 160846, guid: cc039b3c30759d544adad101fc990039, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -4047,7 +4061,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 3961813556567730997, guid: 5e3ece6a343a3f04fa7bc7a3c7ce9e02, type: 3}
---- !u!114 &1764158539
+--- !u!114 &1764158543
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4056,10 +4070,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1764158534}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1409e7537e38d59419cf33ec01d12b26, type: 3}
+  m_Script: {fileID: 11500000, guid: f28a277d3444b3f40b582270d05efa21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inItem: 0
+  Name: 
+  ItemType: 0
+  Id: 0
 --- !u!4 &1770206405 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 484294, guid: 7473a5138ccf3844a9cd93d43675b88e, type: 3}
@@ -4671,7 +4687,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 6060968266713717718, guid: ca3efc9aae68e2c4b82574617a4bf176, type: 3}
---- !u!114 &2134199428
+--- !u!114 &2134199432
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4680,10 +4696,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2134199423}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1409e7537e38d59419cf33ec01d12b26, type: 3}
+  m_Script: {fileID: 11500000, guid: f28a277d3444b3f40b582270d05efa21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inItem: 0
+  Name: 
+  ItemType: 0
+  Id: 0
 --- !u!1001 &2714080427053894580
 PrefabInstance:
   m_ObjectHideFlags: 0
