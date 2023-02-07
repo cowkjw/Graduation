@@ -1,59 +1,87 @@
-{
-  "items": [
-    {
-      "Name": "Sword15",
-      "ItemType": 0,
-      "Id": 15
-    },
-    {
-      "Name": "Sword4",
-      "ItemType": 0,
-      "Id": 4
-    },
-    {
-      "Name": "Sword14",
-      "ItemType": 0,
-      "Id": 14
-    },
-    {
-      "Name": "Sword15",
-      "ItemType": 0,
-      "Id": 15
-    },
-    {
-      "Name": "Sword15",
-      "ItemType": 0,
-      "Id": 15
-    },
-    {
-      "Name": "Sword15",
-      "ItemType": 0,
-      "Id": 15
-    },
-    {
-      "Name": "Sword15",
-      "ItemType": 0,
-      "Id": 15
-    },
-    {
-      "Name": "Sword14",
-      "ItemType": 0,
-      "Id": 14
-    },
-    {
-      "Name": "Sword15",
-      "ItemType": 0,
-      "Id": 15
-    },
-    {
-      "Name": "Sword15",
-      "ItemType": 0,
-      "Id": 15
-    },
-    {
-      "Name": "Sword14",
-      "ItemType": 0,
-      "Id": 14
-    }
-  ]
-}
+[
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "Sword15",
+    "ItemType": 0,
+    "Id": 15
+  },
+  {
+    "Name": "Sword15",
+    "ItemType": 0,
+    "Id": 15
+  },
+  {
+    "Name": "Sword15",
+    "ItemType": 0,
+    "Id": 15
+  }
+]

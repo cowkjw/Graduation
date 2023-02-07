@@ -26,16 +26,23 @@ public class Slot : MonoBehaviour
         _itemInfo.ItemType = Define.ItemType.Equipment;
         _itemInfo.Id = -1;
 
-        if (!inItem)
+
+        _itemInfo.Name = GetComponent<Image>().sprite.name;
+        if(_itemInfo.Name == "emptySlot")
         {
-            _itemInfo.Name = "emptySlot";
-            this.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Etc/{_itemInfo.Name}");
+            inItem = false;
         }
-        else
-        {
-            _itemInfo.Name = GetComponent<Image>().sprite.name;
-            this.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Items/{_itemInfo.Name}");
-        }
+        this.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Items/{_itemInfo.Name}");
+        //if (!inItem)
+        //{
+        //    _itemInfo.Name = "emptySlot";
+        //    this.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Etc/{_itemInfo.Name}");
+        //}
+        //else
+        //{
+        //    _itemInfo.Name = GetComponent<Image>().sprite.name;
+        //    this.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Items/{_itemInfo.Name}");
+        //}
 
         //if (this.gameObject.layer == 15)
         //{

@@ -8,50 +8,32 @@ using UnityEngine.UI;
 public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerExitHandler
 {
     public Slot[] Slots;
-    int _idx;
 
-    List<Contents.Item> testInven = new List<Contents.Item>();
+    List<Contents.Item> testInven;
     Dictionary<int, Item> _inventory;
     public ItemTooltip toolTip;
     Text _goldText;
-
-    int _inventorySize = 15;
-
+    int inventorSize = 15;
     int sellSlotIdx;
     public bool clickInven;
 
     void OnEnable() // 앞에서 다 초기화되면 ( 이벤트 루프 오류 )
     {
         clickInven = false;
-        _inventory = Managers.Data.Inventory;
+        testInven = Managers.Data.InvenList;
         _goldText = transform.GetChild(1).GetChild(0).GetComponent<Text>();
 
-        for (int idx = 0; idx < _inventorySize + 1; idx++) // 시작전에 DataManager에 있는 숫자만큼 인벤토리를 채움
+        for (int idx = 0; idx < testInven.Count; idx++) // 시작전에 DataManager에 있는 숫자만큼 인벤토리를 채움
         {
-            if (_inventory.ContainsKey(idx))
-            {
-                Slot slot = Slots[idx];// 슬롯 가져옴
+            Slot slot = Slots[idx];// 슬롯 가져옴
 
-                slot.gameObject.SetActive(true); // 활성화
-                slot.inItem = true;
-                slot.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Items/{_inventory[idx].Name}"); // 해당 슬롯에 이미지를 바꿈
-                slot._itemInfo.Name = _inventory[idx].Name; // 아이템 이름 설정
-            }
+           // slot.gameObject.SetActive(true); // 활성화
+            slot.inItem = true;
+            slot.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Items/{testInven[idx].Name}"); // 해당 슬롯에 이미지를 바꿈
+            slot._itemInfo.Name = testInven[idx].Name; // 아이템 이름 설정
         }
 
 
-        //for (int idx = 0; idx < _inventorySize+1; idx++) // 시작전에 DataManager에 있는 숫자만큼 인벤토리를 채움
-        //{
-        //    if (_inventory.ContainsKey(idx))
-        //    {
-        //        Slot slot = Slots[idx];// 슬롯 가져옴
-
-        //        slot.gameObject.SetActive(true); // 활성화
-        //        slot.inItem = true;
-        //        slot.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Items/{_inventory[idx].Name}"); // 해당 슬롯에 이미지를 바꿈
-        //        slot._itemInfo.Name = _inventory[idx].Name; // 아이템 이름 설정
-        //    }
-        //}
     }
 
     void Start()
@@ -67,72 +49,31 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
     }
 
 
-    public void AchiveItem(Contents.Item item) // 아이템을 먹었을때
+    public bool AddItem(Contents.Item item) // 아이템을 먹었을때
     {
         int idx = 0;
-        foreach(var checkSlot in Slots)
+        foreach (var checkSlot in Slots)
         {
-            if (checkSlot.inItem)
+            if (checkSlot._itemInfo.Id!=0)
                 idx++;
             else break;
         }
-        Managers.Data.InventoryDataChange(_idx, item);
-      //  _idx = Managers.Data.InvenDict.Count;
-        //for (int i = 0; i < _inventorySize; i++)
-        //{
-        //    if (!Managers.Data.Inventory.ContainsKey(i))
-        //    {
-        //        _idx = i;
-        //        break;
-        //    }
 
-        //}
-        //if (_idx > _inventorySize) // 인벤토리 꽉참
-        //{
-        //    Debug.LogError("인벤토리가 꽉 찼습니다");
-        //    return;
-        //}
+        if (idx > inventorSize)
+        {
+            Debug.LogError("인벤토리가 꽉 찼습니다");
+            return false ;
+        }
+        Managers.Data.InventoryDataChange(idx, item);
 
-
-
-        Slot slot = Slots[_idx];// 슬롯 가져옴
+        Slot slot = Slots[idx];// 슬롯 가져옴
         slot.gameObject.SetActive(true); // 활성화
         slot.inItem = true; // 아이템이 들어갔음
         slot.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Items/{item.Name}"); // 해당 슬롯에 이미지를 바꿈
         slot._itemInfo.Name = item.Name; // 아이템 정보에 이름 전달
-        //_idx++;
 
+        return true;
     }
-
-    //public void AchiveItem(Item item) // 아이템을 먹었을때
-    //{
-    //    _idx = Managers.Data.InventoryCount;
-    //    for (int i = 0; i < _inventorySize; i++)
-    //    {
-    //        if (!Managers.Data.Inventory.ContainsKey(i))
-    //        {
-    //            _idx = i;
-    //            break;
-    //        }
-
-    //    }
-    //    if (_idx > _inventorySize) // 인벤토리 꽉참
-    //    {
-    //        Debug.LogError("인벤토리가 꽉 찼습니다");
-    //        return;
-    //    }
-
-
-    //    Managers.Data.InventoryDataChange(_idx, item);
-
-    //    Slot slot = Slots[_idx];// 슬롯 가져옴
-    //    slot.gameObject.SetActive(true); // 활성화
-    //    slot.inItem = true; // 아이템이 들어갔음
-    //    slot.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Items/{item.Name}"); // 해당 슬롯에 이미지를 바꿈
-    //    slot._itemInfo.Name = item.Name; // 아이템 정보에 이름 전달
-    //    _idx++;
-
-    //}
 
     public void Sell(Define.MouseState evt)
     {
@@ -140,17 +81,17 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
             return;
         if (evt == Define.MouseState.RButtonDown && GameObject.FindObjectOfType<TownScene>().NPCUI.activeSelf) // 해당 evt가 우클릭이고 상점 켜져있고
         {
-           if (!clickInven) return;
+            if (!clickInven) return;
             Slot sellSlot = Slots[sellSlotIdx]; // 해당 판매할 오브젝트
-            
-            if (sellSlot && sellSlot.inItem&&sellSlot.gameObject.layer == (int)Define.UI.Inventory) // null 체크
+
+            if (sellSlot && sellSlot.inItem && sellSlot.gameObject.layer == (int)Define.UI.Inventory) // null 체크
             {
-                sellSlot.GetComponent<Image>().sprite = Resources.Load<Sprite>("Etc/emptySlot"); // 빈 슬롯 이미지로 변경
+                sellSlot.GetComponent<Image>().sprite = Resources.Load<Sprite>("items/emptySlot"); // 빈 슬롯 이미지로 변경
                 sellSlot._itemInfo.Name = "emptySlot";
                 sellSlot.inItem = false;
-                Managers.Data.Inventory.Remove(sellSlotIdx); // 해당 인덱스 아이템 삭제하고 해당 슬롯 빈 상태로 
+                Managers.Data.InventoryDataChange(sellSlotIdx,new Contents.Item(),false); // 해당 인덱스 아이템 삭제하고 해당 슬롯 빈 상태로 
             }
-           // sellSlotIdx = 0;
+
             if (toolTip.gameObject.activeSelf)
             {
                 toolTip.gameObject.SetActive(false);

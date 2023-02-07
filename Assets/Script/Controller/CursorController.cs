@@ -68,18 +68,17 @@ public class CursorController : MonoBehaviour
             {
                 return;
             }
-            if (Managers.Data.InventoryCount < 16)
-            {
-                Item item = hit.collider.GetComponent<Item>();
-                Contents.Item tempItem = new Contents.Item();
-                tempItem.Name = item.Name;
-                tempItem.Id = item.Id;
-                tempItem.ItemType = item.ItemType;
-                //_inventory.AchiveItem(hit.collider.GetComponent<Item>());
-                _inventory.AchiveItem(tempItem);
+            //////////////////다시 수정하기
+            Item item = hit.collider.GetComponent<Item>();
+            Contents.Item tempItem = new Contents.Item();
+            tempItem.Name = item.Name;
+            tempItem.Id = item.Id;
+            tempItem.ItemType = item.ItemType;
+            if (_inventory.AddItem(tempItem))
                 Destroy(hit.collider.gameObject);
+            //_inventory.AchiveItem(hit.collider.GetComponent<Item>());
+            ////////////////////////////
 
-            }
         }
 
     }

@@ -12,7 +12,7 @@ namespace Contents
     [Serializable]
     public class Item
     {
-        public string Name { get; set; }
+        public string Name = "emptySlot"; 
         public Define.ItemType ItemType { get; set; }
         public int Id{ get; set; } // 아이템 아이디
     }

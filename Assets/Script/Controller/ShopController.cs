@@ -52,7 +52,7 @@ public class ShopController : MonoBehaviour, IPointerDownHandler, IPointerExitHa
            // return;
         }
 
-        inventory.AchiveItem(buySlot._itemInfo);
+        inventory.AddItem(buySlot._itemInfo);
         Debug.Log("구매 가능");
         buySlot = null;
     }
