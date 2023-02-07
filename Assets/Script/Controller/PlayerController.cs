@@ -81,20 +81,20 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
     //override protected void Attacking()
     //{
-    //    if(_target)
-    //    if (_target != null)
-    //    {
-    //        float disEnemy = Vector3.Distance(_target.transform.position, transform.position);
-    //        Vector3 dirEnemy = (_target.transform.position - transform.position);
-    //        Quaternion lookEnemy = Quaternion.LookRotation(dirEnemy);
-
-    //        if (disEnemy <= 0.8f) 
+    //    if (_target)
+    //        if (_target != null)
     //        {
-    //            transform.rotation = Quaternion.Slerp(transform.rotation, lookEnemy, 25 * Time.deltaTime);
-    //            State = Define.State.Attack;
-    //            return;
+    //            float disEnemy = Vector3.Distance(_target.transform.position, transform.position);
+    //            Vector3 dirEnemy = (_target.transform.position - transform.position);
+    //            Quaternion lookEnemy = Quaternion.LookRotation(dirEnemy);
+
+    //            if (disEnemy <= 0.8f)
+    //            {
+    //                transform.rotation = Quaternion.Slerp(transform.rotation, lookEnemy, 25 * Time.deltaTime);
+    //                State = Define.State.Attack;
+    //                return;
+    //            }
     //        }
-    //    }
     //}
 
     override protected void Attacking()

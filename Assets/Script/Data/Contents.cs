@@ -12,9 +12,9 @@ namespace Contents
     [Serializable]
     public class Item
     {
-        public string Name;
-        public Define.ItemType ItemType;
-        public int Id; // 아이템 아이디
+        public string Name { get; set; }
+        public Define.ItemType ItemType { get; set; }
+        public int Id{ get; set; } // 아이템 아이디
     }
     [Serializable]
     public class Stat
@@ -43,12 +43,12 @@ namespace Contents
 
 
     [Serializable]
-    public class InventoryData : IReader<int, Item>
+    public class InventoryData : ILoader<int, Item>
     {
-        
+
         public List<Item> items = new List<Item>();
 
-        public Dictionary<int, Item> WriteDict()
+        public Dictionary<int, Item> MakeDict()
         {
             Dictionary<int, Item> dict = new Dictionary<int, Item>();
             int idx = 0;
@@ -58,23 +58,10 @@ namespace Contents
             }
             return dict;
         }
+
     }
 
-    //[Serializable]
-    //public class ItemData //: IReader<int,Item> // 수정하기
-    //{
-    //    public List<Item> items = new List<Item>();
+ 
 
-    //    void WriteDict()
-    //    {
-    //        Dictionary<int, Item> dict = new Dictionary<int, Item>();
-
-    //        int idx = 0;
-
-    //        foreach(Item item in items)
-    //        {
-    //            dict.Add(idx++, item);
-    //        }
-    //    }
-    //}
+   
 }

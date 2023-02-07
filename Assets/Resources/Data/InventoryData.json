@@ -1,12 +1,59 @@
-[
-  {
-    "Name": "1",
-    "ItemType": 0,
-    "Id": 4
-  },
-  {
-    "Name": "2",
-    "ItemType": 0,
-    "Id": 4
-  }
-]
+{
+  "items": [
+    {
+      "Name": "Sword15",
+      "ItemType": 0,
+      "Id": 15
+    },
+    {
+      "Name": "Sword4",
+      "ItemType": 0,
+      "Id": 4
+    },
+    {
+      "Name": "Sword14",
+      "ItemType": 0,
+      "Id": 14
+    },
+    {
+      "Name": "Sword15",
+      "ItemType": 0,
+      "Id": 15
+    },
+    {
+      "Name": "Sword15",
+      "ItemType": 0,
+      "Id": 15
+    },
+    {
+      "Name": "Sword15",
+      "ItemType": 0,
+      "Id": 15
+    },
+    {
+      "Name": "Sword15",
+      "ItemType": 0,
+      "Id": 15
+    },
+    {
+      "Name": "Sword14",
+      "ItemType": 0,
+      "Id": 14
+    },
+    {
+      "Name": "Sword15",
+      "ItemType": 0,
+      "Id": 15
+    },
+    {
+      "Name": "Sword15",
+      "ItemType": 0,
+      "Id": 15
+    },
+    {
+      "Name": "Sword14",
+      "ItemType": 0,
+      "Id": 14
+    }
+  ]
+}
