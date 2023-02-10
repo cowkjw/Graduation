@@ -1,12 +1,87 @@
 [
   {
-    "Name": "1",
+    "Name": "emptySlot",
     "ItemType": 0,
-    "Id": 4
+    "Id": 0
   },
   {
-    "Name": "2",
+    "Name": "emptySlot",
     "ItemType": 0,
-    "Id": 4
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "emptySlot",
+    "ItemType": 0,
+    "Id": 0
+  },
+  {
+    "Name": "Sword15",
+    "ItemType": 0,
+    "Id": 15
+  },
+  {
+    "Name": "Sword15",
+    "ItemType": 0,
+    "Id": 15
+  },
+  {
+    "Name": "Sword15",
+    "ItemType": 0,
+    "Id": 15
   }
 ]
