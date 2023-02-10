@@ -33,7 +33,7 @@ public class ShopController : MonoBehaviour, IPointerDownHandler, IPointerExitHa
 
             toolTip.sellOrPurchase.text = "우클릭 구매";
             toolTip.gameObject.SetActive(true);
-            toolTip.SetItemInfo(slot._itemInfo.itemName);
+            toolTip.SetItemInfo(slot._itemInfo.Name);
         }
     }
 
@@ -52,7 +52,7 @@ public class ShopController : MonoBehaviour, IPointerDownHandler, IPointerExitHa
            // return;
         }
 
-        inventory.AchiveItem(buySlot.GetComponent<Image>().sprite.name);
+        inventory.AddItem(buySlot._itemInfo);
         Debug.Log("구매 가능");
         buySlot = null;
     }

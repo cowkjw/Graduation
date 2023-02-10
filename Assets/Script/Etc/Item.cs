@@ -18,7 +18,7 @@ public class Item : MonoBehaviour
         Debug.Log("아이템 사용");
     }
 
-    void Awake()
+    void Start()
     {
         Name = gameObject.name;
         SetItemID();
@@ -26,13 +26,26 @@ public class Item : MonoBehaviour
 
     public void SetItemID()
     {
-        MatchCollection matches = Regex.Matches(name, @"\d+");
+        MatchCollection matches = Regex.Matches(Name, @"\d+");
         string result = "";
         foreach (Match match in matches)
         {
             result += match.Value;
         }
-       Id = int.Parse(result);
+        if (!int.TryParse(result, out int parsedId))
+        {
+            Debug.LogError("Could not parse item id from name: " + Name);
+            return;
+        }
+
+        Id = parsedId;
+    }
+
+    public Item(string Name, Define.ItemType ItemType)
+    {
+        this.Name = Name;
+        this.ItemType = ItemType;
+
     }
 
 }

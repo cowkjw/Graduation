@@ -2,11 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Contents
 {
-
 
 
     [Serializable]
@@ -41,40 +41,14 @@ namespace Contents
         }
     }
 
-
     [Serializable]
-    public class InventoryData : IReader<int, Item>
+    public class InventoryData : ILoader<int, Item>
     {
-        
-        public List<Item> items = new List<Item>();
-
-        public Dictionary<int, Item> WriteDict()
+        public List<Dictionary<int, Item>> items = new List<Dictionary<int, Item>>();
+        public Dictionary<int, Item> MakeDict()
         {
-            Dictionary<int, Item> dict = new Dictionary<int, Item>();
-            int idx = 0;
-            foreach (Item item in items)
-            {
-                dict.Add(idx++, item);
-            }
-            return dict;
+            return items[0];
         }
     }
 
-    //[Serializable]
-    //public class ItemData //: IReader<int,Item> // 수정하기
-    //{
-    //    public List<Item> items = new List<Item>();
-
-    //    void WriteDict()
-    //    {
-    //        Dictionary<int, Item> dict = new Dictionary<int, Item>();
-
-    //        int idx = 0;
-
-    //        foreach(Item item in items)
-    //        {
-    //            dict.Add(idx++, item);
-    //        }
-    //    }
-    //}
 }
