@@ -42,17 +42,10 @@ namespace Contents
     }
 
     [Serializable]
-    public class InventoryData : IReader<int, Item>
+    public class InventoryData : ILoader<int, Item>
     {
-
-        
-        public List<Item> items = new List<Item>();
-
-
         public List<Dictionary<int, Item>> items = new List<Dictionary<int, Item>>();
-
-
-        public Dictionary<int, Item> WriteDict()
+        public Dictionary<int, Item> MakeDict()
         {
             return items[0];
         }

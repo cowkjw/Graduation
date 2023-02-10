@@ -27,7 +27,7 @@ public class DataManager
     public void Init()
     {
         StatDict = LoadJson<Contents.StatData, int, Contents.Stat>("StatData").MakeDict();
-        InvenDict = LoadJson<Contents.InventoryData, int, Contents.Stat>("StatData").MakeDict();
+        InvenDict = LoadJson<Contents.InventoryData, int, Contents.Stat>("InventoryData").MakeDict();
 
     }
 
