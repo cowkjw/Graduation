@@ -11,6 +11,7 @@ public interface ILoader<Key, Value>{}
 public class DataManager
 {
 
+    public Dictionary<int, Contents.Item> ItemDict = new Dictionary<int, Contents.Item>();
     public Dictionary<int, Contents.Stat> StatDict = new Dictionary<int, Contents.Stat>();
     public Dictionary<int, Contents.Item> InvenDict = new Dictionary<int, Contents.Item>();
 
@@ -28,7 +29,7 @@ public class DataManager
     {
         StatDict = LoadJson<Contents.StatData, int, Contents.Stat>("StatData").MakeDict();
         InvenDict = LoadJson<Contents.InventoryData, int, Contents.Stat>("InventoryData").MakeDict();
-
+        ItemDict = LoadJson<Contents.ItemData, int, Contents.Item>("ItemData").MakeDict();
     }
 
     public void InventoryDataChange(int idx, Contents.Item item = null, bool add = true) // 기본적으로 아이템을 넣는 bool값 

@@ -69,13 +69,16 @@ public class CursorController : MonoBehaviour
                 return;
             }
             //////////////////다시 수정하기
-            Item item = hit.collider.GetComponent<Item>();
-            Contents.Item tempItem = new Contents.Item();
-            tempItem.Name = item.Name;
-            tempItem.Id = item.Id;
-            tempItem.ItemType = item.ItemType;
-            if (_inventory.AddItem(tempItem))
-                Destroy(hit.collider.gameObject);
+            int itemID = hit.collider.GetComponent<Item>().Id;
+            if(Managers.Data.ItemDict.TryGetValue(itemID,out Contents.Item tempItem))
+            {
+                if (_inventory.AddItem(tempItem))
+                    Destroy(hit.collider.gameObject);
+            }
+            else
+            {
+                Debug.LogError("존재하지 않는 아이템 아이디입니다.");
+            }
             //_inventory.AchiveItem(hit.collider.GetComponent<Item>());
             ////////////////////////////
 

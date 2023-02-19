@@ -12,9 +12,11 @@ namespace Contents
     [Serializable]
     public class Item
     {
-        public string Name;
+        public string Name { get; set; } = "emptySlot";
         public Define.ItemType ItemType;
-        public int Id; // 아이템 아이디
+        public int Attack = 0;
+        public int Price = 0;
+        public int Id { get; set; } = -1; // 아이템 아이디
     }
     [Serializable]
     public class Stat
@@ -48,6 +50,16 @@ namespace Contents
         public Dictionary<int, Item> MakeDict()
         {
             return items[0];
+        }
+    }
+
+    [Serializable]
+    public class ItemData : ILoader<int, Item>
+    {
+        public List<Dictionary<int, Item>>data = new List<Dictionary<int, Item>>();
+        public Dictionary<int, Item> MakeDict()
+        {
+            return data[0];
         }
     }
 

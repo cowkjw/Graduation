@@ -8,44 +8,54 @@ using UnityEngine.UI;
 
 
 public class Item : MonoBehaviour
-{ 
-    public string Name;
-    public Define.ItemType ItemType;
-    public int Id; // 아이템 아이디
+{
+    protected string itemName;
+    protected Define.ItemType itemType;
+    protected int id; // 아이템 아이디
+    protected int price;
+
+    public string Name { get { return itemName; } }
+    public Define.ItemType ItemType { get { return itemType; } }
+    public int Id { get { return id; } }
+    public int Price { get { return price; } }
 
     public virtual void UseItem()
     {
         Debug.Log("아이템 사용");
     }
 
-    void Start()
+    protected virtual void Start()
     {
-        Name = gameObject.name;
-        SetItemID();
+        Init();
     }
 
-    public void SetItemID()
+    void Init()
     {
-        MatchCollection matches = Regex.Matches(Name, @"\d+");
-        string result = "";
-        foreach (Match match in matches)
+        if (Managers.Data.ItemDict.TryGetValue(int.Parse(gameObject.name), out Contents.Item tempItem))
         {
-            result += match.Value;
+            this.itemName = tempItem.Name;
+            this.itemType = tempItem.ItemType;
+            this.id = tempItem.Id;
+            this.price = tempItem.Price;
         }
-        if (!int.TryParse(result, out int parsedId))
-        {
-            Debug.LogError("Could not parse item id from name: " + Name);
-            return;
-        }
-
-        Id = parsedId;
     }
 
-    public Item(string Name, Define.ItemType ItemType)
-    {
-        this.Name = Name;
-        this.ItemType = ItemType;
+    //public void SetItemID()
+    //{
+    //    MatchCollection matches = Regex.Matches(Name, @"\d+");
+    //    string result = "";
+    //    foreach (Match match in matches)
+    //    {
+    //        result += match.Value;
+    //    }
+    //    if (!int.TryParse(result, out int parsedId))
+    //    {
+    //        Debug.LogError("Could not parse item id from name: " + Name);
+    //        return;
+    //    }
 
-    }
+    //   // Id = parsedId;
+    //}
+
 
 }

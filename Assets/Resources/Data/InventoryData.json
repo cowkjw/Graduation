@@ -1,75 +1,33 @@
 {
   "items": [
     {
-      "0": {
-        "Name": "Sword14",
-        "ItemType": 0,
-        "Id": 14
-      },
-      "7": {
-        "Name": "Sword4",
-        "ItemType": 0,
-        "Id": 4
-      },
-      "5": {
-        "Name": "Sword15",
-        "ItemType": 0,
-        "Id": -1
-      },
-      "1": {
-        "Name": "Sword15",
-        "ItemType": 0,
-        "Id": -1
-      },
       "2": {
-        "Name": "Sword15",
         "ItemType": 0,
-        "Id": -1
-      },
-      "8": {
-        "Name": "Sword15",
-        "ItemType": 0,
-        "Id": -1
-      },
-      "9": {
-        "Name": "Sword15",
-        "ItemType": 0,
-        "Id": -1
-      },
-      "4": {
+        "Attack": 10,
+        "Price": 3000,
         "Name": "Sword4",
-        "ItemType": 0,
-        "Id": -1
+        "Id": 100
       },
       "3": {
+        "ItemType": 0,
+        "Attack": 20,
+        "Price": 15000,
         "Name": "Sword14",
-        "ItemType": 0,
-        "Id": -1
+        "Id": 101
       },
-      "12": {
-        "Name": "Sword15",
+      "0": {
         "ItemType": 0,
-        "Id": -1
+        "Attack": 20,
+        "Price": 15000,
+        "Name": "Sword14",
+        "Id": 101
       },
-      "6": {
+      "1": {
+        "ItemType": 0,
+        "Attack": 10,
+        "Price": 3000,
         "Name": "Sword4",
-        "ItemType": 0,
-        "Id": -1
-      },
-      "14": {
-        "Name": "Sword15",
-        "ItemType": 0,
-        "Id": -1
-      },
-      "10": {
-        "Name": "Sword14",
-        "ItemType": 0,
-        "Id": 14
-      },
-      "11": {
-        "Name": "Sword15",
-        "ItemType": 0,
-        "Id": 15
+        "Id": 100
       }
     }
   ]
