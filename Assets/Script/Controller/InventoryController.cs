@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,8 +16,6 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
 
     public ItemTooltip toolTip;
     Text _goldText;
-
-    int _inventorySize = 15;
 
     int sellSlotIdx;
     bool clickInven = false;
@@ -61,31 +60,23 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
 
     public bool AddItem(Contents.Item item) // 아이템을 먹었을때
     {
-        int idx = 0;
-        for (int i = 0; i < Slots.Length; i++)
-        {
-            if (Slots[i].inItem)
-                idx++;
-            else break;
 
-        }
-        if (idx > _inventorySize) // 인벤토리 꽉참
+        int idx = Array.FindIndex(Slots, slot => !slot.inItem); // 람다식 사용
+        if (idx < 0) // 없으면 -1 반환하기 때문
         {
-            Debug.LogError("인벤토리가 꽉 찼습니다");
-
+            Debug.LogError("인벤토리 꽉참");
             return false;
         }
 
         Managers.Data.InventoryDataChange(idx, item);
 
-        Slot slot = Slots[idx].GetComponent<Slot>();// 슬롯 가져옴
-        slot.gameObject.SetActive(true); // 활성화
-        slot.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Items/{item.Id}"); // 해당 슬롯에 이미지를 바꿈
-        slot.ItemInfo.Name = item.Name; // 아이템 정보에 이름 전달
-        slot.GetComponent<Slot>().inItem = true; // 아이템이 들어갔음
+        Slot slot = Slots[idx];
+        slot.ItemInfo.Name = item.Name;
+        slot.gameObject.SetActive(true);
+        slot.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Items/{item.Id}");
+        slot.inItem = true;
 
         return true;
-
     }
 
     public void Sell(Define.MouseState evt)
@@ -95,8 +86,9 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
         if (evt != Define.MouseState.RButtonDown || !GameObject.FindObjectOfType<TownScene>().NPCUI.activeSelf) // 해당 evt가 우클릭이고 상점 켜져있고
             return;
         if (!clickInven) return;
+        if (sellSlotIdx == -1) return;
 
-        Slot sellSlot = Slots[sellSlotIdx].transform.gameObject.GetComponent<Slot>(); // 해당 판매할 오브젝트
+        Slot sellSlot = Slots[sellSlotIdx].GetComponent<Slot>(); // 해당 판매할 오브젝트
 
         if (sellSlot && sellSlot.inItem && sellSlot.gameObject.layer == (int)Define.UI.Inventory) // null 체크
         {
@@ -152,5 +144,6 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
     {
         toolTip.gameObject.SetActive(false);
         clickInven = false;
+        sellSlotIdx = -1;
     }
 }

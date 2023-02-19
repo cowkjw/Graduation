@@ -99,21 +99,31 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
     override protected void Attacking()
     {
-        if (_target == null)
+
+        if (_target == null || !((_target.transform.position - transform.position).sqrMagnitude <= 0.64f)) // 제곱근 연산 줄임
         {
             return;
         }
 
-        float distanceToTarget = Vector3.Distance(_target.transform.position, transform.position);
+        Quaternion lookAtTarget = Quaternion.LookRotation((_target.transform.position - transform.position).normalized);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 25 * Time.deltaTime);
 
-        if (distanceToTarget <= 0.8f)
-        {
-            Vector3 directionToTarget = (_target.transform.position - transform.position).normalized;
-            Quaternion lookAtTarget = Quaternion.LookRotation(directionToTarget);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 25 * Time.deltaTime);
+        State = Define.State.Attack;
+        //if (_target == null)
+        //{
+        //    return;
+        //}
 
-            State = Define.State.Attack;
-        }
+        //float distanceToTarget = Vector3.Distance(_target.transform.position, transform.position);
+
+        //if (distanceToTarget <= 0.8f)
+        //{
+        //    Vector3 directionToTarget = (_target.transform.position - transform.position).normalized;
+        //    Quaternion lookAtTarget = Quaternion.LookRotation(directionToTarget);
+        //    transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 25 * Time.deltaTime);
+
+        //    State = Define.State.Attack;
+        //}
     }
 
     void EnemyTargetAndState(Define.MouseState evt)

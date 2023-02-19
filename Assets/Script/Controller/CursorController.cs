@@ -63,14 +63,14 @@ public class CursorController : MonoBehaviour
         // 아이템이라면
         if (hit.collider.gameObject.layer == 11 && evt == Define.MouseState.LButtonDown)
         {
-            Vector3 dis = hit.collider.transform.position - Managers.Game._Player.transform.position;
+            Vector3 dis = hit.collider.transform.position - Managers.Game.Player.transform.position;
             if (dis.magnitude > 2f)
             {
                 return;
             }
             //////////////////다시 수정하기
             int itemID = hit.collider.GetComponent<Item>().Id;
-            if(Managers.Data.ItemDict.TryGetValue(itemID,out Contents.Item tempItem))
+            if (Managers.Data.ItemDict.TryGetValue(itemID, out Contents.Item tempItem))
             {
                 if (_inventory.AddItem(tempItem))
                     Destroy(hit.collider.gameObject);
@@ -94,27 +94,8 @@ public class CursorController : MonoBehaviour
 
         if (raycastHit)
         {
-            if (hit.collider.gameObject.layer == 8)
-            {
-
-
-                if (_cursorType != Define.CursorType.Attack)
-                {
-                    Cursor.SetCursor(_attackCursor, new Vector2(_attackCursor.width / 5, 0), CursorMode.Auto);
-                    _cursorType = Define.CursorType.Attack;
-                }
-
-            }
-            else
-            {
-                if (_cursorType != Define.CursorType.Arrow)
-
-                {
-                    Cursor.SetCursor(_idleCursor, new Vector2(_idleCursor.width / 5, 0), CursorMode.Auto);
-                    _cursorType = Define.CursorType.Arrow;
-                }
-            }
-
+            Cursor.SetCursor(hit.collider.gameObject.layer == 8 ? _attackCursor : _idleCursor, new Vector2(_idleCursor.width / 5, 0), CursorMode.Auto);
+            _cursorType = hit.collider.gameObject.layer == 8 ? Define.CursorType.Attack : Define.CursorType.Arrow;
         }
     }
 

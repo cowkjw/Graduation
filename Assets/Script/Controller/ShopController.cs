@@ -19,8 +19,6 @@ public class ShopController : MonoBehaviour, IPointerDownHandler, IPointerExitHa
             price.text = GetComponent<Slot>().ItemInfo.Price + "G";
         }
 
-
-        // price = Managers.Data.ItemDict.TryGetValue()
         Managers.Input.MouseAction -= BuyingItem;
         Managers.Input.MouseAction += BuyingItem;
     }
@@ -50,7 +48,7 @@ public class ShopController : MonoBehaviour, IPointerDownHandler, IPointerExitHa
     {
         if (buySlot == null) // null 판단
             return;
-        if (evt != Define.MouseState.RButtonDown && buySlot.gameObject.layer != (int)Define.UI.Shop)
+        if (evt != Define.MouseState.RButtonDown || buySlot.gameObject.layer != (int)Define.UI.Shop)
             return;
 
         int itemPrice = buySlot.ItemInfo.Price;
@@ -63,6 +61,7 @@ public class ShopController : MonoBehaviour, IPointerDownHandler, IPointerExitHa
         }
 
         inventory.AddItem(buySlot.ItemInfo);
+        Managers.Data.Gold -= itemPrice;
         Debug.Log("구매 가능");
         buySlot = null;
     }

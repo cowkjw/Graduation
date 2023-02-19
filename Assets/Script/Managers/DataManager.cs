@@ -16,7 +16,7 @@ public class DataManager
     public Dictionary<int, Contents.Item> InvenDict = new Dictionary<int, Contents.Item>();
 
 
-    public PlayerStat PlayerStat { get { return Managers.Game._Player.gameObject.GetComponent<PlayerStat>(); } }
+    public PlayerStat PlayerStat { get { return Managers.Game.Player.gameObject.GetComponent<PlayerStat>(); } }
 
     int _gold;
     public int Gold { get { return _gold; } set { _gold = value; } }
@@ -36,8 +36,7 @@ public class DataManager
     {
         if (add)
         {
-            if (!InvenDict.ContainsKey(idx))
-                InvenDict.Add(idx, item);
+            InvenDict.TryAdd(idx, item); 
         }
         else
         {
