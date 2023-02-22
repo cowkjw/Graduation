@@ -9,9 +9,16 @@ public class ShopController : MonoBehaviour, IPointerDownHandler, IPointerExitHa
 {
     public ItemTooltip toolTip;
     Slot buySlot = null;
+    Text price;
 
     void Start()
     {
+        if (transform.childCount != 0)
+        {
+            price = transform.GetChild(0).GetComponent<Text>();
+            price.text = GetComponent<Slot>().ItemInfo.Price + "G";
+        }
+
         Managers.Input.MouseAction -= BuyingItem;
         Managers.Input.MouseAction += BuyingItem;
     }
@@ -19,7 +26,7 @@ public class ShopController : MonoBehaviour, IPointerDownHandler, IPointerExitHa
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (eventData.button != PointerEventData.InputButton.Left) 
+        if (eventData.button != PointerEventData.InputButton.Left)
             return;
 
         GameObject pointer = eventData.pointerPressRaycast.gameObject;
@@ -33,7 +40,7 @@ public class ShopController : MonoBehaviour, IPointerDownHandler, IPointerExitHa
 
             toolTip.sellOrPurchase.text = "우클릭 구매";
             toolTip.gameObject.SetActive(true);
-            toolTip.SetItemInfo(slot._itemInfo.Name);
+            toolTip.SetItemInfo(slot.ItemInfo.Name);
         }
     }
 
@@ -41,18 +48,20 @@ public class ShopController : MonoBehaviour, IPointerDownHandler, IPointerExitHa
     {
         if (buySlot == null) // null 판단
             return;
-        if (evt != Define.MouseState.RButtonDown && buySlot.gameObject.layer != (int)Define.UI.Shop)
+        if (evt != Define.MouseState.RButtonDown || buySlot.gameObject.layer != (int)Define.UI.Shop)
             return;
 
-        int haveGold = Convert.ToInt32(buySlot.transform.GetChild(0).GetComponent<Text>().text.Trim('G'));
+        int itemPrice = buySlot.ItemInfo.Price;
+        //int itemPrice = Convert.ToInt32(buySlot.transform.GetChild(0).GetComponent<Text>().text.Trim('G'));
         InventoryController inventory = FindObjectOfType<InventoryController>();
-        if (Managers.Data.Gold < haveGold)
+        if (Managers.Data.Gold < itemPrice)
         {
             Debug.Log("구매 불가");
-           // return;
+            // return;
         }
 
-        inventory.AddItem(buySlot._itemInfo);
+        inventory.AddItem(buySlot.ItemInfo);
+        Managers.Data.Gold -= itemPrice;
         Debug.Log("구매 가능");
         buySlot = null;
     }

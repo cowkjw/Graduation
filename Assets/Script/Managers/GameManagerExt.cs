@@ -5,36 +5,22 @@ using UnityEngine;
 
 public class GameManagerExt
 {
-    GameObject _player = null;
+    //GameObject _player = null;
 
-    public GameObject _Player { get { return _player; } }
+    //public GameObject _Player { get { return _player; } }
+
+    public GameObject Player { get; private set; }
 
 
     public GameObject SpawnPlayer(Vector3 spawnPos)
     {
-
-        _player = Object.Instantiate(Resources.Load<GameObject>("Prefabs/Player"));
-        _player.transform.position = spawnPos;
-
-        if (_player != null)
-        {
-            return _player;
-        }
-        else
-        {
-            return null;
-        }
+        Player = Object.Instantiate(Resources.Load<GameObject>("Prefabs/Player"), spawnPos, Quaternion.identity);
+        return Player ?? null;
     }
 
     public GameObject GetPlayer()
     {
-        if (_player != null)
-        {
-            return _player;
-        }
-        else
-        {
-            return null;
-        }
+        return Player ?? null;
     }
+
 }

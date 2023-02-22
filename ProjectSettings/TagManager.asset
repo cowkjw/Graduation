@@ -8,6 +8,7 @@ TagManager:
   - Coin
   - PlayerUI
   - Slot
+  - NPC
   layers:
   - Default
   - TransparentFX

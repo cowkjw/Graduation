@@ -11,11 +11,13 @@ public interface ILoader<Key, Value>{}
 public class DataManager
 {
 
+    public Dictionary<int, Contents.Item> ItemDict = new Dictionary<int, Contents.Item>();
     public Dictionary<int, Contents.Stat> StatDict = new Dictionary<int, Contents.Stat>();
     public Dictionary<int, Contents.Item> InvenDict = new Dictionary<int, Contents.Item>();
+    public Dictionary<string, VectorConverter> enemyDict = new Dictionary<string, VectorConverter>();
 
 
-    public PlayerStat PlayerStat { get { return Managers.Game._Player.gameObject.GetComponent<PlayerStat>(); } }
+    public PlayerStat PlayerStat { get { return Managers.Game.Player.gameObject.GetComponent<PlayerStat>(); } }
 
     int _gold;
     public int Gold { get { return _gold; } set { _gold = value; } }
@@ -28,15 +30,15 @@ public class DataManager
     {
         StatDict = LoadJson<Contents.StatData, int, Contents.Stat>("StatData").MakeDict();
         InvenDict = LoadJson<Contents.InventoryData, int, Contents.Stat>("InventoryData").MakeDict();
-
+        ItemDict = LoadJson<Contents.ItemData, int, Contents.Item>("ItemData").MakeDict();
+        enemyDict = LoadJson<Contents.EnemyData, string, VectorConverter>("EnemyData").MakeDict();
     }
 
     public void InventoryDataChange(int idx, Contents.Item item = null, bool add = true) // 기본적으로 아이템을 넣는 bool값 
     {
         if (add)
         {
-            if (!InvenDict.ContainsKey(idx))
-                InvenDict.Add(idx, item);
+            InvenDict.TryAdd(idx, item); 
         }
         else
         {

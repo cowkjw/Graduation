@@ -23,7 +23,7 @@ public class BaseScene : MonoBehaviour
 
     private void Start()
     {
-        _playerStat = Managers.Game._Player.GetComponent<PlayerStat>();
+        _playerStat = Managers.Game.Player.GetComponent<PlayerStat>();
         inventory = GameObject.Find("UI").transform.Find("Inventory").gameObject;
         _playerHpBar = GameObject.FindGameObjectWithTag("PlayerUI").transform.GetChild(1).GetComponent<Slider>();
         Managers.Input.KeyboardAction -= InputUIHotKey;
@@ -47,7 +47,7 @@ public class BaseScene : MonoBehaviour
 
             if (inventory.activeSelf == true) // 인벤토리가 켜져있다면
             {
-                if (GameObject.Find("NPC")) // 해당 맵에 상점 NPC가 있다면
+                if (GameObject.FindGameObjectWithTag("NPC")) // 해당 맵에 상점 NPC가 있다면
                 {
                     if (npcUI != null && !npcUI.activeSelf) // NPC 널체크 상점이 안켜져있을 때 인벤토리 비활성화
                     {
