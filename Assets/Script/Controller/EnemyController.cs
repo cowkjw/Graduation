@@ -8,7 +8,7 @@ public class EnemyController : BaseCharacterController
 
     public GameObject[] _coin;
 
-    Vector3 re2Pos; // 원래 위치로
+    Vector3 originalPostition; // 원래 위치로
     NavMeshAgent nma;
 
     float _findRange = 5f;
@@ -38,7 +38,7 @@ public class EnemyController : BaseCharacterController
         _target = Managers.Game.GetPlayer();
         nma = gameObject.GetComponent<NavMeshAgent>();
         nma.speed = 2.5f;// 임시로 이동속도 설정
-        re2Pos = transform.position;
+        originalPostition = transform.position;
     }
 
     protected override void Dying()
@@ -89,13 +89,13 @@ public class EnemyController : BaseCharacterController
         }
         else
         {
-            Vector3 checkRange = re2Pos - transform.position; // 원래 위치와 비교하기 위한 변수
+            Vector3 checkRange = originalPostition - transform.position; // 원래 위치와 비교하기 위한 변수
             if (checkRange.magnitude <= 1f)
             {
                 State = Define.State.Idle;
                 return;
             }
-            nma.SetDestination(re2Pos);
+            nma.SetDestination(originalPostition);
         }
     }
 
@@ -109,7 +109,7 @@ public class EnemyController : BaseCharacterController
 
         if (dir.magnitude > _findRange)
         {
-            nma.SetDestination(re2Pos);
+            nma.SetDestination(originalPostition);
             State = Define.State.Idle;
             return;
         }

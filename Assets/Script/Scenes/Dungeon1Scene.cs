@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Dungeon1Scene : BaseScene  // @Scene¿¡ Add
 {
 
+    public List<GameObject> enemy;
 
     Slider _hpBar;
     Stat _objStat;

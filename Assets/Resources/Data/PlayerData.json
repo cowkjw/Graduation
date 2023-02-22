@@ -1,0 +1,27 @@
+{
+  "playerData": [
+    {
+      "100": {
+        "ItemType": 0,
+        "Attack": 10,
+        "Name": "Sword4",
+        "Id": 100,
+        "Price": 3000
+      },
+      "101": {
+        "ItemType": 0,
+        "Attack": 20,
+        "Name": "Sword14",
+        "Id" :  101,
+        "Price": 15000
+      },
+      "102": {
+        "ItemType": 0,
+        "Attack": 40,
+        "Name": "Sword15",
+        "Id": 102,
+        "Price": 30000
+      }
+    }
+  ]
+}

@@ -18,6 +18,7 @@ namespace Contents
         public int Price = 0;
         public int Id { get; set; } = -1; // 아이템 아이디
     }
+
     [Serializable]
     public class Stat
     {
@@ -28,6 +29,23 @@ namespace Contents
         public int defense;
         public int totalExp;
     }
+
+    [Serializable]
+    public class Player
+    {
+        public List<Stat> playerStat;
+        public int gold;
+        public Vector3 playerPosition;
+    }
+    
+    [Serializable]
+    public class Enemy
+    {
+        public float x;
+        public float y;
+        public float z;
+    }
+
 
     [Serializable]
     public class StatData : ILoader<int, Stat>
@@ -56,10 +74,30 @@ namespace Contents
     [Serializable]
     public class ItemData : ILoader<int, Item>
     {
-        public List<Dictionary<int, Item>>data = new List<Dictionary<int, Item>>();
+        public List<Dictionary<int, Item>> data = new List<Dictionary<int, Item>>();
         public Dictionary<int, Item> MakeDict()
         {
             return data[0];
+        }
+    }
+
+    [Serializable]
+    public class EnemyData : ILoader<string, VectorConverter>
+    {
+        public List<Dictionary<string, VectorConverter>> enemies = new List<Dictionary<string, VectorConverter>>();
+        public Dictionary<string, VectorConverter> MakeDict()
+        {
+            return enemies[0];
+        }
+    }
+
+    [Serializable]
+    public class PlayerData : ILoader<int, Player>
+    {
+        public List<Dictionary<int, Player>> playerData = new List<Dictionary<int, Player>>();
+        public Dictionary<int, Player> MakeDict()
+        {
+            return playerData[0];
         }
     }
 
