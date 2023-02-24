@@ -12,9 +12,12 @@ public class EnemyController : BaseCharacterController
     NavMeshAgent nma;
 
     float _findRange = 5f;
+    bool isUsing;
 
     protected override void Update()
     {
+        if (!isUsing)
+            return;
         if (State != Define.State.Die)
             Dying();
 
@@ -39,6 +42,16 @@ public class EnemyController : BaseCharacterController
         nma = gameObject.GetComponent<NavMeshAgent>();
         nma.speed = 2.5f;// 임시로 이동속도 설정
         originalPostition = transform.position;
+        State = Define.State.Idle;
+        isUsing = true;
+
+
+    }
+
+    void OnEnable()
+    {
+        Init();
+        StopAllCoroutines();
     }
 
     protected override void Dying()
@@ -47,7 +60,11 @@ public class EnemyController : BaseCharacterController
         {
             State = Define.State.Die;
             StartCoroutine(DropCoin());
-            Destroy(gameObject, 3f);
+
+            StartCoroutine(Disable());
+            
+            FindObjectOfType<EnemySpawnController>().PopEnemy();
+            //Destroy(gameObject, 3f);
         }
         else
             return;
@@ -118,7 +135,6 @@ public class EnemyController : BaseCharacterController
             if (dir.magnitude < nma.stoppingDistance)
             {
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
-               // State = Define.State.Attack;
             }
             else
             {
@@ -135,8 +151,23 @@ public class EnemyController : BaseCharacterController
         {
             PlayerStat playerStat = _target.GetComponent<PlayerStat>(); // 플레이어 스탯 가져옴
             playerStat.Attacked(_stat); // 몬스터의 스탯을 넘겨줌
-          //  _scene.SetPlayerHp(playerStat.Hp, playerStat.MaxHp);
         }
+    }
+
+    void ResetStatus()
+    {
+
+        _stat.ResetStat();
+        transform.position = originalPostition;
+    }
+
+    IEnumerator Disable()
+    {
+        Managers.Pool.monsterPool.Enqueue(gameObject);
+        isUsing = false;
+        yield return new WaitForSeconds(3f);
+        ResetStatus();
+        this.gameObject.SetActive(false);
     }
 
     IEnumerator DropCoin()

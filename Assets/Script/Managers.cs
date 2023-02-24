@@ -10,10 +10,12 @@ public class Managers : MonoBehaviour
     InputManager _input = new InputManager();
     GameManagerExt _game = new GameManagerExt();
     DataManager _data = new DataManager();
+    PoolManager _pool = new PoolManager();
 
-    public static GameManagerExt Game { get { return Instance._game; } }
+    public static GameManagerExt Game { get { return Instance._game; }  }
     public static InputManager Input { get { return Instance._input; } }
     public static DataManager Data { get { return Instance._data; } }
+    public static PoolManager Pool { get { return Instance._pool; } }
 
 
     void Start()

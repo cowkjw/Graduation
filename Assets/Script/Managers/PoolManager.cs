@@ -6,48 +6,28 @@ using Newtonsoft.Json;
 using System.IO;
 using System;
 
-public class PoolManager : MonoBehaviour
+public class PoolManager
 {
     GameObject monsterPrefab;
-    Dictionary<string, Queue<GameObject>> monsterPool;
+    GameObject poolManagers;
 
-    private void Awake()
+    public Queue<GameObject> monsterPool { get; private set; }
+   
+    public void Init()
     {
         monsterPrefab = Resources.Load<GameObject>("Prefabs/Skelton");
-        monsterPool = new Dictionary<string, Queue<GameObject>>();
-
-        Queue<GameObject> pool = new Queue<GameObject>();
+        poolManagers = new GameObject { name = "@PoolManagers" };
+        monsterPool = new Queue<GameObject>();
         foreach (var data in Managers.Data.enemyDict)
         {
-            GameObject monster = Instantiate(monsterPrefab, data.Value.ToVecotr3(), Quaternion.identity);
+            GameObject monster = GameObject.Instantiate(monsterPrefab, data.Value.ToVecotr3(), Quaternion.identity);
             monster.name = data.Key;
             monster.SetActive(false);
-            pool.Enqueue(monster);
-            monsterPool.Add(data.Key, pool);
+            monsterPool.Enqueue(monster);
+            monster.transform.SetParent(poolManagers.transform);
         }
     }
 
 
-    public GameObject SpawnMonster(string name, Vector3 position)
-    {
-        if (monsterPool.ContainsKey(name) && monsterPool[name].Count > 0)
-        {
-            GameObject monster = monsterPool[name].Dequeue();
-            monster.transform.position = position;
-            monster.SetActive(true);
-            return monster;
-        }
-        else
-        {
-            GameObject monster = Instantiate(monsterPrefab, position, Quaternion.identity);
-            return monster;
-        }
-    }
-
-    public void ReturnMonster(GameObject monster)
-    {
-        monster.SetActive(false);
-        monsterPool[monster.name].Enqueue(monster);
-    }
-
+  
 }

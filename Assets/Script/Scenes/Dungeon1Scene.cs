@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Dungeon1Scene : BaseScene  // @Scene에 Add
 {
 
+
     public List<GameObject> enemy;
 
     Slider _hpBar;
@@ -22,16 +23,15 @@ public class Dungeon1Scene : BaseScene  // @Scene에 Add
     {
         base.Init();
 
-        _playerPos = new Vector3(-7, 1.4f, 31);
+        Managers.Pool.Init(); // PoolManager 초기화
+
+         _playerPos = new Vector3(-7, 1.4f, 31);
         _player = Managers.Game.SpawnPlayer(_playerPos);
 
         Camera.main.gameObject.GetComponent<CameraController>().SetPlayer(_player);
 
-        //// GameObject uiObj = Instantiate(Resources.Load<GameObject>("Prefabs/UI_Prefab/UI_HP"));
-        // hpBar = uiObj.transform.GetChild(0).GetComponent<Slider>();
-        // hpValue = uiObj.transform.GetChild(0).transform.GetChild(3).GetComponent<Text>();    
-        GameObject _ui = GameObject.Find("UI");
-        _hpBar = _ui.transform.GetChild(1).GetComponent<Slider>();
+        GameObject Ui = GameObject.Find("UI");
+        _hpBar = Ui.transform.GetChild(1).GetComponent<Slider>();
         _hpValue = _hpBar.transform.GetChild(3).GetComponent<Text>();
         _objNameText = _hpBar.transform.GetChild(4).GetComponent<Text>();
         

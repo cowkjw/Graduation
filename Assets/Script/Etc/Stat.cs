@@ -35,6 +35,16 @@ public class Stat : MonoBehaviour
         _defense = 10;
     }
 
+    public void ResetStat()
+    {
+        Hp = 100;
+        MaxHp = 100;
+        Mp = 100;
+        MaxMp = 100;
+        _attack = 15;
+        _defense = 10;
+    }
+
     private void Start()
     {
         Init();
