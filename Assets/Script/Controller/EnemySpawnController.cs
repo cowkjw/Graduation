@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,67 +7,47 @@ public class EnemySpawnController : MonoBehaviour
 {
     int maximumEnemy = 9;
 
-    public Stack<GameObject> spawnEnemy = new Stack<GameObject>();
+    float spawnDelay = 8.0f;
 
 
-    private void Start()
+    Stack<GameObject> enemyStack = new Stack<GameObject>();
+
+
+    public void Start()
     {
-        InitSpawnEnemise();
-        StartCoroutine(SpawnEnemiesCoroutine(2.0f));
+        InitSpawnEnemies();
+        StartCoroutine(SpawnEnemiesCoroutine(spawnDelay));
     }
-
-    //private void Update()
-    //{
-    //    //SpawnEnemise();
-    //}
 
 
     IEnumerator SpawnEnemiesCoroutine(float delay)
     {
-        ///////////////수정하기
 
         while (true)
         {
-            Debug.Log(Managers.Pool.monsterPool.Count);
-            Debug.Log(spawnEnemy.Count);
-            yield return new WaitForSeconds(delay);
-            if (spawnEnemy.Count >= maximumEnemy)
+            while (Managers.Pool.monsterPool.Count != 0) // 소환 후 리스폰을 위함으로 큐가 빌때까지
             {
-                if (!spawnEnemy.Peek().activeSelf)
-                    PopEnemy();
-                continue;
+                GameObject enemy = Managers.Pool.monsterPool.Peek();
+                enemyStack.Push(enemy); // 순서대로 스택에 넣어둠
+                Managers.Pool.monsterPool.Dequeue();
             }
 
-            if (Managers.Pool.monsterPool.Count != 0)
-            { 
-                GameObject enemy = Managers.Pool.monsterPool.Peek();
-                enemy.SetActive(true);
-                spawnEnemy.Push(enemy);
-                
+            yield return new WaitForSeconds(delay);
+
+            while(enemyStack.Count!=0) // 순서대로 넣었기 때문에 죽은 순서로 들어감 
+            {
+                enemyStack.Pop().SetActive(true);
             }
         }
 
-        /////////////////////////////
     }
 
-
-
-    public void PopEnemy()
+    void InitSpawnEnemies() // 설정한 수만큼 몬스터 소환
     {
-        if (spawnEnemy.Count == 0)
-            return;
-        spawnEnemy.Pop();
-
-    }
-    void InitSpawnEnemise()
-    {
-        if (spawnEnemy.Count >= maximumEnemy)
-            return;
-        for (int i = spawnEnemy.Count; i < maximumEnemy; i++)
+        for (int i = 0; i < maximumEnemy; i++)
         {
             GameObject enemy = Managers.Pool.monsterPool.Peek();
             enemy.SetActive(true);
-            spawnEnemy.Push(enemy);
             Managers.Pool.monsterPool.Dequeue();
         }
 

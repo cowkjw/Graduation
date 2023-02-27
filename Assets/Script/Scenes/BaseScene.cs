@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class BaseScene : MonoBehaviour
 {
 
-    protected Vector3 _playerPos;
+    protected Vector3 playerPos;
     protected GameObject _player = null;
-    protected GameObject _ui = null;
+    protected GameObject Ui = null;
     protected GameObject inventory = null; //inventory UI
     protected GameObject npcUI = null; // NPC UI 오브젝트
 
@@ -36,8 +36,8 @@ public class BaseScene : MonoBehaviour
     public virtual void Init()
     {
         Managers.Clear(); // 구독했던거 null처리
-        _ui = Instantiate(Resources.Load<GameObject>("Prefabs/UI_Prefab/UI"));
-        _ui.name = "UI";
+        Ui = Instantiate(Resources.Load<GameObject>("Prefabs/UI_Prefab/UI"));
+        Ui.name = "UI";
     }
 
     void InputUIHotKey(Define.UI uiType)

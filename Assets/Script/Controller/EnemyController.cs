@@ -12,12 +12,10 @@ public class EnemyController : BaseCharacterController
     NavMeshAgent nma;
 
     float _findRange = 5f;
-    bool isUsing;
 
     protected override void Update()
     {
-        if (!isUsing)
-            return;
+        //if (!isUsing)
         if (State != Define.State.Die)
             Dying();
 
@@ -43,9 +41,6 @@ public class EnemyController : BaseCharacterController
         nma.speed = 2.5f;// 임시로 이동속도 설정
         originalPostition = transform.position;
         State = Define.State.Idle;
-        isUsing = true;
-
-
     }
 
     void OnEnable()
@@ -60,11 +55,6 @@ public class EnemyController : BaseCharacterController
         {
             State = Define.State.Die;
             StartCoroutine(DropCoin());
-
-            StartCoroutine(Disable());
-            
-            FindObjectOfType<EnemySpawnController>().PopEnemy();
-            //Destroy(gameObject, 3f);
         }
         else
             return;
@@ -159,12 +149,13 @@ public class EnemyController : BaseCharacterController
 
         _stat.ResetStat();
         transform.position = originalPostition;
+       
     }
 
     IEnumerator Disable()
     {
         Managers.Pool.monsterPool.Enqueue(gameObject);
-        isUsing = false;
+        _target = null; // 플레이어 타겟 null 처리 
         yield return new WaitForSeconds(3f);
         ResetStatus();
         this.gameObject.SetActive(false);
@@ -172,7 +163,7 @@ public class EnemyController : BaseCharacterController
 
     IEnumerator DropCoin()
     {
-        int itemCnt = Random.Range(5, 15);
+        int itemCnt = Random.Range(5, 10);
 
         for (int i = 0; i < itemCnt; i++)
         {
@@ -183,6 +174,6 @@ public class EnemyController : BaseCharacterController
             yield return new WaitForSeconds(0.1f);
             Instantiate(_coin[idx], transform.position + new Vector3(randX, 0, randZ), Quaternion.identity);
         }
-
+        StartCoroutine(Disable());
     }
 }

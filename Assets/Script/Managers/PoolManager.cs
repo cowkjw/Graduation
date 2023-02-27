@@ -12,7 +12,7 @@ public class PoolManager
     GameObject poolManagers;
 
     public Queue<GameObject> monsterPool { get; private set; }
-   
+
     public void Init()
     {
         monsterPrefab = Resources.Load<GameObject>("Prefabs/Skelton");
