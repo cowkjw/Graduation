@@ -23,9 +23,11 @@ public class Dungeon1Scene : BaseScene  // @Scene에 Add
 
         Managers.Pool.Init(); // PoolManager 초기화
 
-        GameObject spawningPool = new GameObject { name = "SpawningPool" };
-        spawningPool.transform.SetParent(this.transform);
-        spawningPool?.AddComponent<EnemySpawnController>();
+        GameObject spawningPool = new GameObject("SpawningPool", typeof(EnemySpawnController));
+        spawningPool.transform.SetParent(transform);
+        //GameObject spawningPool = new GameObject { name = "SpawningPool" };
+        //spawningPool.transform.SetParent(this.transform);
+        //spawningPool?.AddComponent<EnemySpawnController>();
 
         playerPos = new Vector3(-7, 1.4f, 31);
         _player = Managers.Game.SpawnPlayer(playerPos);
@@ -36,8 +38,6 @@ public class Dungeon1Scene : BaseScene  // @Scene에 Add
         _hpBar = Ui.transform.GetChild(1).GetComponent<Slider>();
         _hpValue = _hpBar.transform.GetChild(3).GetComponent<Text>();
         _objNameText = _hpBar.transform.GetChild(4).GetComponent<Text>();
-        
-
     }
 
      protected override void Update()
@@ -59,18 +59,15 @@ public class Dungeon1Scene : BaseScene  // @Scene에 Add
 
     void SetHpPrint()
     {
-        _hpValue.text = _objStat.Hp.ToString() + "/" + _objStat.MaxHp.ToString();
+        _hpValue.text = $"{_objStat.Hp}/{_objStat.MaxHp}";
     }
    void SetHpRatio()
     {
-        _hpBar.value = _objStat.Hp / (float)_objStat.MaxHp;
+        _hpBar.value = (float)_objStat.Hp / _objStat.MaxHp;
     }
 
     void SetObjNamePrint()
     {
         _objNameText.text = _objName;
     }
-
-   
-
 }
