@@ -37572,7 +37572,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1352838733}
   - component: {fileID: 1352838732}
-  - component: {fileID: 1352838734}
   m_Layer: 0
   m_Name: '@Scene'
   m_TagString: Untagged
@@ -37592,16 +37591,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b638d204b42512246a81842e29c32c22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!4 &1352838733
 Transform:
   m_ObjectHideFlags: 0
@@ -37617,18 +37606,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1352838734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1352838731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e65d138d5a220c846a1125263e042d34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1353362484
 PrefabInstance:
   m_ObjectHideFlags: 0

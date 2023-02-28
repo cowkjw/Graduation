@@ -14,8 +14,8 @@ public class TownScene : BaseScene
     {
         base.Init();
 
-        _playerPos = new Vector3(0, -0.7f, 0);
-        _player = Managers.Game.SpawnPlayer(_playerPos);
+        playerPos = new Vector3(0, -0.7f, 0);
+        _player = Managers.Game.SpawnPlayer(playerPos);
 
         Camera.main.gameObject.GetComponent<CameraController>().SetPlayer(_player);
         npcUI = GameObject.Find("UI").transform.Find("NPC").gameObject;

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Dungeon1Scene : BaseScene  // @Scene에 Add
 {
 
-    public List<GameObject> enemy;
 
     Slider _hpBar;
     Stat _objStat;
@@ -22,20 +21,23 @@ public class Dungeon1Scene : BaseScene  // @Scene에 Add
     {
         base.Init();
 
-        _playerPos = new Vector3(-7, 1.4f, 31);
-        _player = Managers.Game.SpawnPlayer(_playerPos);
+        Managers.Pool.Init(); // PoolManager 초기화
+
+        GameObject spawningPool = new GameObject("SpawningPool", typeof(EnemySpawnController));
+        spawningPool.transform.SetParent(transform);
+        //GameObject spawningPool = new GameObject { name = "SpawningPool" };
+        //spawningPool.transform.SetParent(this.transform);
+        //spawningPool?.AddComponent<EnemySpawnController>();
+
+        playerPos = new Vector3(-7, 1.4f, 31);
+        _player = Managers.Game.SpawnPlayer(playerPos);
 
         Camera.main.gameObject.GetComponent<CameraController>().SetPlayer(_player);
 
-        //// GameObject uiObj = Instantiate(Resources.Load<GameObject>("Prefabs/UI_Prefab/UI_HP"));
-        // hpBar = uiObj.transform.GetChild(0).GetComponent<Slider>();
-        // hpValue = uiObj.transform.GetChild(0).transform.GetChild(3).GetComponent<Text>();    
-        GameObject _ui = GameObject.Find("UI");
-        _hpBar = _ui.transform.GetChild(1).GetComponent<Slider>();
+        GameObject Ui = GameObject.Find("UI");
+        _hpBar = Ui.transform.GetChild(1).GetComponent<Slider>();
         _hpValue = _hpBar.transform.GetChild(3).GetComponent<Text>();
         _objNameText = _hpBar.transform.GetChild(4).GetComponent<Text>();
-        
-
     }
 
      protected override void Update()
@@ -57,18 +59,15 @@ public class Dungeon1Scene : BaseScene  // @Scene에 Add
 
     void SetHpPrint()
     {
-        _hpValue.text = _objStat.Hp.ToString() + "/" + _objStat.MaxHp.ToString();
+        _hpValue.text = $"{_objStat.Hp}/{_objStat.MaxHp}";
     }
    void SetHpRatio()
     {
-        _hpBar.value = _objStat.Hp / (float)_objStat.MaxHp;
+        _hpBar.value = (float)_objStat.Hp / _objStat.MaxHp;
     }
 
     void SetObjNamePrint()
     {
         _objNameText.text = _objName;
     }
-
-   
-
 }
