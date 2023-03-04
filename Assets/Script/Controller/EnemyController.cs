@@ -13,6 +13,8 @@ public class EnemyController : BaseCharacterController
 
     float _findRange = 5f;
 
+    public Contents.ExpData EnemyExp { get; private set; }
+
     protected override void Update()
     {
         //if (!isUsing)
@@ -35,6 +37,14 @@ public class EnemyController : BaseCharacterController
 
     protected override void Init()
     {
+
+        if (Managers.Data.enemyExpDict.TryGetValue(gameObject.tag, out Contents.ExpData tempExpData))
+        {
+            EnemyExp = tempExpData;
+         //   Debug.Log($"{EnemyExp.Exp} "+gameObject.name);
+        }
+
+  
         _stat = GetComponent<Stat>();
         _target = Managers.Game.GetPlayer();
         nma = gameObject.GetComponent<NavMeshAgent>();
@@ -140,7 +150,7 @@ public class EnemyController : BaseCharacterController
         if(_target!=null)
         {
             PlayerStat playerStat = _target.GetComponent<PlayerStat>(); // «√∑π¿ÃæÓ Ω∫≈» ∞°¡Æø»
-            playerStat.Attacked(_stat); // ∏ÛΩ∫≈Õ¿« Ω∫≈»¿ª ≥—∞‹¡‹
+            playerStat.Attacked(_stat,_target); // ∏ÛΩ∫≈Õ¿« Ω∫≈»¿ª ≥—∞‹¡‹
         }
     }
 

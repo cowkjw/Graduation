@@ -257,7 +257,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
         if (!_stopAttack)
         {
             Stat enemyStat = _target.GetComponent<Stat>();
-            enemyStat.Attacked(_stat);
+            enemyStat.Attacked(_stat,_target);
 
             _scene.ObjStat = enemyStat;
             _scene.ObjName = enemyStat.name;

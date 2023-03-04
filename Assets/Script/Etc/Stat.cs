@@ -18,12 +18,12 @@ public class Stat : MonoBehaviour
     protected int _maxMp;
 
 
-    public int Hp { get { return _hp; } set { _hp = value; } }
-    public int MaxHp { get { return _maxHp; } set { _maxHp = value; } }
-    public int Mp { get { return _mp; } set { _mp = value; } }
-    public int MaxMp { get { return _maxMp; } set { _maxMp = value; } }
-    public int Attack { get { return _attack; } set { _attack = value; } }
-    public int Defense { get { return _defense; } set { _defense = value;  } }
+    public int Hp { get => _hp; set => _hp = value; }
+    public int MaxHp { get => _maxHp; set => _maxHp = value; }
+    public int Mp { get => _mp; set => _mp = value; }
+    public int MaxMp { get => _maxMp; set => _maxMp = value; }
+    public int Attack { get => _attack; set => _attack = value; }
+    public int Defense { get => _defense; set => _defense = value; }
 
     protected virtual void Init()
     {
@@ -35,14 +35,12 @@ public class Stat : MonoBehaviour
         _defense = 10;
     }
 
-    public void ResetStat()
+    public void ResetStat() // 하드코딩 해둠 다음에 바꾸기
     {
         Hp = 100;
         MaxHp = 100;
         Mp = 100;
         MaxMp = 100;
-        _attack = 15;
-        _defense = 10;
     }
 
     private void Start()
@@ -50,14 +48,32 @@ public class Stat : MonoBehaviour
         Init();
     }
 
-    public void Attacked(Stat attackObject)
+    public void Attacked(Stat attackObject,GameObject target)
     {
+
+        if (target == null)
+        {
+            Debug.LogError("Target is null");
+            return;
+        }
         int damage = Mathf.Max(0, attackObject.Attack - Defense);
         Hp -= damage;
 
-        if(Hp<=0)
+        if (Hp <= 0)
         {
             Hp = 0;
+            if (attackObject is PlayerStat)
+            {
+                // 플레이어가 공격한거라면
+                if (Managers.Data.enemyExpDict.TryGetValue(target.gameObject.tag,
+                     out Contents.ExpData tempExpData))
+                {
+                    Managers.Game.GetPlayer().GetComponent<PlayerStat>().Exp = tempExpData.Exp;
+
+                    Debug.Log(Managers.Game.GetPlayer().GetComponent<PlayerStat>().TotalExp);
+                }
+            }
         }
     }
+
 }

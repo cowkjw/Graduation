@@ -15,6 +15,7 @@ public class DataManager
     public Dictionary<int, Contents.Stat> StatDict = new Dictionary<int, Contents.Stat>();
     public Dictionary<int, Contents.Item> InvenDict = new Dictionary<int, Contents.Item>();
     public Dictionary<string, VectorConverter> enemyDict = new Dictionary<string, VectorConverter>();
+    public Dictionary<string, Contents.ExpData> enemyExpDict = new Dictionary<string, Contents.ExpData>();
 
 
     public PlayerStat PlayerStat { get { return Managers.Game.Player.gameObject.GetComponent<PlayerStat>(); } }
@@ -32,6 +33,7 @@ public class DataManager
         InvenDict = LoadJson<Contents.InventoryData, int, Contents.Stat>("InventoryData").MakeDict();
         ItemDict = LoadJson<Contents.ItemData, int, Contents.Item>("ItemData").MakeDict();
         enemyDict = LoadJson<Contents.EnemyData, string, VectorConverter>("EnemyData").MakeDict();
+        enemyExpDict = LoadJson<Contents.EnemyExpData, string, Contents.ExpData>("EnemyExp").MakeDict();
     }
 
     public void InventoryDataChange(int idx, Contents.Item item = null, bool add = true) // 기본적으로 아이템을 넣는 bool값 

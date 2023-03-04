@@ -15,7 +15,7 @@ public class GameManagerExt
     public GameObject SpawnPlayer(Vector3 spawnPos)
     {
         Player = Object.Instantiate(Resources.Load<GameObject>("Prefabs/Player"), spawnPos, Quaternion.identity);
-        return Player ?? null;
+        return Player ?? null; // 널이라면 널 리턴
     }
 
     public GameObject GetPlayer()

@@ -9,6 +9,7 @@ TagManager:
   - PlayerUI
   - Slot
   - NPC
+  - Skelton
   layers:
   - Default
   - TransparentFX

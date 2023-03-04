@@ -37,13 +37,19 @@ namespace Contents
         public int gold;
         public Vector3 playerPosition;
     }
-    
+
     [Serializable]
     public class Enemy
     {
         public float x;
         public float y;
         public float z;
+    }
+
+    [Serializable]
+    public class ExpData
+    {
+        public int Exp;
     }
 
 
@@ -99,6 +105,19 @@ namespace Contents
         {
             return playerData[0];
         }
+    }
+
+
+    [Serializable]
+    public class EnemyExpData : ILoader<int, ExpData>
+    {
+        public List<Dictionary<string, ExpData>> EnemyExp = new List<Dictionary<string, ExpData>>();
+    
+        public Dictionary<string, ExpData> MakeDict()
+        {
+            return EnemyExp[0];
+        }
+
     }
 
 }
