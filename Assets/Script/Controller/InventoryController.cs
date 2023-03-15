@@ -17,7 +17,7 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
     public ItemTooltip toolTip;
     Text _goldText;
 
-    int sellSlotIdx;
+    int selectSlotIdx;
     bool clickInven = false;
 
 
@@ -26,6 +26,8 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
     {
         Managers.Input.MouseAction -= Sell;
         Managers.Input.MouseAction += Sell;
+        Managers.Input.MouseAction -= Equip;
+        Managers.Input.MouseAction += Equip;
         Init();
     }
 
@@ -86,21 +88,33 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
         if (evt != Define.MouseState.RButtonDown || !GameObject.FindObjectOfType<TownScene>().NPCUI.activeSelf) // 해당 evt가 우클릭이고 상점 켜져있고
             return;
         if (!clickInven) return;
-        if (sellSlotIdx == -1) return;
+        if (selectSlotIdx == -1) return;
 
-        Slot sellSlot = Slots[sellSlotIdx].GetComponent<Slot>(); // 해당 판매할 오브젝트
+        Slot sellSlot = Slots[selectSlotIdx].GetComponent<Slot>(); // 해당 판매할 오브젝트
 
         if (sellSlot && sellSlot.inItem && sellSlot.gameObject.layer == (int)Define.UI.Inventory) // null 체크
         {
 
             sellSlot.GetComponent<Image>().sprite = Resources.Load<Sprite>("items/emptySlot"); // 빈 슬롯 이미지로 변경
             sellSlot.inItem = false;
-            Managers.Data.InventoryDataChange(sellSlotIdx, default, false); // 해당 인덱스 아이템 삭제하고 해당 슬롯 빈 상태로 
+            Managers.Data.InventoryDataChange(selectSlotIdx, default, false); // 해당 인덱스 아이템 삭제하고 해당 슬롯 빈 상태로 
         }
         if (toolTip.gameObject.activeSelf)
         {
             toolTip.gameObject.SetActive(false);
         }
+    }
+
+    public void Equip(Define.MouseState evt) // 장비 장착
+    {
+        if (evt != Define.MouseState.RButtonDown || GameObject.FindObjectOfType<TownScene>().NPCUI.activeSelf) // 해당 evt가 우클릭이고 상점 켜져있고
+            return;
+        if (!clickInven) return;
+        if (selectSlotIdx == -1) return;
+
+        Slot equipSlot = Slots[selectSlotIdx].GetComponent<Slot>(); // 장착할 오브젝트
+        WeaponChangeController weaponSocket = Managers.Game.GetPlayer().GetComponentInChildren<WeaponChangeController>();// 웨폰 소켓 찾기
+        weaponSocket?.ChangeWeapon(equipSlot.ItemInfo.Id); // 만약 널이 아니라면 불러오기
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -128,12 +142,12 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
         }
         else
         {
-            toolTip.sellOrPurchase.text = ""; // 상점이 안켜져있을때
+            toolTip.sellOrPurchase.text = "우클릭 장착"; // 상점이 안켜져있을때
         }
 
         toolTip.gameObject.SetActive(true); // 툴팁 활성화
         toolTip.SetItemInfo(tempSlot.ItemInfo.Name); // 툴팁에 해당 슬롯 아이템 정보 설정
-        sellSlotIdx = tempSlot.transform.GetSiblingIndex();
+        selectSlotIdx = tempSlot.transform.GetSiblingIndex();
     }
 
 
@@ -144,6 +158,6 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
     {
         toolTip.gameObject.SetActive(false);
         clickInven = false;
-        sellSlotIdx = -1;
+        selectSlotIdx = -1;
     }
 }
