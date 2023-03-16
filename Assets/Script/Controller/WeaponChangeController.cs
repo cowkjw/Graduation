@@ -15,7 +15,7 @@ public class WeaponChangeController : MonoBehaviour
         {
             weapons.Add(int.Parse(transform.GetChild(i).name), transform.GetChild(i).gameObject);
         }
-        currentWeaponID = 101;
+        currentWeaponID = 101; // 하드코딩 고치기 씬마다 고정되게 인스턴스화됨
     }
 
     public void ChangeWeapon(int weaponID)

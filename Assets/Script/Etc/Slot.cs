@@ -40,4 +40,11 @@ public class Slot : MonoBehaviour
             inItem = false;
         }
     }
+
+    public void PutInItem(Contents.Item item)
+    {
+        ItemInfo = item;
+        inItem = true;
+        this.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Items/{ItemInfo.Id}");
+    }
 }

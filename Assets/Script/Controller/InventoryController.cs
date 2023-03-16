@@ -13,14 +13,12 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
 
     List<Contents.Item> testInven;
     Dictionary<int, Contents.Item> _inventory;
-
-    public ItemTooltip toolTip;
-    Text _goldText;
-
     int selectSlotIdx;
     bool clickInven = false;
-
-
+    public ItemTooltip toolTip;
+    Text _goldText;
+    WeaponChangeController weaponSocket;
+    BaseScene baseScene;
 
     void Start()
     {
@@ -42,6 +40,8 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
         clickInven = false;
         _inventory = Managers.Data.InvenDict;
         _goldText = transform.GetChild(1).GetChild(0).GetComponent<Text>();
+        weaponSocket= Managers.Game.GetPlayer().GetComponentInChildren<WeaponChangeController>();// 웨폰 소켓 찾기
+        baseScene = FindObjectOfType<BaseScene>();
 
         for (int i = 0; i < Slots.Length; i++)
         {
@@ -62,7 +62,7 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
 
     public bool AddItem(Contents.Item item) // 아이템을 먹었을때
     {
-
+        
         int idx = Array.FindIndex(Slots, slot => !slot.inItem); // 람다식 사용
         if (idx < 0) // 없으면 -1 반환하기 때문
         {
@@ -73,10 +73,8 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
         Managers.Data.InventoryDataChange(idx, item);
 
         Slot slot = Slots[idx];
-        slot.ItemInfo.Name = item.Name;
         slot.gameObject.SetActive(true);
-        slot.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Items/{item.Id}");
-        slot.inItem = true;
+        slot.PutInItem(item);
 
         return true;
     }
@@ -107,13 +105,18 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
 
     public void Equip(Define.MouseState evt) // 장비 장착
     {
-        if (evt != Define.MouseState.RButtonDown || GameObject.FindObjectOfType<TownScene>().NPCUI.activeSelf) // 해당 evt가 우클릭이고 상점 켜져있고
+        if (evt != Define.MouseState.RButtonDown) // 해당 evt가 우클릭이고 상점 켜져있고
             return;
         if (!clickInven) return;
         if (selectSlotIdx == -1) return;
 
+        if (baseScene is TownScene townScene && townScene.NPCUI.activeSelf)
+        {
+            return;
+        }
+
         Slot equipSlot = Slots[selectSlotIdx].GetComponent<Slot>(); // 장착할 오브젝트
-        WeaponChangeController weaponSocket = Managers.Game.GetPlayer().GetComponentInChildren<WeaponChangeController>();// 웨폰 소켓 찾기
+        
         weaponSocket?.ChangeWeapon(equipSlot.ItemInfo.Id); // 만약 널이 아니라면 불러오기
     }
 
@@ -127,7 +130,6 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
         if (!obj.CompareTag("Slot") || obj.layer != (int)Define.UI.Inventory)
             return;
 
-        BaseScene baseScene = GameObject.FindObjectOfType<BaseScene>(); 
         if (baseScene == null) return;
 
         clickInven = true;
