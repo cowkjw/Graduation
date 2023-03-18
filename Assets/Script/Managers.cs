@@ -25,9 +25,10 @@ public class Managers : MonoBehaviour
 
 
     void Update()
-    {
+    { 
         _input.MouseUpdate(); 
         _input.KeyboardUpdate();
+        //Clear();
     }
 
     static void Init()

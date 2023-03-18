@@ -56,6 +56,7 @@ public class EnemyController : BaseCharacterController
     void OnEnable()
     {
         Init();
+        this.GetComponent<CapsuleCollider>().isTrigger = false; // 스폰이 되면서 트리거 false로 바꿈
         StopAllCoroutines();
     }
 
@@ -64,6 +65,7 @@ public class EnemyController : BaseCharacterController
         if (_stat.Hp == 0)
         {
             State = Define.State.Die;
+            this.GetComponent<CapsuleCollider>().isTrigger = true; // 죽은 상태로 플레이어를 막지 않게 하기 위해 트리거 on
             StartCoroutine(DropCoin());
         }
         else

@@ -27,12 +27,30 @@ public class Stat : MonoBehaviour
 
     protected virtual void Init()
     {
-        _hp = 100;
-        _maxHp = 100;
-        _mp = 100;
-        _maxMp = 100;
-        _attack = 15;
-        _defense = 10;
+        SetStat();
+        //_hp = 100;
+        //_maxHp = 100;
+        //_mp = 100;
+        //_maxMp = 100;
+        //_attack = 15;
+        //_defense = 10;
+    }
+
+
+    protected void SetStat(int level = 1) // 스탯을 셋팅하는 함수
+    {
+        if (!Managers.Data.StatDict.TryGetValue(level, out Contents.Stat stat)) // 만약 StatDict에 값이 있다면
+        {
+            return;
+        }
+
+        _maxHp = stat.maxHp;
+        _hp = _maxHp;
+        _maxMp = stat.maxMp;
+        _mp = _maxMp;
+        _attack = stat.attack;
+        _defense = stat.defense;
+
     }
 
     public void ResetStat() // 하드코딩 해둠 다음에 바꾸기
@@ -48,7 +66,7 @@ public class Stat : MonoBehaviour
         Init();
     }
 
-    public void Attacked(Stat attackObject,GameObject target)
+    public void Attacked(Stat attackObject, GameObject target)
     {
 
         if (target == null)
