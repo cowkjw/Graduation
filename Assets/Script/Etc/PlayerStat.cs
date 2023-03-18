@@ -12,7 +12,7 @@ public class PlayerStat : Stat
 
     int _level;
 
-    LevelUpText levelUpText;
+    LevelUpUI levelUpUI;
     public int Exp
     {
         set
@@ -34,7 +34,7 @@ public class PlayerStat : Stat
     protected override void Init()
     {
         base.Init();
-        levelUpText = FindObjectOfType<LevelUpText>();
+        levelUpUI = FindObjectOfType<LevelUpUI>();
         _level = 1;
         if (Managers.Data.StatDict.TryGetValue(_level, out Contents.Stat stat))
         {
@@ -53,7 +53,7 @@ public class PlayerStat : Stat
         Attack += 10;
         Hp += 50;
         MaxHp += 50;
-        levelUpText.gameObject.SetActive(true);
+        levelUpUI?.InstantiateLevelUpText(); // 널이 아니라면(근데 이게 의미가 있을지 모르겠음)
         gameObject.GetComponent<PlayerController>().LevelUpEffect();
     }
 

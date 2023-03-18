@@ -5,60 +5,34 @@ using UnityEngine;
 public class LevelUpText : MonoBehaviour
 {
 
-    public float offset = 1.8f;
-    public float maxScale = 2.0f;
-    public float minScale = 1.0f;
+    float offset = 1.8f;
+    float maxScale = 2.0f;
+    float minScale = 1.0f;
 
-    private Transform player;
-    private Camera mainCamera;
-    private float startTime;
+    Transform playerHead;
+    float startTime;
 
     private void Start()
     {
-        player = Managers.Game.GetPlayer().transform;
-        mainCamera = Camera.main;
+        playerHead = Managers.Game.GetPlayer().transform; // 플레이어 위치
         startTime = Time.time;
         transform.localScale = Vector3.zero;
     }
 
     private void Update()
     {
-        // Update the position and rotation of the text
-        Vector3 screenPos = mainCamera.WorldToScreenPoint(player.position + Vector3.up * offset);
-        transform.position = mainCamera.ScreenToWorldPoint(screenPos);
-        transform.rotation = Quaternion.Euler(0, mainCamera.transform.rotation.eulerAngles.y, 0);
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(playerHead.position + Vector3.up * offset); // 플레이어 포지션 + (0,1,0) * offset
+        transform.position = Camera.main.ScreenToWorldPoint(screenPos);
+        transform.rotation = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0);
 
-        // Scale the text over time
         float t = (Time.time - startTime) / 1f;
-        float scale = Mathf.SmoothStep(minScale, maxScale, t);
+        float scale = Mathf.SmoothStep(minScale, maxScale, t); // 자연스럽게 변환
         transform.localScale = new Vector3(scale, scale, scale);
 
-        // Destroy the text object when it reaches maxScale
+
         if (t >= 1f)
         {
             Destroy(gameObject);
         }
-    }
-
-    IEnumerator AnimateText()
-    {
-        float t = 0.0f;
-        float duration = 1f; // How long it takes for the text to reach maxScale
-        while (true)
-        {
-            // Scale the text using a smoothstep function
-            float scale = Mathf.SmoothStep(minScale, maxScale, t);
-            transform.localScale = new Vector3(scale, scale, scale);
-            t += Time.deltaTime / duration;
-
-            // End the animation once the text reaches maxScale
-            if (t >= 1.0f)
-            {
-                break;
-            }
-
-            yield return null;
-        }
-        Destroy(gameObject);
     }
 }

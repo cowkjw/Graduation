@@ -42643,6 +42643,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelUpUI
       objectReference: {fileID: 0}
+    - target: {fileID: 511388223821250124, guid: 608519823cc8d60459795b1a26fe186a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 511388223821250126, guid: 608519823cc8d60459795b1a26fe186a, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 1
