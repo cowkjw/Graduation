@@ -1,0 +1,13 @@
+{
+  "playerStat": {
+    "level": 1,
+    "maxHp": 200,
+    "maxMp": 200,
+    "attack": 20,
+    "defense": 10,
+    "totalExp": 0
+  },
+  "gold": 0,
+  "location": 0,
+  "equippedWeapon": 101
+}

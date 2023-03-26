@@ -45,7 +45,9 @@ public class Managers : MonoBehaviour
             s_Instance = go.GetComponent<Managers>();
 
             s_Instance._data.Init();
+            s_Instance._pool.LoadTheLastPosition();
         }
+
     }
 
 

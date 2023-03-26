@@ -5,6 +5,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using System.IO;
 using System;
+using UnityEngine.SceneManagement;
 
 public class PoolManager
 {
@@ -12,6 +13,13 @@ public class PoolManager
     GameObject poolManagers;
 
     public Queue<GameObject> monsterPool { get; private set; }
+
+
+    public void LoadTheLastPosition()
+    {
+        int playerScene = Managers.Data.playerData.location;
+        SceneManager.LoadScene(playerScene);
+    }
 
     public void Init()
     {
@@ -26,6 +34,7 @@ public class PoolManager
             monsterPool.Enqueue(monster);
             monster.transform.SetParent(poolManagers.transform);
         }
+        
     }
 
 

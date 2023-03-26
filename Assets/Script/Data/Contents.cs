@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Newtonsoft.Json;
+using UnityEngine.SceneManagement;
 
 namespace Contents
 {
@@ -33,9 +34,10 @@ namespace Contents
     [Serializable]
     public class Player
     {
-        public List<Stat> playerStat;
+        public Stat playerStat;
         public int gold;
-        public Vector3 playerPosition;
+        public int location;
+        public int equippedWeapon;
     }
 
     [Serializable]
@@ -98,26 +100,17 @@ namespace Contents
     }
 
     [Serializable]
-    public class PlayerData : ILoader<int, Player>
-    {
-        public List<Dictionary<int, Player>> playerData = new List<Dictionary<int, Player>>();
-        public Dictionary<int, Player> MakeDict()
-        {
-            return playerData[0];
-        }
-    }
-
-
-    [Serializable]
     public class EnemyExpData : ILoader<int, ExpData>
     {
         public List<Dictionary<string, ExpData>> EnemyExp = new List<Dictionary<string, ExpData>>();
-    
+
         public Dictionary<string, ExpData> MakeDict()
         {
             return EnemyExp[0];
         }
 
     }
+
+
 
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class InputManager
 {
@@ -76,6 +77,13 @@ public class InputManager
             if (Input.GetKeyDown(KeyCode.I))
             {
                 KeyboardAction.Invoke(Define.UI.Inventory);
+            }
+
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                Managers.Data.playerData.location = SceneManager.GetActiveScene().buildIndex;
+                Managers.Data.PlayerDataChange();
+                Application.Quit();
             }
         }
     }

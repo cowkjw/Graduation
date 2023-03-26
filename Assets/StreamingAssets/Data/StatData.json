@@ -14,7 +14,7 @@
       "maxMp": "250",
       "attack": "30",
       "defense": "15",
-      "totalExp": "1000"
+      "totalExp": "100"
     },
     {
       "level": "3",
@@ -22,7 +22,7 @@
       "maxMp": "300",
       "attack": "35",
       "defense": "20",
-      "totalExp": "2500"
+      "totalExp": "300"
     }
   ]
 } 

@@ -16,6 +16,7 @@ public class DataManager
     public Dictionary<int, Contents.Item> InvenDict = new Dictionary<int, Contents.Item>();
     public Dictionary<string, VectorConverter> enemyDict = new Dictionary<string, VectorConverter>();
     public Dictionary<string, Contents.ExpData> enemyExpDict = new Dictionary<string, Contents.ExpData>();
+    public Contents.Player playerData = new Contents.Player();
 
 
     public PlayerStat PlayerStat { get { return Managers.Game.Player.gameObject.GetComponent<PlayerStat>(); } }
@@ -30,17 +31,21 @@ public class DataManager
     public void Init()
     {
         StatDict = LoadJson<Contents.StatData, int, Contents.Stat>("StatData").MakeDict();
-        InvenDict = LoadJson<Contents.InventoryData, int, Contents.Stat>("InventoryData").MakeDict();
+        InvenDict = LoadJson<Contents.InventoryData, int, Contents.Item>("InventoryData").MakeDict();
         ItemDict = LoadJson<Contents.ItemData, int, Contents.Item>("ItemData").MakeDict();
         enemyDict = LoadJson<Contents.EnemyData, string, VectorConverter>("EnemyData").MakeDict();
         enemyExpDict = LoadJson<Contents.EnemyExpData, string, Contents.ExpData>("EnemyExp").MakeDict();
+        playerData = LoadJson<Contents.Player>("PlayerData");
+        _gold = playerData.gold;
+        // playerData = TestLoad<Contents.Player>("PlayerData");
+        //TestWrite();
     }
 
     public void InventoryDataChange(int idx, Contents.Item item = null, bool add = true) // 기본적으로 아이템을 넣는 bool값 
     {
         if (add)
         {
-            InvenDict.TryAdd(idx, item); 
+            InvenDict.TryAdd(idx, item);
         }
         else
         {
@@ -51,20 +56,57 @@ public class DataManager
 
     }
 
-    T LoadJson<T, Key, Value>(string path)
+    public void PlayerDataChange()
     {
-        TextAsset textAsset = Resources.Load<TextAsset>($"Data/{path}");
-        return JsonConvert.DeserializeObject<T>(textAsset.text);
+        playerData.playerStat.level = Managers.Game.GetPlayer().GetComponent<PlayerStat>().Level;
+        playerData.gold = _gold; 
+        WriteToJson(playerData,"PlayerData");
     }
 
+
+    T LoadJson<T, Key, Value>(string path)
+    {
+
+        string filePath = Path.Combine(Application.dataPath, $"StreamingAssets/Data/{path}.json");
+        string json = File.ReadAllText(filePath);
+        return JsonConvert.DeserializeObject<T>(json);
+    }
+
+
+
+    T LoadJson<T>(string path)
+    {
+
+        string filePath = Path.Combine(Application.dataPath, $"StreamingAssets/Data/{path}.json");
+        string json = File.ReadAllText(filePath);
+        return JsonConvert.DeserializeObject<T>(json);
+    }
     void WriteToJson<T>(T list, string path)
     {
+        //if(list is Dictionary<int,Contents.Item>)
+
         List<T> items = new List<T>();
         items.Add(list);
         string json = JsonConvert.SerializeObject(new { items }, Formatting.Indented);
-        string filePath = Path.Combine(Application.dataPath, $"Resources/Data/{path}.json");
+        //string filePath = Path.Combine(Application.dataPath, $"Resources/Data/{path}.json");
+        string filePath = Path.Combine(Application.dataPath, $"StreamingAssets/Data/{path}.json");
+        if (!File.Exists(filePath))
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+        }
         File.WriteAllText(filePath, json);
     }
 
+    void WriteToJson(Contents.Player data,string path)
+    { 
+        string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+        //string filePath = Path.Combine(Application.dataPath, $"Resources/Data/{path}.json");
+        string filePath = Path.Combine(Application.dataPath, $"StreamingAssets/Data/{path}.json");
+        if (!File.Exists(filePath))
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+        }
+        File.WriteAllText(filePath, json);
+    }
 
 }

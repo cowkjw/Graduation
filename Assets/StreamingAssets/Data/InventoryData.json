@@ -1,0 +1,13 @@
+{
+  "items": [
+    {
+      "0": {
+        "ItemType": 0,
+        "Attack": 10,
+        "Price": 3000,
+        "Name": "Sword4",
+        "Id": 100
+      }
+    }
+  ]
+}

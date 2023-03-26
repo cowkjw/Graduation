@@ -61,7 +61,7 @@ public class Stat : MonoBehaviour
         MaxMp = 100;
     }
 
-    private void Start()
+    private void Awake() // 실제 빌드시에 hp = 0으로 설정 되는 경우가 발생해서 start보다 먼저 실행
     {
         Init();
     }
