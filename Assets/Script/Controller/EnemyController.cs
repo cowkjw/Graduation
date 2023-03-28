@@ -38,7 +38,7 @@ public class EnemyController : BaseCharacterController
     protected override void Init()
     {
 
-        if (Managers.Data.enemyExpDict.TryGetValue(gameObject.tag, out Contents.ExpData tempExpData))
+        if (Managers.Data.EnemyExpDict.TryGetValue(gameObject.tag, out Contents.ExpData tempExpData))
         {
             EnemyExp = tempExpData;
          //   Debug.Log($"{EnemyExp.Exp} "+gameObject.name);

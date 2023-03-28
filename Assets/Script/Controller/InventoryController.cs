@@ -155,11 +155,11 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
 
 
 
-
     public void OnPointerExit(PointerEventData eventData)
     {
         toolTip.gameObject.SetActive(false);
         clickInven = false;
         selectSlotIdx = -1;
     }
+
 }

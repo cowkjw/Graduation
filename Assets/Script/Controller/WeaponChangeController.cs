@@ -15,7 +15,8 @@ public class WeaponChangeController : MonoBehaviour
         {
             weapons.Add(int.Parse(transform.GetChild(i).name), transform.GetChild(i).gameObject);
         }
-        currentWeaponID = 101; // 하드코딩 고치기 씬마다 고정되게 인스턴스화됨
+        currentWeaponID =Managers.Data.PlayerData.equippedWeapon; // 하드코딩 고치기 씬마다 고정되게 인스턴스화됨
+        weapons[currentWeaponID].SetActive(true);
     }
 
     public void ChangeWeapon(int weaponID)
@@ -26,6 +27,8 @@ public class WeaponChangeController : MonoBehaviour
             weapons[currentWeaponID].SetActive(false);
             newWeapon.SetActive(true);
             currentWeaponID = weaponID;
+            Managers.Data.PlayerData.equippedWeapon = currentWeaponID; // 아이템 장착 저장
+            Managers.Data.PlayerDataChange();
         }
         else
         {

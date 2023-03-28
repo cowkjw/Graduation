@@ -81,7 +81,7 @@ public class InputManager
 
             if(Input.GetKeyDown(KeyCode.Escape))
             {
-                Managers.Data.playerData.location = SceneManager.GetActiveScene().buildIndex;
+                Managers.Data.PlayerData.location = SceneManager.GetActiveScene().buildIndex;
                 Managers.Data.PlayerDataChange();
                 Application.Quit();
             }

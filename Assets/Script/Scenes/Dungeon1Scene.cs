@@ -29,8 +29,8 @@ public class Dungeon1Scene : BaseScene  // @Scene에 Add
         //spawningPool.transform.SetParent(this.transform);
         //spawningPool?.AddComponent<EnemySpawnController>();
 
-        playerPos = new Vector3(-7, 1.4f, 31);
-        _player = Managers.Game.SpawnPlayer(playerPos);
+         playerPos = new Vector3(-7, 1.4f, 31); // 던전은 고정
+         _player = Managers.Game.SpawnPlayer(playerPos);
 
         Camera.main.gameObject.GetComponent<CameraController>().SetPlayer(_player);
 

@@ -83,7 +83,7 @@ public class Stat : MonoBehaviour
             if (attackObject is PlayerStat)
             {
                 // 플레이어가 공격한거라면
-                if (Managers.Data.enemyExpDict.TryGetValue(target.gameObject.tag,
+                if (Managers.Data.EnemyExpDict.TryGetValue(target.gameObject.tag,
                      out Contents.ExpData tempExpData))
                 {
                     Managers.Game.GetPlayer().GetComponent<PlayerStat>().Exp = tempExpData.Exp;

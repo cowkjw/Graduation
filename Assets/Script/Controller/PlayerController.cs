@@ -189,9 +189,11 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
         else if (other.gameObject.layer == 10)
         {
             SceneManager.LoadScene(0);
+            
         }
     }
 
+ 
 
     void HitEvent()
     {
@@ -249,8 +251,5 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
             anim.Play($"Slash{randomAttack}"); // 랜덤한 순서로 기본 공격 실행
         }
     }
-
-
-
 
 }

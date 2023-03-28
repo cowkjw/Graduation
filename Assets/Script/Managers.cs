@@ -11,11 +11,13 @@ public class Managers : MonoBehaviour
     GameManagerExt _game = new GameManagerExt();
     DataManager _data = new DataManager();
     PoolManager _pool = new PoolManager();
+    MySceneManager _scene = new();
 
-    public static GameManagerExt Game { get { return Instance._game; }  }
-    public static InputManager Input { get { return Instance._input; } }
-    public static DataManager Data { get { return Instance._data; } }
-    public static PoolManager Pool { get { return Instance._pool; } }
+    public static GameManagerExt Game { get => Instance._game; }
+    public static InputManager Input { get => Instance._input; }
+    public static DataManager Data { get => Instance._data; }
+    public static PoolManager Pool { get => Instance._pool; }
+    public static MySceneManager Scene { get => Instance._scene; }
 
 
     void Start()

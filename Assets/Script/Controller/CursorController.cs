@@ -65,7 +65,7 @@ public class CursorController : MonoBehaviour
         // 아이템이라면
         if (hit.collider.gameObject.layer == 11 && evt == Define.MouseState.LButtonDown)
         {
-            Vector3 dis = hit.collider.transform.position - Managers.Game.Player.transform.position;
+            Vector3 dis = hit.collider.transform.position - Managers.Game.GetPlayer().transform.position;
             if (dis.magnitude > 2f)
             {
                 return;

@@ -17,7 +17,7 @@ public class PoolManager
 
     public void LoadTheLastPosition()
     {
-        int playerScene = Managers.Data.playerData.location;
+        int playerScene = Managers.Data.PlayerData.location;
         SceneManager.LoadScene(playerScene);
     }
 
@@ -26,17 +26,22 @@ public class PoolManager
         monsterPrefab = Resources.Load<GameObject>("Prefabs/Skelton");
         poolManagers = new GameObject { name = "@PoolManagers" };
         monsterPool = new Queue<GameObject>();
-        foreach (var data in Managers.Data.enemyDict)
+        foreach (var data in Managers.Data.EnemyDict)
         {
+            if (monsterPrefab == null)
+            {
+                Debug.LogError("몬스터 프리팹 NULL");
+                return;
+            }
             GameObject monster = GameObject.Instantiate(monsterPrefab, data.Value.ToVecotr3(), Quaternion.identity);
             monster.name = data.Key;
             monster.SetActive(false);
             monsterPool.Enqueue(monster);
             monster.transform.SetParent(poolManagers.transform);
         }
-        
+
     }
 
 
-  
+
 }

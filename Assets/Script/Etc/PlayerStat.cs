@@ -21,6 +21,15 @@ public class PlayerStat : Stat
         {
             _totalExp += value; // 지금까지 얻은 값을 새로 업데이트 
 
+            //while (Managers.Data.StatDict.TryGetValue(_level + 1, out Contents.Stat stat))
+            //{
+            //    if (_totalExp >= stat.totalExp)
+            //    {
+            //        LevelUp();
+            //        Debug.Log($"레벨 {_level}");
+            //    }
+            //}
+
             if (Managers.Data.StatDict.TryGetValue(_level + 1, out Contents.Stat stat))
             {
                 if (_totalExp >= stat.totalExp)
@@ -37,7 +46,7 @@ public class PlayerStat : Stat
     {
         base.Init();
         levelUpUI = FindObjectOfType<LevelUpUI>();
-        _level = Managers.Data.playerData.playerStat.level;
+        _level = Managers.Data.PlayerData.playerStat.level;
         if (Managers.Data.StatDict.TryGetValue(_level, out Contents.Stat stat))
         {
             _totalExp = stat.totalExp;
