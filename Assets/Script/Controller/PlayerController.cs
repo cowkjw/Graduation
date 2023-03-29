@@ -14,6 +14,9 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
     public ParticleSystem swordEffect;
     bool _stopAttack = false;
 
+    [SerializeField]
+    ParticleSystem levelUpParticle;
+
 
     public override Define.State State
     {
@@ -79,28 +82,11 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
         }
     }
 
-    //override protected void Attacking()
-    //{
-    //    if (_target)
-    //        if (_target != null)
-    //        {
-    //            float disEnemy = Vector3.Distance(_target.transform.position, transform.position);
-    //            Vector3 dirEnemy = (_target.transform.position - transform.position);
-    //            Quaternion lookEnemy = Quaternion.LookRotation(dirEnemy);
-
-    //            if (disEnemy <= 0.8f)
-    //            {
-    //                transform.rotation = Quaternion.Slerp(transform.rotation, lookEnemy, 25 * Time.deltaTime);
-    //                State = Define.State.Attack;
-    //                return;
-    //            }
-    //        }
-    //}
-
     override protected void Attacking()
     {
 
-        if (_target == null || !((_target.transform.position - transform.position).sqrMagnitude <= 0.64f)) // 제곱근 연산 줄임
+        if (_target == null || !((_target.transform.position - transform.position).sqrMagnitude <= 0.81f)
+            ||_target.GetComponent<EnemyController>().State==Define.State.Die) // 제곱근 연산 줄임 타겟이 죽은 상태라면 return
         {
             return;
         }
@@ -109,21 +95,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 25 * Time.deltaTime);
 
         State = Define.State.Attack;
-        //if (_target == null)
-        //{
-        //    return;
-        //}
-
-        //float distanceToTarget = Vector3.Distance(_target.transform.position, transform.position);
-
-        //if (distanceToTarget <= 0.8f)
-        //{
-        //    Vector3 directionToTarget = (_target.transform.position - transform.position).normalized;
-        //    Quaternion lookAtTarget = Quaternion.LookRotation(directionToTarget);
-        //    transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 25 * Time.deltaTime);
-
-        //    State = Define.State.Attack;
-        //}
+        
     }
 
     void EnemyTargetAndState(Define.MouseState evt)
@@ -169,34 +141,6 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
         }
 
     }
-
-    //protected override void Moving()
-    //{
-    //    Vector3 dir = _destPos - transform.position;
-    //    dir.y = 0; // 몬스터 위로 이동 x
-
-    //    Attacking();
-
-    //    if (dir.magnitude < 0.1f)
-    //    {
-    //        State = Define.State.Idle;
-    //    }
-    //    else
-    //    {
-    //        if (Physics.Raycast(transform.position + Vector3.up * 0.5f, dir, 1.0f, LayerMask.GetMask("Wall")))
-    //        {
-    //            if (Input.GetMouseButton(0) == false)
-    //                State = Define.State.Idle;
-    //            return;
-    //        }
-
-    //        // float moveDist = Mathf.Clamp(5 * Time.deltaTime, 0, dir.magnitude);
-    //        float moveDist = Mathf.Min(5 * Time.deltaTime, dir.magnitude);
-    //        transform.position += dir.normalized * moveDist;
-    //        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 25 * Time.deltaTime);
-    //    }
-
-    //}
 
     protected override void Moving()
     {
@@ -245,9 +189,11 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
         else if (other.gameObject.layer == 10)
         {
             SceneManager.LoadScene(0);
+            
         }
     }
 
+ 
 
     void HitEvent()
     {
@@ -257,7 +203,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
         if (!_stopAttack)
         {
             Stat enemyStat = _target.GetComponent<Stat>();
-            enemyStat.Attacked(_stat);
+            enemyStat.Attacked(_stat,_target);
 
             _scene.ObjStat = enemyStat;
             _scene.ObjName = enemyStat.name;
@@ -282,12 +228,27 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
     }
 
+    public void LevelUpEffect()
+    {
+        levelUpParticle.Play(); // 레벨업 파티클 실행
+        StartCoroutine(StopLevelUpParticle(1f)); // 1초후에 멈춤
+    }
+
+    IEnumerator StopLevelUpParticle(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        levelUpParticle.Stop();
+    }
+
     void ComboAttackAnim(Animator anim)
     {
 
+        int randomAttack = Random.Range(0, 2) == 0 ? 1 : 3; // 50프로 확률
+
         if (anim.GetBool("Attacking"))
         {
-            anim.Play("Slash1");
+            Debug.Log($"Slash{randomAttack}");
+            anim.Play($"Slash{randomAttack}"); // 랜덤한 순서로 기본 공격 실행
         }
     }
 

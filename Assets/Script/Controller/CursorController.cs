@@ -60,10 +60,12 @@ public class CursorController : MonoBehaviour
     {
         if (hit.collider == null)
             return;
+        if (hit.collider.gameObject.transform.root.gameObject.layer == 3) // 해당 오브젝트의 부모가 Player라면 (플레이어가 가지고 있는 아이템이므로 무시)
+            return;
         // 아이템이라면
         if (hit.collider.gameObject.layer == 11 && evt == Define.MouseState.LButtonDown)
         {
-            Vector3 dis = hit.collider.transform.position - Managers.Game.Player.transform.position;
+            Vector3 dis = hit.collider.transform.position - Managers.Game.GetPlayer().transform.position;
             if (dis.magnitude > 2f)
             {
                 return;
@@ -72,6 +74,7 @@ public class CursorController : MonoBehaviour
             int itemID = hit.collider.GetComponent<Item>().Id;
             if (Managers.Data.ItemDict.TryGetValue(itemID, out Contents.Item tempItem))
             {
+         
                 if (_inventory.AddItem(tempItem))
                     Destroy(hit.collider.gameObject);
             }

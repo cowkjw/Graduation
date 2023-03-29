@@ -7,7 +7,7 @@ public class EnemySpawnController : MonoBehaviour
 {
     int maximumEnemy = 9;
 
-    float spawnDelay = 8.0f;
+    float spawnDelay = 5.0f;
 
 
     Stack<GameObject> enemyStack = new Stack<GameObject>();

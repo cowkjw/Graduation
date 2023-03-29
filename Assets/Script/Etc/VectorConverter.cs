@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 [Serializable]
-public class VectorConverter
+public class VectorConverter // 몬스터 위치 변환
 {
     public float x;
     public float y;

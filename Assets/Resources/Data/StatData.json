@@ -3,20 +3,26 @@
     {
       "level": "1",
       "maxHp": "200",
+      "maxMp": "200",
       "attack": "20",
+      "defense": "10",
       "totalExp": "0"
     },
     {
       "level": "2",
       "maxHp": "250",
-      "attack": "25",
-      "totalExp": "10"
+      "maxMp": "250",
+      "attack": "30",
+      "defense": "15",
+      "totalExp": "1000"
     },
     {
       "level": "3",
       "maxHp": "300",
-      "attack": "30",
-      "totalExp": "20"
+      "maxMp": "300",
+      "attack": "35",
+      "defense": "20",
+      "totalExp": "2500"
     }
   ]
 } 

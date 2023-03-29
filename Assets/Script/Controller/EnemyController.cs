@@ -13,6 +13,8 @@ public class EnemyController : BaseCharacterController
 
     float _findRange = 5f;
 
+    public Contents.ExpData EnemyExp { get; private set; }
+
     protected override void Update()
     {
         //if (!isUsing)
@@ -35,6 +37,14 @@ public class EnemyController : BaseCharacterController
 
     protected override void Init()
     {
+
+        if (Managers.Data.EnemyExpDict.TryGetValue(gameObject.tag, out Contents.ExpData tempExpData))
+        {
+            EnemyExp = tempExpData;
+         //   Debug.Log($"{EnemyExp.Exp} "+gameObject.name);
+        }
+
+  
         _stat = GetComponent<Stat>();
         _target = Managers.Game.GetPlayer();
         nma = gameObject.GetComponent<NavMeshAgent>();
@@ -46,6 +56,7 @@ public class EnemyController : BaseCharacterController
     void OnEnable()
     {
         Init();
+        this.GetComponent<CapsuleCollider>().isTrigger = false; // 스폰이 되면서 트리거 false로 바꿈
         StopAllCoroutines();
     }
 
@@ -54,6 +65,7 @@ public class EnemyController : BaseCharacterController
         if (_stat.Hp == 0)
         {
             State = Define.State.Die;
+            this.GetComponent<CapsuleCollider>().isTrigger = true; // 죽은 상태로 플레이어를 막지 않게 하기 위해 트리거 on
             StartCoroutine(DropCoin());
         }
         else
@@ -140,7 +152,7 @@ public class EnemyController : BaseCharacterController
         if(_target!=null)
         {
             PlayerStat playerStat = _target.GetComponent<PlayerStat>(); // 플레이어 스탯 가져옴
-            playerStat.Attacked(_stat); // 몬스터의 스탯을 넘겨줌
+            playerStat.Attacked(_stat,_target); // 몬스터의 스탯을 넘겨줌
         }
     }
 

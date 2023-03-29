@@ -57,11 +57,12 @@ public class ShopController : MonoBehaviour, IPointerDownHandler, IPointerExitHa
         if (Managers.Data.Gold < itemPrice)
         {
             Debug.Log("구매 불가");
-            // return;
+            return;
         }
 
         inventory.AddItem(buySlot.ItemInfo);
         Managers.Data.Gold -= itemPrice;
+        Managers.Data.PlayerDataChange();
         Debug.Log("구매 가능");
         buySlot = null;
     }

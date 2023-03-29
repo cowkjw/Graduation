@@ -34,6 +34,7 @@ public class Coin : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Managers.Data.Gold += CoinValue;
+            Managers.Data.PlayerDataChange(); // 이렇게 자주 넣어도 되나??
             Destroy(gameObject);
         }
     }

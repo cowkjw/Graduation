@@ -5,6 +5,11 @@ using UnityEngine;
 public class Define
 {
 
+    public enum EnemyType
+    {
+        Skelton = 500,
+    }
+
     public enum State
     {
         Idle,
@@ -36,7 +41,7 @@ public class Define
 
     public enum UI
     {
-        Inventory=14,
+        Inventory = 14,
         Shop,
         Stat,
     }
