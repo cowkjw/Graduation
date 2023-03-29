@@ -13,11 +13,13 @@ public class Item : MonoBehaviour
     protected Define.ItemType itemType;
     protected int id; // 아이템 아이디
     protected int price;
+    protected int sellPrice;
 
-    public string Name { get { return itemName; } }
-    public Define.ItemType ItemType { get { return itemType; } }
-    public int Id { get { return id; } }
-    public int Price { get { return price; } }
+    public string Name { get => itemName; }
+    public Define.ItemType ItemType { get => itemType; }
+    public int Id { get => id; }
+    public int Price { get => price; }
+    public int SellPrice { get => sellPrice; }
 
     public virtual void UseItem()
     {
@@ -37,6 +39,7 @@ public class Item : MonoBehaviour
             this.itemType = tempItem.ItemType;
             this.id = tempItem.Id;
             this.price = tempItem.Price;
+            this.sellPrice = tempItem.SellPrice;
         }
     }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,6 +15,7 @@ public class BaseScene : MonoBehaviour
     protected GameObject npcUI = null; // NPC UI 오브젝트   
     protected Slider _playerHpBar;
     protected Stat _playerStat;
+    protected TextMeshProUGUI _playerLevelText;
 
 
     void Awake()
@@ -26,6 +28,7 @@ public class BaseScene : MonoBehaviour
         _playerStat = Managers.Game.GetPlayer().GetComponent<PlayerStat>();
         inventory = GameObject.Find("UI").transform.Find("Inventory").gameObject;
         _playerHpBar = GameObject.FindGameObjectWithTag("PlayerUI").transform.GetChild(1).GetComponent<Slider>();
+        _playerLevelText = GameObject.FindGameObjectWithTag("LevelUI").GetComponent<TextMeshProUGUI>();
         Managers.Input.KeyboardAction -= InputUIHotKey;
         Managers.Input.KeyboardAction += InputUIHotKey;
     }
@@ -33,6 +36,7 @@ public class BaseScene : MonoBehaviour
     protected virtual void Update() // 플레이어의 HPUI 업데이트를 위함
     {
         _playerHpBar.value = _playerStat.Hp / (float)_playerStat.MaxHp;
+        _playerLevelText.text = $"LELVEL {Managers.Data.PlayerStat.Level}";
     }
 
     public virtual void Init()
@@ -46,9 +50,16 @@ public class BaseScene : MonoBehaviour
     {
         if (uiType == Define.UI.Inventory)
         {
-            if (inventory.activeSelf)
+            if (inventory.activeSelf) // 인벤토리가 켜져있다면
             {
-                if (GameObject.FindGameObjectWithTag("NPC") && npcUI?.activeSelf == false)
+                if (GameObject.FindGameObjectWithTag("NPC")) // 해당 맵에 상점 NPC가 있다면
+                {
+                    if (npcUI?.activeSelf == false) // NPC 널체크 상점이 안켜져있을 때 인벤토리 비활성화
+                    {
+                        inventory.SetActive(false);
+                    }
+                }
+                else
                 {
                     inventory.SetActive(false);
                 }
@@ -59,32 +70,6 @@ public class BaseScene : MonoBehaviour
             }
         }
     }
-
-    //void InputUIHotKey(Define.UI uiType)
-    //{
-    //    if (uiType == Define.UI.Inventory)
-    //    {
-    //        if (inventory.activeSelf == true) // 인벤토리가 켜져있다면
-    //        {
-    //            if (GameObject.FindGameObjectWithTag("NPC")) // 해당 맵에 상점 NPC가 있다면
-    //            {
-    //                if (npcUI != null && !npcUI.activeSelf) // NPC 널체크 상점이 안켜져있을 때 인벤토리 비활성화
-    //                {
-    //                    inventory.SetActive(false);
-    //                }
-    //            }
-    //            else
-    //            {
-    //                inventory.SetActive(false);
-    //            }
-
-    //        }
-    //        else if (inventory.activeSelf == false)
-    //        {
-    //            inventory.SetActive(true);
-    //        }
-    //    }
-    //}
     protected virtual void ClickNPC(Define.MouseState evt) { }
     public virtual void SetPlayerHp() { }
 }

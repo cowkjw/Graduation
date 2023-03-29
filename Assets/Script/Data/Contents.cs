@@ -16,8 +16,9 @@ namespace Contents
         public string Name { get; set; } = "emptySlot";
         public Define.ItemType ItemType;
         public int Attack = 0;
-        public int Price = 0;
         public int Id { get; set; } = -1; // 아이템 아이디
+        public int Price = 0;
+        public int SellPrice = 0;
     }
 
     [Serializable]

@@ -44,21 +44,32 @@ public class Stat : MonoBehaviour
             return;
         }
 
-        _maxHp = stat.maxHp;
-        _hp = _maxHp;
-        _maxMp = stat.maxMp;
-        _mp = _maxMp;
-        _attack = stat.attack;
-        _defense = stat.defense;
-
+        if(this.GetComponent<Stat>() is PlayerStat) // 플레이어라면 
+        {
+            _maxHp = stat.maxHp;
+            _hp = _maxHp;
+            _maxMp = stat.maxMp;
+            _mp = _maxMp;
+            _attack = stat.attack + (Managers.Data.ItemDict[Managers.Data.PlayerData.equippedWeapon].Attack);
+            _defense = stat.defense;
+        }
+        else
+        {
+            Hp = 200;
+            MaxHp = 200;
+            Mp = 200;
+            MaxMp = 200;
+            Attack = 15;
+            Defense = 10;
+        }
     }
 
     public void ResetStat() // 하드코딩 해둠 다음에 바꾸기
     {
-        Hp = 100;
-        MaxHp = 100;
-        Mp = 100;
-        MaxMp = 100;
+        Hp = 200;
+        MaxHp = 200;
+        Mp = 200;
+        MaxMp = 200;
     }
 
     private void Awake() // 실제 빌드시에 hp = 0으로 설정 되는 경우가 발생해서 start보다 먼저 실행

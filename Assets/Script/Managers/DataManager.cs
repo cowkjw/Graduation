@@ -42,27 +42,31 @@ public class DataManager
 
     }
 
-    public void InventoryDataChange(int idx, Contents.Item item = null, bool add = true) // 기본적으로 아이템을 넣는 bool값 
+    public void UpdateInventoryData(int idx, Contents.Item item = null, bool add = true) // 기본적으로 아이템을 넣는 bool값 
     {
         if (add)
         {
-            InvenDict.TryAdd(idx, item);
+            if (!InvenDict.TryAdd(idx, item)) // 만약 이미 해당 칸에 들어가 있다면
+            {
+                InvenDict[idx] = item; // 아이템을 변경함
+            }
+
         }
         else
         {
             InvenDict.Remove(idx);
         }
-
         WriteToJson(InvenDict, "InventoryData");
-
     }
 
     public void PlayerDataChange()
     {
-        PlayerData.playerStat.level = Managers.Game.GetPlayer().GetComponent<PlayerStat>().Level;
+
+        PlayerData.playerStat.level = PlayerStat.Level;
+        PlayerData.playerStat.totalExp = PlayerStat.TotalExp;
         PlayerData.gold = _gold;
-       
         Debug.Log($"{PlayerData.equippedWeapon} 변경함");
+
         WriteToJson(PlayerData, "PlayerData");
     }
 

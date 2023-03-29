@@ -27,6 +27,7 @@ public class Slot : MonoBehaviour
             _itemInfo.Name = tempItem.Name;
             _itemInfo.Price = tempItem.Price;
             _itemInfo.Id = tempItem.Id;
+            _itemInfo.SellPrice = tempItem.SellPrice;
 
             if (_itemInfo.ItemType == Define.ItemType.Equipment)
             {
