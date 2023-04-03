@@ -29,6 +29,8 @@ public class WeaponChangeController : MonoBehaviour
             currentWeaponID = weaponID;
             Managers.Data.PlayerData.equippedWeapon = currentWeaponID; // 아이템 장착 저장
             Managers.Data.PlayerDataChange();
+            
+            Managers.Game.GetPlayer().GetComponent<PlayerStat>().Attack +=Managers.Data.ItemDict[currentWeaponID].Attack; // 바뀐 장착 무기 추가 공격력 더하기
         }
         else
         {

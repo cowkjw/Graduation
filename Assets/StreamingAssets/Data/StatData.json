@@ -53,23 +53,23 @@
       "maxHp": "500",
       "maxMp": "500",
       "attack": "45",
-      "defense": "45",
+      "defense": "40",
       "totalExp": "1200"
     },
     {
       "level": "8",
       "maxHp": "600",
       "maxMp": "600",
-      "attack": "45",
-      "defense": "50",
+      "attack": "50",
+      "defense": "45",
       "totalExp": "1500"
     },
     {
       "level": "9",
       "maxHp": "750",
       "maxMp": "750",
-      "attack": "50",
-      "defense": "60",
+      "attack": "55",
+      "defense": "50",
       "totalExp": "2200"
     },
     {
@@ -77,7 +77,7 @@
       "maxHp": "1000",
       "maxMp": "1000",
       "attack": "60",
-      "defense": "65",
+      "defense": "55",
       "totalExp": "3000"
     }
   ]

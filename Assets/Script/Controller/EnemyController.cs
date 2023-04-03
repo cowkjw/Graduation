@@ -9,9 +9,9 @@ public class EnemyController : BaseCharacterController
     public GameObject[] _coin;
 
     Vector3 originalPostition; // 원래 위치로
-    NavMeshAgent nma;
 
-    float _findRange = 5f;
+    protected NavMeshAgent nma;
+    protected float _findRange = 5f;
 
     public Contents.ExpData EnemyExp { get; private set; }
 
@@ -147,7 +147,7 @@ public class EnemyController : BaseCharacterController
     }
 
 
-    void PlayerHit()
+    protected virtual void PlayerHit()
     {
         if(_target!=null)
         {
@@ -173,7 +173,7 @@ public class EnemyController : BaseCharacterController
         this.gameObject.SetActive(false);
     }
 
-    IEnumerator DropCoin()
+    protected virtual IEnumerator DropCoin()
     {
         int itemCnt = Random.Range(5, 10);
 

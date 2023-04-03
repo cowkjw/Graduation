@@ -7,10 +7,10 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 {
 
 
- 
+
     int _mask = 1 << 6 | 1 << 8 | 1 << 9; // 6 Ground 8 Enemy 9 Dungeon1 5 UI
 
-    Dungeon1Scene _scene;
+    BaseScene _scene;
     public ParticleSystem swordEffect;
     bool _stopAttack = false;
 
@@ -27,7 +27,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
             _state = value;
 
             Animator anim = GetComponent<Animator>();
-
+           
             switch (_state)
             {
                 case Define.State.Idle:
@@ -57,7 +57,9 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
     override protected void Init()
     {
-        _scene = FindObjectOfType<BaseScene>().GetComponent<Dungeon1Scene>();
+        // BaseScene을 찾아온다 (어떤 Scene일지 모르기 때문)
+        _scene = FindObjectOfType<BaseScene>();//.GetComponent<Dungeon1Scene>(); /
+        //_scene = FindObjectOfType<BaseScene>().GetComponent<Dungeon1Scene>();
         _stat = gameObject.GetComponent<PlayerStat>() as PlayerStat;
         Managers.Input.MouseAction -= MouseEvent;
         Managers.Input.MouseAction += MouseEvent;
@@ -86,7 +88,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
     {
 
         if (_target == null || !((_target.transform.position - transform.position).sqrMagnitude <= 0.81f)
-            ||_target.GetComponent<EnemyController>().State==Define.State.Die) // 제곱근 연산 줄임 타겟이 죽은 상태라면 return
+            || _target.GetComponent<EnemyController>().State == Define.State.Die) // 제곱근 연산 줄임 타겟이 죽은 상태라면 return
         {
             return;
         }
@@ -95,7 +97,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 25 * Time.deltaTime);
 
         State = Define.State.Attack;
-        
+
     }
 
     void EnemyTargetAndState(Define.MouseState evt)
@@ -189,33 +191,51 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
         else if (other.gameObject.layer == 10)
         {
             SceneManager.LoadScene(0);
-            
+
+        }
+        else if(other.gameObject.layer == 13)
+        {
+            SceneManager.LoadScene(2);
         }
     }
 
- 
+
 
     void HitEvent()
     {
 
         if (_target == null) return;
-
+        Dungeon1Scene dungeon1Scene = null; // 던전 Scene을 생성
+        if(_scene is Dungeon1Scene)
+        {
+            dungeon1Scene = _scene.GetComponent<Dungeon1Scene>(); // 만약 해당 씬이 기본 던전 맵이면
+        }
         if (!_stopAttack)
         {
             Stat enemyStat = _target.GetComponent<Stat>();
-            enemyStat.Attacked(_stat,_target);
+            enemyStat.Attacked(_stat, _target);
+            if(dungeon1Scene==null)
+                return;
 
-            _scene.ObjStat = enemyStat;
-            _scene.ObjName = enemyStat.name;
+            //_scene.ObjStat = enemyStat;
+            //_scene.ObjName = enemyStat.name;
+            //Debug.Log(enemyStat.name);
+            //_scene.ObjNameText.gameObject.SetActive(true);
+            //_scene.HpBar.gameObject.SetActive(true);
+            dungeon1Scene.ObjStat = enemyStat;
+            dungeon1Scene.ObjName = enemyStat.name;
             Debug.Log(enemyStat.name);
-            _scene.ObjNameText.gameObject.SetActive(true);
-            _scene.HpBar.gameObject.SetActive(true);
+            dungeon1Scene.ObjNameText.gameObject.SetActive(true);
+            dungeon1Scene.HpBar.gameObject.SetActive(true);
+            
             State = Define.State.Attack;
         }
         else//(_stopAttack)
         {
-            _scene.HpBar.gameObject.SetActive(false);
-            _scene.ObjNameText.gameObject.SetActive(false);
+            //_scene.HpBar.gameObject.SetActive(false);
+            //_scene.ObjNameText.gameObject.SetActive(false);   
+            dungeon1Scene.HpBar.gameObject.SetActive(false);
+            dungeon1Scene.ObjNameText.gameObject.SetActive(false);
             swordEffect.Stop();
             State = Define.State.Idle;
         }
@@ -242,13 +262,14 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
     void ComboAttackAnim(Animator anim)
     {
-
         int randomAttack = Random.Range(0, 2) == 0 ? 1 : 3; // 50프로 확률
 
         if (anim.GetBool("Attacking"))
         {
             Debug.Log($"Slash{randomAttack}");
             anim.Play($"Slash{randomAttack}"); // 랜덤한 순서로 기본 공격 실행
+            Debug.Log($"Slash{randomAttack}");
+
         }
     }
 

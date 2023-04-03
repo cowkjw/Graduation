@@ -116,17 +116,20 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
             return;
         }
 
-        Slot equipSlot = Slots[selectSlotIdx].GetComponent<Slot>(); // 장착할 오브젝트
+        Slot equipSlot = Slots[selectSlotIdx].GetComponent<Slot>(); // 장착할 Slot
 
-        if (equipSlot.ItemInfo.ItemType == Define.ItemType.Equipment) // 장착하는 아이템이라면
+        if (equipSlot.ItemInfo.ItemType == Define.ItemType.Equipment) // 장착하는 아이템 타입이 장비라면
         {
-            int currentItemId = Managers.Data.PlayerData.equippedWeapon;
+            int currentItemId = Managers.Data.PlayerData.equippedWeapon; // 현재 장착 무기 ID 
             weaponSocket?.ChangeWeapon(equipSlot.ItemInfo.Id); // 만약 널이 아니라면 불러와서 해당 아이템 ID로 변경
-            if (Managers.Data.ItemDict.TryGetValue(currentItemId, out Contents.Item currentEquipItem))
+            if (Managers.Data.ItemDict.TryGetValue(currentItemId, out Contents.Item currentEquipItem)) // Item table에서 해제한 장비 정보 가져옴
             {
-                equipSlot.PutInItem(currentEquipItem);// 현재 장착한 아이템을 선택한 슬롯으로 넣기
+                Managers.Game.GetPlayer().GetComponent<PlayerStat>().Attack -= currentEquipItem.Attack; // 현재 장착 중인 무기 추가 공격력 빼기
+                Debug.Log(currentEquipItem.Attack);
+                equipSlot.PutInItem(currentEquipItem);// 현재 장착한 아이템을 선택한 슬롯으로 넣기 
             }
-            Managers.Data.UpdateInventoryData(selectSlotIdx, currentEquipItem, true); // 해당 인덱스 아이템 삭제하고 해당 슬롯 빈 상태로 
+                Debug.Log(equipSlot.ItemInfo.Attack);
+            Managers.Data.UpdateInventoryData(selectSlotIdx, currentEquipItem, true); // 해당 인덱스 아이템 변경 및 빈 슬롯으로 교체 
         }
 
     }

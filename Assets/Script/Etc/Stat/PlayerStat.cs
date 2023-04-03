@@ -33,6 +33,20 @@ public class PlayerStat : Stat
     void Start()
     {
         _totalExp = Managers.Data.PlayerData.playerStat.totalExp;
+        while (Managers.Data.StatDict.TryGetValue(_level + 1, out Contents.Stat stat))
+        {
+
+            if (_totalExp >= stat.totalExp)
+            {
+                LevelUp();
+                Debug.Log($"·¹º§ {_level}");
+            }
+            else
+            {
+                break;
+            }
+
+        }
     }
 
     protected override void Init()

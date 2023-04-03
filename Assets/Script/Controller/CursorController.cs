@@ -46,7 +46,7 @@ public class CursorController : MonoBehaviour
             return;
 
         int hitLayer = hit.collider.gameObject.layer;
-        if (hitLayer == 8 || hitLayer == 11)
+        if (hitLayer == 8 || hitLayer == 11||hitLayer == 7)
             return;
 
         if (evt == Define.MouseState.LButtonDown)

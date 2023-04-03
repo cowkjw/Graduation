@@ -11,7 +11,7 @@ public class Managers : MonoBehaviour
     GameManagerExt _game = new GameManagerExt();
     DataManager _data = new DataManager();
     PoolManager _pool = new PoolManager();
-    MySceneManager _scene = new();
+    MySceneManager _scene = new MySceneManager();
 
     public static GameManagerExt Game { get => Instance._game; }
     public static InputManager Input { get => Instance._input; }

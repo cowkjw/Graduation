@@ -1,7 +1,30 @@
 {
   "items": [
     {
-
+      "0": {
+        "ItemType": 0,
+        "Attack": 20,
+        "Price": 15000,
+        "SellPrice": 8000,
+        "Name": "Sword14",
+        "Id": 101
+      },
+      "1": {
+        "ItemType": 0,
+        "Attack": 40,
+        "Price": 30000,
+        "SellPrice": 18000,
+        "Name": "Sword15",
+        "Id": 102
+      },
+      "2": {
+        "ItemType": 0,
+        "Attack": 20,
+        "Price": 15000,
+        "SellPrice": 8000,
+        "Name": "Sword14",
+        "Id": 101
+      }
     }
   ]
 }
