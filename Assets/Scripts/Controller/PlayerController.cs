@@ -88,11 +88,10 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
     {
 
         if (_target == null || !((_target.transform.position - transform.position).sqrMagnitude <= 0.81f)
-            || _target.GetComponent<EnemyController>().State == Define.State.Die) // 제곱근 연산 줄임 타겟이 죽은 상태라면 return
+            || _target.GetComponent<EnemyController>()?.State == Define.State.Die || _target.GetComponent<BossController>()?.State == Define.State.Die) // 제곱근 연산 줄임 타겟이 죽은 상태라면 return
         {
             return;
         }
-
         Quaternion lookAtTarget = Quaternion.LookRotation((_target.transform.position - transform.position).normalized);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 25 * Time.deltaTime);
 
@@ -273,6 +272,39 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
         }
     }
 
+    private void OnParticleCollision(GameObject other)
+    {
+        //float explosionForce = 10f;
+        //float explosionRadius = 5f;
+
+
+        //if (other != null)
+        //{
+        //    Debug.Log(other.name);
+        //    float distance = Vector3.Distance(transform.position, other.transform.position);
+
+        //    // Calculate the force to apply based on the distance
+        //    float calculatedForce = 1f - (distance / explosionRadius);
+        //    float force = explosionForce * calculatedForce;
+
+        //    // Calculate the force direction
+        //    Vector3 forceDirection = -transform.forward;
+
+        //    // Apply the explosion force to the rigid body
+        //    GetComponent<Rigidbody>().AddForce(forceDirection * force, ForceMode.Impulse);
+        //}
+        float pushForce = 8f;
+
+        if (other != null)
+        {
+            // Calculate the direction to push the object
+            Vector3 pushDirection = transform.position - other.transform.position;
+
+            // Normalize the direction and apply the force
+            GetComponent<Rigidbody>().AddForce(pushDirection.normalized * pushForce, ForceMode.Impulse);
+        }
+
+    }
 
 
 }

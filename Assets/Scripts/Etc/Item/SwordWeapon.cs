@@ -15,6 +15,5 @@ public class SwordWeapon : Item
     public override void UseItem()
     {
         base.UseItem();
-        Debug.Log("°Ë ¹«±â");
     }
 }
