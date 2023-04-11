@@ -8,6 +8,7 @@ public class Define
     public enum EnemyType
     {
         Skelton = 500,
+        Boss
     }
 
     public enum State
@@ -15,6 +16,7 @@ public class Define
         Idle,
         Moving,
         Attack,
+        JumpAttack,
         Die,
     }
 

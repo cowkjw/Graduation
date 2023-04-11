@@ -19,31 +19,56 @@ public class BossController : EnemyController
     Color matColor1;
     Color matColor2;
 
+    Animator animator;
     private Vector3 initialPosition;
     private bool isJumping = false;
     private Vector3 targetPosition;
 
     private void OnEnable()
     {
+        base.Init();
+        EnemyType = Define.EnemyType.Boss;
+        _findRange = 6f;
     }
 
 
-    Animator animator;
     protected override void Start()
     {
         animator = GetComponent<Animator>();
-        initialPosition = transform.position;
-        Invoke("Test", 5f);
 
-        //Invoke("StartJumpAttack", 2f);
-        // StartJumpAttack();
-    }
-    void Test()
-    {
-        StartJumpAttack(Managers.Game.GetPlayer().transform.position);
+        _target = Managers.Game.GetPlayer();
+        area = Instantiate(areaPrefab, transform.position, Quaternion.identity);
+        area.SetActive(false);
     }
 
     protected override void Update()
+    {
+        if (State != Define.State.Die)
+            Dying();
+
+        switch (State)
+        {
+            case Define.State.Moving:
+                Moving();
+                break;
+            case Define.State.Idle:
+                Idle();
+                break;
+            case Define.State.Attack:
+                Attacking();
+                break;
+            case Define.State.JumpAttack:
+                if (!isJumping)
+                {
+                    StartJumpAttack(_target.transform.position);
+                }
+                JumpAttacking();
+                break;
+        }
+
+    }
+
+    void JumpAttacking()
     {
         if (isJumping)
         {
@@ -53,22 +78,18 @@ public class BossController : EnemyController
             {
                 isJumping = false;
                 jumpAttackEffect.Play();
-
-                Destroy(area, 1f);
-                area = null;
+                area.SetActive(false);
             }
             float jumpHeightOffset = Mathf.Sin(jumpProgress * Mathf.PI) * jumpHeight;
             transform.position = Vector3.Lerp(initialPosition, targetPosition, jumpProgress) + Vector3.up * jumpHeightOffset;
-
         }
         else
         {
-            animator.CrossFade("Idle", 0.1f);
             if (jumpAttackEffect.isPlaying)
             {
                 jumpAttackEffect.Stop();
             }
-
+            State = Define.State.Idle;
         }
     }
 
@@ -76,11 +97,9 @@ public class BossController : EnemyController
     {
         targetPosition = playerPosition;
         isJumping = true;
-        area = Instantiate(areaPrefab, playerPosition, Quaternion.identity);
-        material = area.GetComponent<MeshRenderer>().material;
-        matColor = material.color;
-        matColor1 = new Color(matColor.r, matColor.g, matColor.b, 0f);
-        matColor2 = new Color(matColor.r, matColor.g, matColor.b, 1f);
-        animator.CrossFade("Attack", 0.1f);
+        area.transform.position = playerPosition;
+        area.SetActive(true);
+        animator.CrossFade("JumpAttack", 0.1f);
+        initialPosition = transform.position;
     }
 }

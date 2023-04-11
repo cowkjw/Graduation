@@ -8,11 +8,12 @@ public class EnemyController : BaseCharacterController
 
     public GameObject[] _coin;
 
-    Vector3 originalPostition; // 원래 위치로
+    protected Vector3 originalPostition; // 원래 위치로
 
     protected NavMeshAgent nma;
     protected float _findRange = 5f;
 
+    public Define.EnemyType EnemyType { get; protected set; }
     public Contents.ExpData EnemyExp { get; private set; }
 
     protected override void Update()
@@ -41,16 +42,15 @@ public class EnemyController : BaseCharacterController
         if (Managers.Data.EnemyExpDict.TryGetValue(gameObject.tag, out Contents.ExpData tempExpData))
         {
             EnemyExp = tempExpData;
-         //   Debug.Log($"{EnemyExp.Exp} "+gameObject.name);
-        }
 
-  
+        }
         _stat = GetComponent<Stat>();
         _target = Managers.Game.GetPlayer();
         nma = gameObject.GetComponent<NavMeshAgent>();
         nma.speed = 2.5f;// 임시로 이동속도 설정
         originalPostition = transform.position;
         State = Define.State.Idle;
+        EnemyType = Define.EnemyType.Skelton;
     }
 
     void OnEnable()
@@ -72,7 +72,7 @@ public class EnemyController : BaseCharacterController
             return;
     }
 
-    void Idle()
+    protected void Idle()
     {
         if (_target == null)
             return;
@@ -97,6 +97,20 @@ public class EnemyController : BaseCharacterController
 
         if (dir.magnitude <= nma.stoppingDistance) // 공격할지 판단
         {
+
+            if (((float)_stat.Hp / _stat.MaxHp) < 0.8f && State != Define.State.JumpAttack)
+            {
+                if (Random.value < 0.5f)
+                {
+                    State = Define.State.JumpAttack;
+                    Debug.Log("점프 공격 시작");
+                }
+                else
+                {
+                    State = Define.State.Attack;
+                }
+                return;
+            }
             State = Define.State.Attack;
             return;
         }
@@ -124,21 +138,23 @@ public class EnemyController : BaseCharacterController
         if (_target == null)
             return;
 
+
+
         Vector3 dir = _target.transform.position - transform.position;
 
-        if (dir.magnitude > _findRange)
+        if (dir.magnitude > _findRange) // 타겟이 멀어지면
         {
-            nma.SetDestination(originalPostition);
+            nma.SetDestination(originalPostition); // 원래 자리로 
             State = Define.State.Idle;
             return;
         }
-        else if (dir.magnitude <= _findRange)
+        else if (dir.magnitude <= _findRange) // 범위 안에 있다면
         {
-            if (dir.magnitude < nma.stoppingDistance)
+            if (dir.magnitude < nma.stoppingDistance) // 멈추는 지점안에 있다면
             {
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
             }
-            else
+            else // 아니라면 타겟 위치까지 이동
             {
                 nma.SetDestination(_target.transform.position);
                 State = Define.State.Moving;
@@ -149,10 +165,10 @@ public class EnemyController : BaseCharacterController
 
     protected virtual void PlayerHit()
     {
-        if(_target!=null)
+        if (_target != null)
         {
             PlayerStat playerStat = _target.GetComponent<PlayerStat>(); // 플레이어 스탯 가져옴
-            playerStat.Attacked(_stat,_target); // 몬스터의 스탯을 넘겨줌
+            playerStat.Attacked(_stat, _target); // 몬스터의 스탯을 넘겨줌
         }
     }
 
@@ -161,7 +177,7 @@ public class EnemyController : BaseCharacterController
 
         _stat.ResetStat();
         transform.position = originalPostition;
-       
+
     }
 
     IEnumerator Disable()
@@ -189,7 +205,7 @@ public class EnemyController : BaseCharacterController
         StartCoroutine(Disable());
     }
 
-   void OnParticleCollision(GameObject other)
+    void OnParticleCollision(GameObject other)
     {
         if (other.activeSelf)
             _stat.Hp -= 10;

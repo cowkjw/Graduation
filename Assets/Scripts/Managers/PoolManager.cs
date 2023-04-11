@@ -18,12 +18,16 @@ public class PoolManager
     public void LoadTheLastPosition()
     {
         int playerScene = Managers.Data.PlayerData.location;
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(0);
        // SceneManager.LoadScene(playerScene);
     }
 
     public void Init()
     {
+        if(GameObject.FindObjectOfType<DungeonScene>() is BossDungeonScene) // 던전이 보스 던전이라면
+        {
+            return; 
+        }
         monsterPrefab = Resources.Load<GameObject>("Prefabs/Skelton");
         poolManagers = new GameObject { name = "@PoolManagers" };
         monsterPool = new Queue<GameObject>();

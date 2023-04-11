@@ -46,21 +46,30 @@ public class Stat : MonoBehaviour
 
         if(this.GetComponent<Stat>() is PlayerStat) // 플레이어라면 
         {
-            _maxHp = stat.maxHp;
-            _hp = _maxHp;
-            _maxMp = stat.maxMp;
-            _mp = _maxMp;
-            _attack = stat.attack + (Managers.Data.ItemDict[Managers.Data.PlayerData.equippedWeapon].Attack);
+            _hp =_maxHp = stat.maxHp;
+            _mp = _maxMp = stat.maxMp;
+            _attack = stat.attack + (Managers.Data.ItemDict[Managers.Data.PlayerData.equippedWeapon].Attack); // 현재 장착 무기 공격력 옵션 더해줌
             _defense = stat.defense;
         }
         else
         {
-            Hp = 200;
-            MaxHp = 200;
-            Mp = 200;
-            MaxMp = 200;
-            Attack = 15;
-            Defense = 10;
+           Define.EnemyType enemyType =  this.GetComponent<EnemyController>().EnemyType;
+
+            if(enemyType == Define.EnemyType.Skelton)
+            {
+                Hp = MaxHp = 200;
+                Mp = MaxMp = 200;
+                Attack = 15;
+                Defense = 10;
+            }
+            else if(enemyType == Define.EnemyType.Boss)
+            {
+                Hp = MaxHp = 2000;
+                Mp = MaxMp = 2000;
+                Attack = 100;
+                Defense = 60;
+            }
+     
         }
     }
 

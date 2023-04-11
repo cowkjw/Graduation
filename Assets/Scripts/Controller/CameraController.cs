@@ -14,7 +14,7 @@ public class CameraController : MonoBehaviour
     Material _material;
     Color matColor;
 
-    public List<Renderer> _obsList;
+    List<Renderer> _obsList;
 
     public void SetPlayer(GameObject player) { _player = player; }
 

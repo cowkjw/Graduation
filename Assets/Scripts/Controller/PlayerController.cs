@@ -8,26 +8,24 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
 
 
-    int _mask = 1 << 6 | 1 << 8 | 1 << 9; // 6 Ground 8 Enemy 9 Dungeon1 5 UI
+    public ParticleSystem swordEffect;
 
     BaseScene _scene;
-    public ParticleSystem swordEffect;
+    int _mask = 1 << 6 | 1 << 8 | 1 << 9; // 6 Ground 8 Enemy 9 Dungeon1 5 UI
     bool _stopAttack = false;
 
     [SerializeField]
     ParticleSystem levelUpParticle;
 
-
     public override Define.State State
     {
-        get { return _state; }
+        get => _state;
 
         set
         {
             _state = value;
-
             Animator anim = GetComponent<Animator>();
-           
+
             switch (_state)
             {
                 case Define.State.Idle:
@@ -49,17 +47,14 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
                     anim.SetBool("Attacking", false);
                     anim.CrossFade("Die", 0.1f);
                     break;
-
             }
-
         }
     }
 
     override protected void Init()
     {
         // BaseScene을 찾아온다 (어떤 Scene일지 모르기 때문)
-        _scene = FindObjectOfType<BaseScene>();//.GetComponent<Dungeon1Scene>(); /
-        //_scene = FindObjectOfType<BaseScene>().GetComponent<Dungeon1Scene>();
+        _scene = FindObjectOfType<BaseScene>();
         _stat = gameObject.GetComponent<PlayerStat>() as PlayerStat;
         Managers.Input.MouseAction -= MouseEvent;
         Managers.Input.MouseAction += MouseEvent;
@@ -86,17 +81,22 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
     override protected void Attacking()
     {
-
         if (_target == null || !((_target.transform.position - transform.position).sqrMagnitude <= 0.81f)
             || _target.GetComponent<EnemyController>()?.State == Define.State.Die || _target.GetComponent<BossController>()?.State == Define.State.Die) // 제곱근 연산 줄임 타겟이 죽은 상태라면 return
         {
             return;
         }
-        Quaternion lookAtTarget = Quaternion.LookRotation((_target.transform.position - transform.position).normalized);
+        Quaternion lookAtTarget;
+        if (_target.gameObject.name == "Boss")
+        {
+            lookAtTarget = Quaternion.LookRotation((_target.transform.parent.position - transform.position).normalized);
+        }
+        else
+        {
+            lookAtTarget = Quaternion.LookRotation((_target.transform.position - transform.position).normalized);
+        }
         transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 25 * Time.deltaTime);
-
         State = Define.State.Attack;
-
     }
 
     void EnemyTargetAndState(Define.MouseState evt)
@@ -180,7 +180,6 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
         }
     }
 
-
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 9) // 던전 레이어
@@ -198,43 +197,36 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
         }
     }
 
-
-
     void HitEvent()
     {
 
         if (_target == null) return;
-        Dungeon1Scene dungeon1Scene = null; // 던전 Scene을 생성
-        if(_scene is Dungeon1Scene)
+        DungeonScene dungeonScene = null; // 던전 Scene을 생성
+        if(_scene is DungeonScene)
         {
-            dungeon1Scene = _scene.GetComponent<Dungeon1Scene>(); // 만약 해당 씬이 기본 던전 맵이면
+            dungeonScene = _scene.GetComponent<DungeonScene>(); // 만약 해당 씬이 기본 던전 맵이면
         }
         if (!_stopAttack)
         {
-            Stat enemyStat = _target.GetComponent<Stat>();
+            Stat enemyStat = _target.GetComponentInParent<Stat>()??_target.GetComponentInParent<Stat>();// 해당 오브젝트에 없으면 부모의 오브젝트에서 찾기
             enemyStat.Attacked(_stat, _target);
-            if(dungeon1Scene==null)
+            if(dungeonScene == null)
                 return;
 
-            //_scene.ObjStat = enemyStat;
-            //_scene.ObjName = enemyStat.name;
-            //Debug.Log(enemyStat.name);
-            //_scene.ObjNameText.gameObject.SetActive(true);
-            //_scene.HpBar.gameObject.SetActive(true);
-            dungeon1Scene.ObjStat = enemyStat;
-            dungeon1Scene.ObjName = enemyStat.name;
+            dungeonScene.ObjStat = enemyStat;
+            dungeonScene.ObjName = enemyStat.name;
             Debug.Log(enemyStat.name);
-            dungeon1Scene.ObjNameText.gameObject.SetActive(true);
-            dungeon1Scene.HpBar.gameObject.SetActive(true);
+            dungeonScene.ObjNameText.gameObject.SetActive(true);
+            dungeonScene.HpBar.gameObject.SetActive(true);
             
             State = Define.State.Attack;
         }
         else//(_stopAttack)
-        {
-            //_scene.HpBar.gameObject.SetActive(false);
-            //_scene.ObjNameText.gameObject.SetActive(false);   
-            dungeon1Scene.HpBar.gameObject.SetActive(false);
-            dungeon1Scene.ObjNameText.gameObject.SetActive(false);
+        { 
+            if (dungeonScene == null)
+                return;
+            dungeonScene.HpBar.gameObject.SetActive(false);
+            dungeonScene.ObjNameText.gameObject.SetActive(false);
             swordEffect.Stop();
             State = Define.State.Idle;
         }
@@ -244,7 +236,6 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
     void AttackEffect()
     {
         swordEffect.Play();
-
     }
 
     public void LevelUpEffect()
@@ -268,31 +259,11 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
             Debug.Log($"Slash{randomAttack}");
             anim.Play($"Slash{randomAttack}"); // 랜덤한 순서로 기본 공격 실행
             Debug.Log($"Slash{randomAttack}");
-
         }
     }
 
     private void OnParticleCollision(GameObject other)
     {
-        //float explosionForce = 10f;
-        //float explosionRadius = 5f;
-
-
-        //if (other != null)
-        //{
-        //    Debug.Log(other.name);
-        //    float distance = Vector3.Distance(transform.position, other.transform.position);
-
-        //    // Calculate the force to apply based on the distance
-        //    float calculatedForce = 1f - (distance / explosionRadius);
-        //    float force = explosionForce * calculatedForce;
-
-        //    // Calculate the force direction
-        //    Vector3 forceDirection = -transform.forward;
-
-        //    // Apply the explosion force to the rigid body
-        //    GetComponent<Rigidbody>().AddForce(forceDirection * force, ForceMode.Impulse);
-        //}
         float pushForce = 8f;
 
         if (other != null)
