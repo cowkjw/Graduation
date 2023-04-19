@@ -5,9 +5,9 @@
     "maxMp": 200,
     "attack": 20,
     "defense": 10,
-    "totalExp": 3300
+    "totalExp": 3400
   },
-  "gold": 344200,
-  "location": 1,
+  "gold": 345300,
+  "location": 2,
   "equippedWeapon": 102
 }

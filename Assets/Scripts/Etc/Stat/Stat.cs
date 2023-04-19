@@ -28,48 +28,45 @@ public class Stat : MonoBehaviour
     protected virtual void Init()
     {
         SetStat();
-        //_hp = 100;
-        //_maxHp = 100;
-        //_mp = 100;
-        //_maxMp = 100;
-        //_attack = 15;
-        //_defense = 10;
     }
 
 
-    protected void SetStat(int level = 1) // 스탯을 셋팅하는 함수
+    public void SetStat(int level = 1) // 스탯을 셋팅하는 함수
     {
         if (!Managers.Data.StatDict.TryGetValue(level, out Contents.Stat stat)) // 만약 StatDict에 값이 있다면
         {
             return;
         }
 
-        if(this.GetComponent<Stat>() is PlayerStat) // 플레이어라면 
+        if (this.GetComponent<Stat>() is PlayerStat) // 플레이어라면 
         {
-            _hp =_maxHp = stat.maxHp;
+            _hp = _maxHp = stat.maxHp;
             _mp = _maxMp = stat.maxMp;
             _attack = stat.attack + (Managers.Data.ItemDict[Managers.Data.PlayerData.equippedWeapon].Attack); // 현재 장착 무기 공격력 옵션 더해줌
             _defense = stat.defense;
         }
         else
         {
-           Define.EnemyType enemyType =  this.GetComponent<EnemyController>().EnemyType;
 
-            if(enemyType == Define.EnemyType.Skelton)
+            EnemyController enemyController = this.GetComponent<EnemyController>();
+            BossAIController bossController = this.GetComponent<BossAIController>();
+            Define.EnemyType enemyType = enemyController != null ? enemyController.EnemyType : bossController.EnemyType; // 어떤 컨트롤러인지 따라서 몬스터 타입 정하기
+
+            switch (enemyType)
             {
-                Hp = MaxHp = 200;
-                Mp = MaxMp = 200;
-                Attack = 15;
-                Defense = 10;
+                case Define.EnemyType.Skelton:
+                    Hp = MaxHp = 200;
+                    Mp = MaxMp = 200;
+                    Attack = 15;
+                    Defense = 10;
+                    break;
+                case Define.EnemyType.Boss:
+                    Hp = MaxHp = 2000;
+                    Mp = MaxMp = 2000;
+                    Attack = 100;
+                    Defense = 60;
+                    break;
             }
-            else if(enemyType == Define.EnemyType.Boss)
-            {
-                Hp = MaxHp = 2000;
-                Mp = MaxMp = 2000;
-                Attack = 100;
-                Defense = 60;
-            }
-     
         }
     }
 

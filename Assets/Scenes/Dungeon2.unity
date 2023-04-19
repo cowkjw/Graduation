@@ -7670,24 +7670,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8061654117059054286, guid: aef0b1bf09a88e74093f5ba9d483e2c8, type: 3}
   m_PrefabInstance: {fileID: 268184553}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &268184555
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 268184554}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8cb2cf6ad99d1e488deef2de4d4c05d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _coin: []
-  jumpHeight: 5
-  jumpTime: 2
-  jumpSpeed: 1
-  areaPrefab: {fileID: 473376881}
-  jumpAttackEffect: {fileID: 1048604002}
 --- !u!195 &268184558
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -7733,6 +7715,26 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7254013775423901812, guid: aef0b1bf09a88e74093f5ba9d483e2c8, type: 3}
   m_PrefabInstance: {fileID: 268184553}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &268184563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268184554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf43cdcff84956b4e989231ebcb71657, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  areaPrefab: {fileID: 473376881}
+  jumpAttackEffect: {fileID: 1048604002}
+  attackDistance: 10
+  health: 100
+  speed: 5
+  jumpAttackCooldown: 5
+  State: 0
+  EnemyType: 0
 --- !u!1001 &268424042
 PrefabInstance:
   m_ObjectHideFlags: 0
