@@ -5,159 +5,93 @@ using UnityEngine.AI;
 
 public class BossAIController : MonoBehaviour
 {
-    //public float jumpHeight = 50f;
-    //public float jumpTime = 10f;
-    //public float jumpSpeed = 0.5f;
+    public float jumpHeight = 50f;
+    public float jumpTime = 10f;
+    public float jumpSpeed = 2f;
     public GameObject areaPrefab;
     public ParticleSystem jumpAttackEffect;
 
-    //GameObject area;
-    //MeshRenderer meshRenderers;
-    //Material material;
-    //Color matColor;
-    //Color matColor1;
-    //Color matColor2;
-
-    //Animator animator;
-    //private Vector3 initialPosition;
-    //private bool isJumping = false;
-    //private Vector3 targetPosition;
-
-    //private void OnEnable()
-    //{
-    //    base.Init();
-    //    EnemyType = Define.EnemyType.Boss;
-    //    _findRange = 6f;
-    //}
-
-
-    //protected override void Start()
-    //{
-    //    animator = GetComponent<Animator>();
-
-    //    _target = Managers.Game.GetPlayer();
-    //    area = Instantiate(areaPrefab, transform.position, Quaternion.identity);
-    //    area.SetActive(false);
-    //}
-
-    //protected override void Update()
-    //{
-    //    if (State != Define.State.Die)
-    //        Dying();
-
-    //    switch (State)
-    //    {
-    //        case Define.State.Moving:
-    //            Moving();
-    //            break;
-    //        case Define.State.Idle:
-    //            Idle();
-    //            break;
-    //        case Define.State.Attack:
-    //            Attacking();
-    //            break;
-    //        case Define.State.JumpAttack:
-    //            if (!isJumping)
-    //            {
-    //                StartJumpAttack(_target.transform.position);
-    //            }
-    //            JumpAttacking();
-    //            break;
-    //    }
-
-    //}
-
-    //void JumpAttacking()
-    //{
-    //    if (isJumping)
-    //    {
-    //        float jumpProgress = Mathf.PingPong(Time.time * jumpSpeed, jumpTime) / jumpTime;
-
-    //        if (jumpProgress >= 0.99f)
-    //        {
-    //            isJumping = false;
-    //            jumpAttackEffect.Play();
-    //            area.SetActive(false);
-    //        }
-    //        float jumpHeightOffset = Mathf.Sin(jumpProgress * Mathf.PI) * jumpHeight;
-    //        transform.position = Vector3.Lerp(initialPosition, targetPosition, jumpProgress) + Vector3.up * jumpHeightOffset;
-    //    }
-    //    else
-    //    {
-    //        if (jumpAttackEffect.isPlaying)
-    //        {
-    //            jumpAttackEffect.Stop();
-    //        }
-    //        State = Define.State.Idle;
-    //    }
-    //}
-
-    //public void StartJumpAttack(Vector3 playerPosition)
-    //{
-    //    targetPosition = playerPosition;
-    //    isJumping = true;
-    //    area.transform.position = playerPosition;
-    //    area.SetActive(true);
-    //    animator.CrossFade("JumpAttack", 0.1f);
-    //    initialPosition = transform.position;
-    //}
-
-
-
-    public float attackDistance = 1f;
-    public float health = 100f;
-    public float speed = 5f;
-    public float jumpAttackCooldown = 5f;
+    public bool isJumping;
+    Vector3 initialPosition;
+    Vector3 positionToJump;
+    float speed = 2.5f;
     public Define.State State = Define.State.Idle;
     public Define.EnemyType EnemyType;
 
-    float findDistance = 10;
-    float jumpAttackTimer = 0f;
-     Transform target;
-     NavMeshAgent nma;
-     BehaviorTree behaviorTree;
-     Stat _stat;
+    bool attacking;
+    float attack_run_ratio = 0;
+    public float jumpAttackTimer = 0f;
+    float jumpAttackCooldown = 15f;
+    Transform target;
+    NavMeshAgent nma;
+    BehaviorTree behaviorTree;
+    Stat _stat;
     Animator animator;
 
-
+    public float jumpProgress = 0f;
+    bool isAnimationPlayed;
     private void Awake()
     {
         Init();
     }
     void Start()
     {
+        attack_run_ratio = 0;
         target = Managers.Game.GetPlayer().transform;
         behaviorTree = new BehaviorTree();
 
         Sequence attackSequence = new Sequence();
-        
+        attackSequence.AddChild(new ConditionNode(() => !isJumping));
         attackSequence.AddChild(new ConditionNode(() => (transform.position - target.position).sqrMagnitude <= nma.stoppingDistance * nma.stoppingDistance));
         attackSequence.AddChild(new ActionNode(AttackWithFistsAndFeet));
 
         Sequence jumpAttackSequence = new Sequence();
-        jumpAttackSequence.AddChild(new ConditionNode(() => health <= 40f));
-        jumpAttackSequence.AddChild(new ActionNode(IncrementJumpAttackTimer));
-        jumpAttackSequence.AddChild(new ConditionNode(() => jumpAttackTimer >= jumpAttackCooldown));
-        jumpAttackSequence.AddChild(new ActionNode(PerformJumpAttack));
-        jumpAttackSequence.AddChild(new ActionNode(ResetJumpAttackTimer));
+
+        Selector jumpAttackSelector = new Selector();
+        jumpAttackSequence.AddChild(jumpAttackSelector);
+
+        Sequence continueJumpAttackSequence = new Sequence();
+        jumpAttackSelector.AddChild(continueJumpAttackSequence);
+        continueJumpAttackSequence.AddChild(new ConditionNode(() => isJumping));
+        continueJumpAttackSequence.AddChild(new ActionNode(JumpAttacking)); // 점프 공격 실행
+
+        Sequence startJumpAttackSequence = new Sequence();
+        jumpAttackSelector.AddChild(startJumpAttackSequence);
+        startJumpAttackSequence.AddChild(new ConditionNode(() => jumpAttackTimer >= jumpAttackCooldown));
+        startJumpAttackSequence.AddChild(new ConditionNode(() => ((float)_stat.Hp / _stat.MaxHp <= 1f)));
+        startJumpAttackSequence.AddChild(new ActionNode(StartJumpAttack));
+        startJumpAttackSequence.AddChild(new ActionNode(ResetJumpAttackTimer));
+
+        Sequence IncrementJumpAttackSequence = new Sequence();
+        IncrementJumpAttackSequence.AddChild(new ActionNode(IncrementJumpAttackTimer)); // 쿨타임 증가
 
         Sequence moveSequence = new Sequence();
-        moveSequence.AddChild(new ConditionNode(() => (transform.position - target.position).sqrMagnitude >= findDistance * findDistance));
+        moveSequence.AddChild(new ConditionNode(() => (!attacking && !isJumping)));
+        moveSequence.AddChild(new ConditionNode(() => (transform.position - target.position).sqrMagnitude > nma.stoppingDistance * nma.stoppingDistance));
         moveSequence.AddChild(new ActionNode(MovingToPlayer));
 
+
         Selector rootSelector = new Selector();
-        rootSelector.AddChild(attackSequence);
         rootSelector.AddChild(jumpAttackSequence);
         rootSelector.AddChild(moveSequence);
+        rootSelector.AddChild(attackSequence);
 
-        behaviorTree.SetRootNode(rootSelector);
+        Sequence rootSequence = new Sequence();
+        rootSequence.AddChild(IncrementJumpAttackSequence);
+        rootSequence.AddChild(rootSelector);
+
+        behaviorTree.SetRootNode(rootSequence);
     }
 
     void Update()
     {
         behaviorTree.Update();
+        if (jumpAttackEffect != null && jumpAttackEffect.isPlaying)
+        {
+            jumpAttackEffect.Stop();
+        }
     }
-    
+
     void Init()
     {
         animator = GetComponent<Animator>();
@@ -166,6 +100,9 @@ public class BossAIController : MonoBehaviour
         EnemyType = Define.EnemyType.Boss;
         _stat = GetComponent<Stat>();
         _stat.SetStat();
+        attacking = false;
+        isJumping = false;
+        isAnimationPlayed = false;
     }
 
     void AttackWithFistsAndFeet()
@@ -174,8 +111,15 @@ public class BossAIController : MonoBehaviour
             return;
 
         Vector3 dir = target.transform.position - transform.position;
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
-        animator.CrossFade("Attack", 0.1f);
+        if (!attacking) // 공격중이 아닐때만 회전
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
+        }
+
+        attacking = true;
+        attack_run_ratio = Mathf.Lerp(attack_run_ratio, 0, 5.0f * Time.deltaTime);
+        animator.SetFloat("attack_run_ratio", attack_run_ratio);
+        animator.Play("Attack_Run");
     }
 
     void MovingToPlayer()
@@ -185,17 +129,83 @@ public class BossAIController : MonoBehaviour
         Vector3 dir = target.transform.position - transform.position;
         nma.SetDestination(target.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
-        animator.CrossFade("Run", 0.1f);
+
+        attack_run_ratio = Mathf.Lerp(attack_run_ratio, 1, 5.0f * Time.deltaTime);
+
+        animator.SetFloat("attack_run_ratio", attack_run_ratio);
+        animator.Play("Attack_Run");
+
+    }
+    void StartJumpAttack()
+    {
+        if (isJumping)
+        {
+            return;
+        }
+        isJumping = true;
+        areaPrefab.transform.position = target.position;
+        areaPrefab.SetActive(true);
+        jumpProgress = 0f;
+        isAnimationPlayed = false;
+        initialPosition = transform.position;
+        positionToJump = target.position;
     }
 
-    void IncrementJumpAttackTimer()
+    void JumpAttacking()
+    {
+        // 점프 애니메이션의 총 시간.
+        float jumpDuration = 5f;
+
+        // 점프 버튼을 누른 후 점프 애니메이션을 시작하는 데 걸리는 시간.
+        float animationStartTime = 1.5f;
+
+        // 점프의 최대 높이.
+        float verticalJumpHeight = 40f;
+
+        // 애니메이션의 수직 점프 단계의 지속 시간.
+        float verticalJumpDuration = jumpDuration * 0.5f;
+
+        // 최대 높이에 도달한 후 플레이어가 추락하기 시작하는 시간.
+        float fallStartTime = (jumpDuration - verticalJumpDuration) / jumpDuration;
+
+        // 플레이어 위치 보간에 사용되는 점프 애니메이션의 진행 상황.
+        jumpProgress += Time.deltaTime / jumpDuration;
+
+        // 애니메이션이 아직 시작되지 않았고 점프 버튼이 눌린 후 시간이 애니메이션 시작 시간 내에 있으면, 점프 어택 애니메이션을 재생합니다.
+        if (jumpProgress < animationStartTime / jumpDuration && !isAnimationPlayed)
+        {
+            animator.Play("JumpAttack");
+            isAnimationPlayed = true;
+        }
+
+        // 플레이어가 아직 수직 점프 단계에 있는 경우, 위치를 업데이트합니다.
+        if (jumpProgress < fallStartTime)
+        {
+            // 수직 점프 단계의 진행 상황을 계산합니다.
+            float verticalJumpProgress = jumpProgress / fallStartTime;
+
+            // 수직 점프로 인한 플레이어 위치 오프셋을 계산합니다.
+            float verticalJumpOffset = Mathf.Sin(verticalJumpProgress * Mathf.PI) * verticalJumpHeight;
+
+            // 선형 보간과 수직 점프 오프셋을 사용하여 플레이어 위치를 설정합니다.
+            transform.position = Vector3.Lerp(initialPosition, positionToJump, verticalJumpProgress) + Vector3.up * verticalJumpOffset;
+        }
+        // 플레이어가 추락하기 시작했다면, 위치를 업데이트합니다.
+        else
+        {
+            // 추락 단계의 진행 상황을 계산합니다.
+            float fallingProgress = (jumpProgress - fallStartTime) / (1 - fallStartTime);
+            // 추락 단계로 인한 플레이어 위치 오프셋을 계산합니다.
+            float fallHeightOffset = Mathf.Sin(fallingProgress * Mathf.PI) * verticalJumpHeight;
+
+            // 선형 보간과 추락 오프셋을 사용하여 플레이어 위치를 설정합니다.
+            transform.position = Vector3.Lerp(positionToJump, initialPosition, fallingProgress) + Vector3.up * fallHeightOffset;
+        }
+    }
+
+        void IncrementJumpAttackTimer()
     {
         jumpAttackTimer += Time.deltaTime;
-    }
-
-    void PerformJumpAttack()
-    {
-        // Perform jump attack logic
     }
 
     void ResetJumpAttackTimer()
@@ -207,8 +217,23 @@ public class BossAIController : MonoBehaviour
     {
         if (target != null)
         {
+            if ((transform.position - target.position).sqrMagnitude > nma.stoppingDistance * nma.stoppingDistance)
+            {
+                return;
+            }
             PlayerStat playerStat = target.GetComponent<PlayerStat>(); // 플레이어 스탯 가져옴
             playerStat.Attacked(_stat, target.gameObject); // 몬스터의 스탯을 넘겨줌
         }
+    }
+    void EndAttack() // 공격 애니메이션 종료
+    {
+        attacking = false;
+    }
+    void EndJumpAttack()
+    {
+        jumpAttackEffect.Play();
+        areaPrefab.SetActive(false);
+        isJumping = false;
+
     }
 }

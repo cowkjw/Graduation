@@ -82,7 +82,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
     override protected void Attacking()
     {
         if (_target == null || !((_target.transform.position - transform.position).sqrMagnitude <= 0.81f)
-            || _target.GetComponent<EnemyController>()?.State == Define.State.Die || _target.GetComponent<BossController>()?.State == Define.State.Die) // 제곱근 연산 줄임 타겟이 죽은 상태라면 return
+            || _target.GetComponent<EnemyController>()?.State == Define.State.Die || _target.GetComponent<BossAIController>()?.State == Define.State.Die) // 제곱근 연산 줄임 타겟이 죽은 상태라면 return
         {
             return;
         }

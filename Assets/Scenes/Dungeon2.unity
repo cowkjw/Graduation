@@ -7727,14 +7727,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf43cdcff84956b4e989231ebcb71657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpHeight: 2
+  jumpTime: 10
+  jumpSpeed: 2
   areaPrefab: {fileID: 473376881}
   jumpAttackEffect: {fileID: 1048604002}
-  attackDistance: 10
-  health: 100
-  speed: 5
-  jumpAttackCooldown: 5
+  isJumping: 0
   State: 0
   EnemyType: 0
+  jumpAttackTimer: 0
+  jumpProgress: 0
 --- !u!1001 &268424042
 PrefabInstance:
   m_ObjectHideFlags: 0
