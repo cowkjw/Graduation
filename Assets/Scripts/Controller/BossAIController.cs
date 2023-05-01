@@ -12,13 +12,13 @@ public class BossAIController : MonoBehaviour
     public ParticleSystem jumpAttackEffect;
 
     public bool isJumping;
+    public bool attacking;
     Vector3 initialPosition;
     Vector3 positionToJump;
     float speed = 2.5f;
     public Define.State State = Define.State.Idle;
     public Define.EnemyType EnemyType;
 
-    bool attacking;
     float attack_run_ratio = 0;
     public float jumpAttackTimer = 0f;
     float jumpAttackCooldown = 15f;
@@ -27,6 +27,8 @@ public class BossAIController : MonoBehaviour
     BehaviorTree behaviorTree;
     Stat _stat;
     Animator animator;
+
+
 
     public float jumpProgress = 0f;
     bool isAnimationPlayed;
@@ -43,7 +45,7 @@ public class BossAIController : MonoBehaviour
         Sequence attackSequence = new Sequence();
         attackSequence.AddChild(new ConditionNode(() => !isJumping));
         attackSequence.AddChild(new ConditionNode(() => (transform.position - target.position).sqrMagnitude <= nma.stoppingDistance * nma.stoppingDistance));
-        attackSequence.AddChild(new ActionNode(AttackWithFistsAndFeet));
+        attackSequence.AddChild(new ActionNode(FeetAttack));
 
         Sequence jumpAttackSequence = new Sequence();
 
@@ -67,7 +69,7 @@ public class BossAIController : MonoBehaviour
 
         Sequence moveSequence = new Sequence();
         moveSequence.AddChild(new ConditionNode(() => (!attacking && !isJumping)));
-        moveSequence.AddChild(new ConditionNode(() => (transform.position - target.position).sqrMagnitude > nma.stoppingDistance * nma.stoppingDistance));
+        moveSequence.AddChild(new ConditionNode(() => (transform.position - target.position).sqrMagnitude > 16f));
         moveSequence.AddChild(new ActionNode(MovingToPlayer));
 
 
@@ -79,8 +81,8 @@ public class BossAIController : MonoBehaviour
         Sequence rootSequence = new Sequence();
         rootSequence.AddChild(IncrementJumpAttackSequence);
         rootSequence.AddChild(rootSelector);
-
         behaviorTree.SetRootNode(rootSequence);
+
     }
 
     void Update()
@@ -105,7 +107,7 @@ public class BossAIController : MonoBehaviour
         isAnimationPlayed = false;
     }
 
-    void AttackWithFistsAndFeet()
+    void FeetAttack()
     {
         if (target == null)
             return;
@@ -116,31 +118,32 @@ public class BossAIController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
         }
 
-        attacking = true;
-        attack_run_ratio = Mathf.Lerp(attack_run_ratio, 0, 5.0f * Time.deltaTime);
-        animator.SetFloat("attack_run_ratio", attack_run_ratio);
-        animator.Play("Attack_Run");
+        AnimatorStateInfo currentAnimationState = animator.GetCurrentAnimatorStateInfo(0);
+        if (currentAnimationState.normalizedTime > 1.0f && !attacking && currentAnimationState.IsName("Walk")) // 공격중이 아니면
+        { 
+            animator.Play("FootAttack");
+            attacking = true; // 공격중으로 표시
+        }
+
     }
 
     void MovingToPlayer()
     {
         if (target == null)
             return;
+        attacking = false;
+
         Vector3 dir = target.transform.position - transform.position;
         nma.SetDestination(target.position);
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
-
-        attack_run_ratio = Mathf.Lerp(attack_run_ratio, 1, 5.0f * Time.deltaTime);
-
-        animator.SetFloat("attack_run_ratio", attack_run_ratio);
-        animator.Play("Attack_Run");
-
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
+        animator.Play("Walk");
     }
     void StartJumpAttack()
     {
-        if (isJumping)
+        if(attacking)
         {
-            return;
+            animator.Play("JumpAttack");
+            attacking = false;
         }
         isJumping = true;
         areaPrefab.transform.position = target.position;
@@ -203,7 +206,7 @@ public class BossAIController : MonoBehaviour
         }
     }
 
-        void IncrementJumpAttackTimer()
+    void IncrementJumpAttackTimer()
     {
         jumpAttackTimer += Time.deltaTime;
     }
@@ -234,6 +237,5 @@ public class BossAIController : MonoBehaviour
         jumpAttackEffect.Play();
         areaPrefab.SetActive(false);
         isJumping = false;
-
     }
 }

@@ -16,7 +16,7 @@ public class Define
         Idle,
         Moving,
         Attack,
-        JumpAttack,
+        CrowdControl,
         Die,
     }
 

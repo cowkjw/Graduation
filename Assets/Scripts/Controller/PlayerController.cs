@@ -13,7 +13,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
     BaseScene _scene;
     int _mask = 1 << 6 | 1 << 8 | 1 << 9; // 6 Ground 8 Enemy 9 Dungeon1 5 UI
     bool _stopAttack = false;
-
+    const float duration = 1.5f;
     [SerializeField]
     ParticleSystem levelUpParticle;
 
@@ -47,6 +47,9 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
                     anim.SetBool("Attacking", false);
                     anim.CrossFade("Die", 0.1f);
                     break;
+                case Define.State.CrowdControl:
+                    anim.Play("Stuned");
+                    break;
             }
         }
     }
@@ -58,6 +61,28 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
         _stat = gameObject.GetComponent<PlayerStat>() as PlayerStat;
         Managers.Input.MouseAction -= MouseEvent;
         Managers.Input.MouseAction += MouseEvent;
+    }
+
+    protected override void Update()
+    {
+        switch (State)
+        {
+            case Define.State.Die:
+                Dying();
+                break;
+            case Define.State.Moving:
+                Moving();
+                break;
+            case Define.State.Attack:
+                Attacking();
+                break;
+            case Define.State.CrowdControl:
+                StartCoroutine(Stunned(duration));
+                break;
+            case Define.State.Idle:
+                StopCoroutine(Stunned(duration));
+                break;
+        }
     }
 
     void MouseEvent(Define.MouseState evt)
@@ -78,7 +103,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
                 break;
         }
     }
-
+   
     override protected void Attacking()
     {
         if (_target == null || !((_target.transform.position - transform.position).sqrMagnitude <= 0.81f)
@@ -110,6 +135,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
         {
 
             case Define.MouseState.LButtonDown:
+                
                 if (raycastHit)
                 {
                     _destPos = hit.point;
@@ -145,6 +171,8 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
     protected override void Moving()
     {
+        if (State == Define.State.CrowdControl) // 군중 제어 상태이면 리턴
+            return;
         Vector3 dir = _destPos - transform.position;
         dir.y = 0;
 
@@ -165,11 +193,18 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
                 return;
             }
-
+        
             float moveDistance = Mathf.Min(5 * Time.deltaTime, dir.magnitude);
             transform.position += dir.normalized * moveDistance;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 25 * Time.deltaTime);
+            
         }
+    }
+    
+    IEnumerator Stunned(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        State = Define.State.Idle;
     }
 
     protected override void Dying()
@@ -268,11 +303,10 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
         if (other != null)
         {
-            // Calculate the direction to push the object
             Vector3 pushDirection = transform.position - other.transform.position;
-
-            // Normalize the direction and apply the force
             GetComponent<Rigidbody>().AddForce(pushDirection.normalized * pushForce, ForceMode.Impulse);
+            State = Define.State.CrowdControl;
+
         }
 
     }

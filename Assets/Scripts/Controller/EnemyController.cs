@@ -98,19 +98,19 @@ public class EnemyController : BaseCharacterController
         if (dir.magnitude <= nma.stoppingDistance) // 공격할지 판단
         {
 
-            if (((float)_stat.Hp / _stat.MaxHp) < 0.8f && State != Define.State.JumpAttack&&EnemyType==Define.EnemyType.Boss)
-            {
-                if (Random.value < 0.5f)
-                {
-                    State = Define.State.JumpAttack;
-                    Debug.Log("점프 공격 시작");
-                }
-                else
-                {
-                    State = Define.State.Attack;
-                }
-                return;
-            }
+            //if (((float)_stat.Hp / _stat.MaxHp) < 0.8f&&EnemyType==Define.EnemyType.Boss)
+            //{
+            //    if (Random.value < 0.5f)
+            //    {
+            //        //State = Define.State.JumpAttack;
+            //        //Debug.Log("점프 공격 시작");
+            //    }
+            //    else
+            //    {
+            //        State = Define.State.Attack;
+            //    }
+            //    return;
+            //}
             State = Define.State.Attack;
             return;
         }
