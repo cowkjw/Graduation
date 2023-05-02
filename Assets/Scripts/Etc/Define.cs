@@ -17,6 +17,7 @@ public class Define
         Moving,
         Attack,
         CrowdControl,
+        Skill,
         Die,
     }
 
@@ -53,6 +54,20 @@ public class Define
         Gold,
         Sliver,
         Bronze
+    }
+
+    public enum Skill
+    {
+        A,
+        B,
+        C
+    }
+
+    public enum Scene
+    {
+        Town,
+        Dungeon,
+        BossDungeon
     }
 
 }

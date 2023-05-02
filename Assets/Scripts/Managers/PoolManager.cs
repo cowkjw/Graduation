@@ -18,7 +18,7 @@ public class PoolManager
     public void LoadTheLastPosition()
     {
         int playerScene = Managers.Data.PlayerData.location;
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(0);
        // SceneManager.LoadScene(playerScene);
     }
 
@@ -35,7 +35,9 @@ public class PoolManager
         {
             if (monsterPrefab == null)
             {
+#if UNITY_EDITOR
                 Debug.LogError("몬스터 프리팹 NULL");
+#endif
                 return;
             }
             GameObject monster = GameObject.Instantiate(monsterPrefab, data.Value.ToVecotr3(), Quaternion.identity);

@@ -65,7 +65,9 @@ public class DataManager
         PlayerData.playerStat.level = PlayerStat.Level;
         PlayerData.playerStat.totalExp = PlayerStat.TotalExp;
         PlayerData.gold = _gold;
+#if UNITY_EDITOR
         Debug.Log($"{PlayerData.equippedWeapon} ∫Ø∞Ê«‘");
+#endif
 
         WriteToJson(PlayerData, "PlayerData");
     }

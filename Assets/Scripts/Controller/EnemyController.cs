@@ -51,6 +51,7 @@ public class EnemyController : BaseCharacterController
         originalPostition = transform.position;
         State = Define.State.Idle;
         EnemyType = Define.EnemyType.Skelton;
+
     }
 
     void OnEnable()
@@ -97,20 +98,6 @@ public class EnemyController : BaseCharacterController
 
         if (dir.magnitude <= nma.stoppingDistance) // 공격할지 판단
         {
-
-            //if (((float)_stat.Hp / _stat.MaxHp) < 0.8f&&EnemyType==Define.EnemyType.Boss)
-            //{
-            //    if (Random.value < 0.5f)
-            //    {
-            //        //State = Define.State.JumpAttack;
-            //        //Debug.Log("점프 공격 시작");
-            //    }
-            //    else
-            //    {
-            //        State = Define.State.Attack;
-            //    }
-            //    return;
-            //}
             State = Define.State.Attack;
             return;
         }
@@ -137,8 +124,6 @@ public class EnemyController : BaseCharacterController
     {
         if (_target == null)
             return;
-
-
 
         Vector3 dir = _target.transform.position - transform.position;
 
@@ -205,10 +190,5 @@ public class EnemyController : BaseCharacterController
         StartCoroutine(Disable());
     }
 
-    void OnParticleCollision(GameObject other)
-    {
-        if (other.activeSelf)
-            _stat.Hp -= 10;
-        Debug.Log("파티클 충돌");
-    }
+
 }

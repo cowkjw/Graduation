@@ -10,7 +10,8 @@ public class InputManager
 
     public Action KeyAction = null;
     public Action<Define.MouseState> MouseAction = null;
-    public Action<Define.UI> KeyboardAction = null;
+    public Action<Enum> KeyboardAction = null;
+
 
 
     bool _press = false;
@@ -79,7 +80,20 @@ public class InputManager
                 KeyboardAction.Invoke(Define.UI.Inventory);
             }
 
-            if(Input.GetKeyDown(KeyCode.Escape))
+            if(Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                KeyboardAction.Invoke(Define.Skill.A);
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                KeyboardAction.Invoke(Define.Skill.B);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                KeyboardAction.Invoke(Define.Skill.C);
+            }
+             
+           if (Input.GetKeyDown(KeyCode.Escape)) // 게임 종료
             {
                 Managers.Data.PlayerData.location = SceneManager.GetActiveScene().buildIndex;
                 Managers.Data.PlayerDataChange();

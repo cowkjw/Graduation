@@ -1396,6 +1396,7 @@ GameObject:
   m_Component:
   - component: {fileID: 58820947}
   - component: {fileID: 58820946}
+  - component: {fileID: 58820948}
   m_Layer: 10
   m_Name: ExitDungeon
   m_TagString: Untagged
@@ -1432,6 +1433,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &58820948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58820945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e827c344c527157469e0a2a38799c1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &62070338
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12307,6 +12320,7 @@ GameObject:
   m_Component:
   - component: {fileID: 458812423}
   - component: {fileID: 458812422}
+  - component: {fileID: 458812424}
   m_Layer: 13
   m_Name: EntranceBossDungeon
   m_TagString: Untagged
@@ -12343,6 +12357,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &458812424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458812421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e827c344c527157469e0a2a38799c1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &461919618
 PrefabInstance:
   m_ObjectHideFlags: 0

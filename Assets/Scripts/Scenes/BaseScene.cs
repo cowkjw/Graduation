@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -46,9 +47,9 @@ public class BaseScene : MonoBehaviour
         Ui.name = "UI";
     }
 
-    void InputUIHotKey(Define.UI uiType)
+    void InputUIHotKey(Enum uiType)
     {
-        if (uiType == Define.UI.Inventory)
+        if ((Define.UI)uiType == Define.UI.Inventory)
         {
             if (inventory.activeSelf) // 인벤토리가 켜져있다면
             {

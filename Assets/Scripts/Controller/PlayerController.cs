@@ -82,6 +82,9 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
             case Define.State.Idle:
                 StopCoroutine(Stunned(duration));
                 break;
+            case Define.State.Skill:
+                EndSkillAnim();
+                break;
         }
     }
 
@@ -215,24 +218,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer == 9) // 던전 레이어
-        {
-            SceneManager.LoadScene(1);
-        }
-        else if (other.gameObject.layer == 10)
-        {
-            SceneManager.LoadScene(0);
-
-        }
-        else if(other.gameObject.layer == 13)
-        {
-            SceneManager.LoadScene(2);
-        }
-    }
-
-    void HitEvent()
+    void OnHitEvent()
     {
 
         if (_target == null) return;
@@ -250,7 +236,6 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
             dungeonScene.ObjStat = enemyStat;
             dungeonScene.ObjName = enemyStat.name;
-            Debug.Log(enemyStat.name);
             dungeonScene.ObjNameText.gameObject.SetActive(true);
             dungeonScene.HpBar.gameObject.SetActive(true);
             
@@ -262,15 +247,15 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
                 return;
             dungeonScene.HpBar.gameObject.SetActive(false);
             dungeonScene.ObjNameText.gameObject.SetActive(false);
-            swordEffect.Stop();
+        //    swordEffect.Stop();
             State = Define.State.Idle;
         }
     }
 
 
-    void AttackEffect()
+    void OnAttackEffect()
     {
-        swordEffect.Play();
+        //swordEffect.Play();
     }
 
     public void LevelUpEffect()
@@ -291,13 +276,11 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
         if (anim.GetBool("Attacking"))
         {
-            Debug.Log($"Slash{randomAttack}");
             anim.Play($"Slash{randomAttack}"); // 랜덤한 순서로 기본 공격 실행
-            Debug.Log($"Slash{randomAttack}");
         }
     }
 
-    private void OnParticleCollision(GameObject other)
+    void OnParticleCollision(GameObject other)
     {
         float pushForce = 8f;
 
@@ -306,10 +289,17 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
             Vector3 pushDirection = transform.position - other.transform.position;
             GetComponent<Rigidbody>().AddForce(pushDirection.normalized * pushForce, ForceMode.Impulse);
             State = Define.State.CrowdControl;
-
         }
-
     }
 
+
+    void EndSkillAnim() // 스킬 애니메이션이 끝났다면
+    {
+        AnimatorStateInfo currentAnimationState = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+        if(currentAnimationState.normalizedTime>=1.0f)
+        {
+            State = Define.State.Idle;
+        }
+    }
 
 }

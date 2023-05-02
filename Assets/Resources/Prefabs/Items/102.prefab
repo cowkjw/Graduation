@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -7703605902314290603}
   m_Layer: 11
   m_Name: 102
-  m_TagString: Untagged
+  m_TagString: Sword
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,9 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f28a277d3444b3f40b582270d05efa21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
-  ItemType: 0
-  Id: 0
 --- !u!64 &-7703605902314290603
 MeshCollider:
   m_ObjectHideFlags: 0

@@ -8,37 +8,32 @@ public class BossAIController : MonoBehaviour
     public float jumpHeight = 50f;
     public float jumpTime = 10f;
     public float jumpSpeed = 2f;
+    public float jumpAttackTimer = 0f;
     public GameObject areaPrefab;
     public ParticleSystem jumpAttackEffect;
-
-    public bool isJumping;
-    public bool attacking;
-    Vector3 initialPosition;
-    Vector3 positionToJump;
-    float speed = 2.5f;
     public Define.State State = Define.State.Idle;
     public Define.EnemyType EnemyType;
+    public bool isJumping;
+    public bool attacking;
 
-    float attack_run_ratio = 0;
-    public float jumpAttackTimer = 0f;
-    float jumpAttackCooldown = 15f;
+    float jumpAttackCooldown = 30f;
+    float speed = 2.5f;
+    float jumpProgress = 0f;
+    bool isAnimationPlayed;
+    Vector3 initialPosition;
+    Vector3 positionToJump;
     Transform target;
     NavMeshAgent nma;
     BehaviorTree behaviorTree;
     Stat _stat;
     Animator animator;
 
-
-
-    public float jumpProgress = 0f;
-    bool isAnimationPlayed;
     private void Awake()
     {
         Init();
     }
     void Start()
     {
-        attack_run_ratio = 0;
         target = Managers.Game.GetPlayer().transform;
         behaviorTree = new BehaviorTree();
 
@@ -120,7 +115,7 @@ public class BossAIController : MonoBehaviour
 
         AnimatorStateInfo currentAnimationState = animator.GetCurrentAnimatorStateInfo(0);
         if (currentAnimationState.normalizedTime > 1.0f && !attacking && currentAnimationState.IsName("Walk")) // 공격중이 아니면
-        { 
+        {
             animator.Play("FootAttack");
             attacking = true; // 공격중으로 표시
         }
@@ -140,7 +135,7 @@ public class BossAIController : MonoBehaviour
     }
     void StartJumpAttack()
     {
-        if(attacking)
+        if (attacking)
         {
             animator.Play("JumpAttack");
             attacking = false;
@@ -216,7 +211,7 @@ public class BossAIController : MonoBehaviour
         jumpAttackTimer = 0f;
     }
 
-    void PlayerHit()
+    void OnPlayerHit()
     {
         if (target != null)
         {
@@ -228,14 +223,32 @@ public class BossAIController : MonoBehaviour
             playerStat.Attacked(_stat, target.gameObject); // 몬스터의 스탯을 넘겨줌
         }
     }
-    void EndAttack() // 공격 애니메이션 종료
+    void OnEndAttack() // 공격 애니메이션 종료
     {
         attacking = false;
     }
-    void EndJumpAttack()
+    void OnEndJumpAttack()
     {
         jumpAttackEffect.Play();
         areaPrefab.SetActive(false);
         isJumping = false;
     }
+
+    //void OnTriggerEnter(Collider other)
+    //{
+    //    if (other != null && target != null)
+    //    {
+    //        PlayerController player = target.GetComponent<PlayerController>();
+    //        Vector3 dir = transform.position - player.transform.position; // 방향 벡터
+    //        float angle = Vector3.Angle(dir, player.transform.forward); // 각도
+    //        if (angle > 130f) // 각이 30도를 넘어가면 플레이어가 마주보고 있지않으므로 스킬 무효
+    //        {
+    //            return;
+    //        }
+    //        if (other.CompareTag("Sword") && player.State == Define.State.Skill)
+    //        {
+    //            _stat.Attacked(player.GetComponent<Stat>(), this.gameObject, 100);
+    //        }
+    //    }
+    //}
 }

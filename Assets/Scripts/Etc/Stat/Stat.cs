@@ -83,7 +83,7 @@ public class Stat : MonoBehaviour
         Init();
     }
 
-    public void Attacked(Stat attackObject, GameObject target)
+    public void Attacked(Stat attackObject, GameObject target,int skillDamage = 0) // 스킬 공격으로 당하는건지 기본 공격인지 파라미터로 판단
     {
 
         if (target == null)
@@ -91,13 +91,21 @@ public class Stat : MonoBehaviour
             Debug.LogError("Target is null");
             return;
         }
-        int damage = Mathf.Max(0, attackObject.Attack - Defense);
+        int damage;
+        if (skillDamage==0) // 스킬 공격이 아닐 때
+        {
+            damage= Mathf.Max(0, attackObject.Attack - Defense);
+        }
+        else
+        {
+            damage = Mathf.Max(0, skillDamage - Defense);
+        }
         Hp -= damage;
 
         if (Hp <= 0)
         {
             Hp = 0;
-            if (attackObject is PlayerStat)
+            if (attackObject is PlayerStat) // 플레이어 경험치를 위한
             {
                 // 플레이어가 공격한거라면
                 if (Managers.Data.EnemyExpDict.TryGetValue(target.gameObject.tag,
