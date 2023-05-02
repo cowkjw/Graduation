@@ -2,19 +2,32 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
-public class SkillController : MonoBehaviour
+public class SkillController : MonoBehaviour  // 나중에 UI분리하기
 {
+    Image skillAImage;
+    TextMeshProUGUI skillAText;
 
-    public ParticleSystem skill_a_effect;
-    public ParticleSystem skill_b_effect;
-    public ParticleSystem skill_c_effect;
+    public ParticleSystem skillAEffect;
+    public ParticleSystem skillBEffect;
+    public ParticleSystem skillCEffect;
+
+    const float SKILL_A_COOLDOWN = 8f;
+    bool useSkill;
+
+    float skillATime;
 
     PlayerController player;
     Animator animator;
-    
+
     void Start()
     {
+        useSkill = true;
+        skillATime = 8f;
+        skillAImage = GameObject.Find("Skill1_Cool").GetComponent<Image>();
+        skillAText = GameObject.Find("Skill1_Cool_Text").GetComponent<TextMeshProUGUI>();
         Managers.Input.KeyboardAction -= SkillInputKey;
         Managers.Input.KeyboardAction += SkillInputKey;
         player = Managers.Game.GetPlayer().GetComponent<PlayerController>();
@@ -23,30 +36,38 @@ public class SkillController : MonoBehaviour
 
     void SkillInputKey(Enum skill)
     {
+        if (!useSkill)
+        {
+            return;
+        }
+        player.State = Define.State.Skill;
         switch ((Define.Skill)skill)
         {
             case Define.Skill.A:
-                player.State = Define.State.Skill;
+                skillAImage.fillAmount = 0f;
+                skillATime = 8f;
+                StartCoroutine(SkillACoolDown());
                 animator.Play("Skill_A");
                 break;
             case Define.Skill.B:
-                skill_b_effect.Play();
+                skillBEffect.Play();
                 break;
             case Define.Skill.C:
-                skill_c_effect.Play();
+                skillCEffect.Play();
                 break;
         }
     }
 
     void OnSkill_A()
     {
-        skill_a_effect.Play();// 이펙트 실행
-        Ray ray = new Ray(transform.position+Vector3.up, transform.forward);
+        skillAEffect.Play();// 이펙트 실행
+
+
+        Ray ray = new Ray(transform.position + Vector3.up, transform.forward);
         RaycastHit hit;
-        // 레이가 닿은 오브젝트가 있는지 확인한다
         int layerMask = 1 << LayerMask.NameToLayer("Enemy");
 
-        if (Physics.Raycast(ray, out hit, 4f,layerMask))
+        if (Physics.Raycast(ray, out hit, 4f, layerMask))
         {
             GameObject enemy = hit.collider.gameObject;
             // 플레이어와 오브젝트 사이의 방향 벡터
@@ -74,6 +95,34 @@ public class SkillController : MonoBehaviour
             }
         }
 
+    }
+
+    IEnumerator SkillACoolDown()
+    {
+        useSkill = false;
+
+        // 쿨타임 시간 동안 반복하기
+        while (skillAImage.fillAmount < 1f)
+        {
+            // Fill Amount와 함께 실수형 변수를 증가시키기
+            skillAImage.fillAmount += Time.deltaTime / SKILL_A_COOLDOWN;
+            if ((int)skillATime != 0) // 0표시 안하기
+            {
+                skillAText.text = $"{(int)skillATime}";
+            }
+            skillATime -= Time.deltaTime;
+            // 다음 프레임까지 대기하기
+            yield return null;
+        }
+
+        // 스킬 사용 가능 상태로 만들기
+        useSkill = true;
+
+        if (skillATime <= 0f)
+        {
+            skillAText.text = "";
+            yield break;
+        }
     }
 
 }

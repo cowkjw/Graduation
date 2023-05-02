@@ -2522,9 +2522,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e89365b4712c47b4682bfe25c644e0cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skill_a_effect: {fileID: 7059185748404539680}
-  skill_b_effect: {fileID: 198389531241481992, guid: bfbc37d0bc0e8ff4082a8b2894b3a486, type: 3}
-  skill_c_effect: {fileID: 0}
+  skillAImage: {fileID: 0}
+  skillAEffect: {fileID: 7059185748404539680}
+  skillBEffect: {fileID: 0}
+  skillCEffect: {fileID: 0}
 --- !u!1 &8107081227525866926
 GameObject:
   m_ObjectHideFlags: 0
