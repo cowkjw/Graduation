@@ -8,16 +8,15 @@ using UnityEngine.UI;
 
 public class BaseScene : MonoBehaviour
 {
-
     protected Vector3 playerPos;
     protected GameObject _player = null;
     protected GameObject Ui = null;
     protected GameObject inventory = null; //inventory UI
     protected GameObject npcUI = null; // NPC UI 오브젝트   
     protected Slider _playerHpBar;
+    protected Slider _playerMpBar;
     protected Stat _playerStat;
     protected TextMeshProUGUI _playerLevelText;
-
 
     void Awake()
     {
@@ -28,7 +27,9 @@ public class BaseScene : MonoBehaviour
     {
         _playerStat = Managers.Game.GetPlayer().GetComponent<PlayerStat>();
         inventory = GameObject.Find("UI").transform.Find("Inventory").gameObject;
-        _playerHpBar = GameObject.FindGameObjectWithTag("PlayerUI").transform.GetChild(1).GetComponent<Slider>();
+        GameObject playerUI = GameObject.FindGameObjectWithTag("PlayerUI");
+        _playerHpBar = playerUI.transform.GetChild(1).GetComponent<Slider>();
+        _playerMpBar = playerUI.transform.GetChild(2).GetComponent<Slider>();
         _playerLevelText = GameObject.FindGameObjectWithTag("LevelUI").GetComponent<TextMeshProUGUI>();
         Managers.Input.KeyboardAction -= InputUIHotKey;
         Managers.Input.KeyboardAction += InputUIHotKey;
@@ -37,6 +38,7 @@ public class BaseScene : MonoBehaviour
     protected virtual void Update() // 플레이어의 HPUI 업데이트를 위함
     {
         _playerHpBar.value = _playerStat.Hp / (float)_playerStat.MaxHp;
+        _playerMpBar.value = _playerStat.Mp / (float)_playerStat.MaxMp;
         _playerLevelText.text = $"LELVEL {Managers.Data.PlayerStat.Level}";
     }
 

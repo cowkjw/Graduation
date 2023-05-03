@@ -14,14 +14,14 @@ public class CameraController : MonoBehaviour
     Material _material;
     Color matColor;
 
-    List<Renderer> _obsList;
+    HashSet<Renderer> _obsList;
 
     public void SetPlayer(GameObject player) { _player = player; }
 
 
     private void Start()
     {
-        _obsList = new List<Renderer>();
+        _obsList = new HashSet<Renderer>();
     }
 
     void Update()
@@ -32,7 +32,7 @@ public class CameraController : MonoBehaviour
 
             if (!_obsList.Contains(hit.transform.gameObject.GetComponentInChildren<Renderer>()))
                 _obsList.Add(hit.transform.gameObject.GetComponentInChildren<Renderer>());
-            foreach (var i in _obsList)
+            foreach (Renderer i in _obsList)
             {
                 _material = i.material;
                 matColor = _material.color;
@@ -44,7 +44,7 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            foreach (var renderer in _obsList)
+            foreach (Renderer renderer in _obsList)
             {
                 _material = renderer.material;
                 matColor = _material.color;

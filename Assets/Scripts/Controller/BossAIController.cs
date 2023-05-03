@@ -5,16 +5,15 @@ using UnityEngine.AI;
 
 public class BossAIController : MonoBehaviour
 {
-    public float jumpHeight = 50f;
-    public float jumpTime = 10f;
-    public float jumpSpeed = 2f;
-    public float jumpAttackTimer = 0f;
+
+    public Define.State State = Define.State.Idle;
+    float jumpAttackTimer = 30f;
     public GameObject areaPrefab;
     public ParticleSystem jumpAttackEffect;
-    public Define.State State = Define.State.Idle;
     public Define.EnemyType EnemyType;
-    public bool isJumping;
-    public bool attacking;
+    bool isJumping;
+    bool attacking;
+    bool dying;
 
     float jumpAttackCooldown = 30f;
     float speed = 2.5f;
@@ -37,43 +36,58 @@ public class BossAIController : MonoBehaviour
         target = Managers.Game.GetPlayer().transform;
         behaviorTree = new BehaviorTree();
 
+        // 일반 공격 노드
         Sequence attackSequence = new Sequence();
         attackSequence.AddChild(new ConditionNode(() => !isJumping));
         attackSequence.AddChild(new ConditionNode(() => (transform.position - target.position).sqrMagnitude <= nma.stoppingDistance * nma.stoppingDistance));
         attackSequence.AddChild(new ActionNode(FeetAttack));
-
+         
+        //점프 공격 관련 노드
         Sequence jumpAttackSequence = new Sequence();
 
+        //점프 공격 Selector 노드 
         Selector jumpAttackSelector = new Selector();
         jumpAttackSequence.AddChild(jumpAttackSelector);
 
+        // 점프 공격 중 확인 노드
         Sequence continueJumpAttackSequence = new Sequence();
         jumpAttackSelector.AddChild(continueJumpAttackSequence);
         continueJumpAttackSequence.AddChild(new ConditionNode(() => isJumping));
         continueJumpAttackSequence.AddChild(new ActionNode(JumpAttacking)); // 점프 공격 실행
 
+        // 점프 공격 시작 체크 노드
         Sequence startJumpAttackSequence = new Sequence();
         jumpAttackSelector.AddChild(startJumpAttackSequence);
         startJumpAttackSequence.AddChild(new ConditionNode(() => jumpAttackTimer >= jumpAttackCooldown));
-        startJumpAttackSequence.AddChild(new ConditionNode(() => ((float)_stat.Hp / _stat.MaxHp <= 1f)));
+        startJumpAttackSequence.AddChild(new ConditionNode(() => ((float)_stat.Hp / _stat.MaxHp <= 0.6f)));
         startJumpAttackSequence.AddChild(new ActionNode(StartJumpAttack));
         startJumpAttackSequence.AddChild(new ActionNode(ResetJumpAttackTimer));
 
+        // 점프공격 시간 초 증가 노드
         Sequence IncrementJumpAttackSequence = new Sequence();
         IncrementJumpAttackSequence.AddChild(new ActionNode(IncrementJumpAttackTimer)); // 쿨타임 증가
 
+        // 이동 노드
         Sequence moveSequence = new Sequence();
         moveSequence.AddChild(new ConditionNode(() => (!attacking && !isJumping)));
         moveSequence.AddChild(new ConditionNode(() => (transform.position - target.position).sqrMagnitude > 16f));
         moveSequence.AddChild(new ActionNode(MovingToPlayer));
+         
+        // 죽었는지 판단하는 노드
+        Sequence dyingSequence = new Sequence();
+        dyingSequence.AddChild(new ConditionNode(()=> (float)_stat.Hp / _stat.MaxHp <= 0f));
+        dyingSequence.AddChild(new ActionNode(Dying));
 
-
+        // 점프 공격, 이동, 일반 공격 노드 선택 노드
         Selector rootSelector = new Selector();
+        rootSelector.AddChild(dyingSequence);
         rootSelector.AddChild(jumpAttackSequence);
         rootSelector.AddChild(moveSequence);
         rootSelector.AddChild(attackSequence);
 
+        // 루트 관련 노드
         Sequence rootSequence = new Sequence();
+        rootSequence.AddChild(new ConditionNode(() => !dying));
         rootSequence.AddChild(IncrementJumpAttackSequence);
         rootSequence.AddChild(rootSelector);
         behaviorTree.SetRootNode(rootSequence);
@@ -89,6 +103,13 @@ public class BossAIController : MonoBehaviour
         }
     }
 
+    void Dying()
+    {
+        State = Define.State.Die;
+        animator.Play("Die");
+        dying = true;
+    }
+
     void Init()
     {
         animator = GetComponent<Animator>();
@@ -99,6 +120,7 @@ public class BossAIController : MonoBehaviour
         _stat.SetStat();
         attacking = false;
         isJumping = false;
+        dying = false;
         isAnimationPlayed = false;
     }
 
@@ -203,7 +225,10 @@ public class BossAIController : MonoBehaviour
 
     void IncrementJumpAttackTimer()
     {
-        jumpAttackTimer += Time.deltaTime;
+        if((int)jumpAttackTimer<30)
+        {
+            jumpAttackTimer += Time.deltaTime;
+        }
     }
 
     void ResetJumpAttackTimer()
@@ -233,22 +258,4 @@ public class BossAIController : MonoBehaviour
         areaPrefab.SetActive(false);
         isJumping = false;
     }
-
-    //void OnTriggerEnter(Collider other)
-    //{
-    //    if (other != null && target != null)
-    //    {
-    //        PlayerController player = target.GetComponent<PlayerController>();
-    //        Vector3 dir = transform.position - player.transform.position; // 방향 벡터
-    //        float angle = Vector3.Angle(dir, player.transform.forward); // 각도
-    //        if (angle > 130f) // 각이 30도를 넘어가면 플레이어가 마주보고 있지않으므로 스킬 무효
-    //        {
-    //            return;
-    //        }
-    //        if (other.CompareTag("Sword") && player.State == Define.State.Skill)
-    //        {
-    //            _stat.Attacked(player.GetComponent<Stat>(), this.gameObject, 100);
-    //        }
-    //    }
-    //}
 }

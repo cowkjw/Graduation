@@ -80,15 +80,15 @@ public class InputManager
                 KeyboardAction.Invoke(Define.UI.Inventory);
             }
 
-            if(Input.GetKeyDown(KeyCode.Alpha1))
+            if(Input.GetKeyDown(KeyCode.Q))
             {
                 KeyboardAction.Invoke(Define.Skill.A);
             }
-            else if(Input.GetKeyDown(KeyCode.Alpha2))
+            else if(Input.GetKeyDown(KeyCode.W))
             {
                 KeyboardAction.Invoke(Define.Skill.B);
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            else if (Input.GetKeyDown(KeyCode.E))
             {
                 KeyboardAction.Invoke(Define.Skill.C);
             }

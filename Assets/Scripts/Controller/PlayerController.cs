@@ -13,7 +13,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
     BaseScene _scene;
     int _mask = 1 << 6 | 1 << 8 | 1 << 9; // 6 Ground 8 Enemy 9 Dungeon1 5 UI
     bool _stopAttack = false;
-    const float duration = 1.5f;
+    const float duration = 2f;
     [SerializeField]
     ParticleSystem levelUpParticle;
 
@@ -50,6 +50,9 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
                 case Define.State.CrowdControl:
                     anim.Play("Stuned");
                     break;
+                //case Define.State.Skill:
+                //    anim.Play("Skill_A");
+                //    break;
             }
         }
     }
@@ -77,13 +80,8 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
                 Attacking();
                 break;
             case Define.State.CrowdControl:
-                StartCoroutine(Stunned(duration));
                 break;
             case Define.State.Idle:
-                StopCoroutine(Stunned(duration));
-                break;
-            case Define.State.Skill:
-                EndSkillAnim();
                 break;
         }
     }
@@ -109,9 +107,16 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
    
     override protected void Attacking()
     {
-        if (_target == null || !((_target.transform.position - transform.position).sqrMagnitude <= 0.81f)
-            || _target.GetComponent<EnemyController>()?.State == Define.State.Die || _target.GetComponent<BossAIController>()?.State == Define.State.Die) // 제곱근 연산 줄임 타겟이 죽은 상태라면 return
+        if(_target==null)
         {
+            return;
+        }
+        if (!((_target.transform.position - transform.position).sqrMagnitude <= 1f)
+            || _target.GetComponent<EnemyController>()?.State == Define.State.Die || 
+            _target.GetComponentInParent<BossAIController>()?.State == Define.State.Die) // 제곱근 연산 줄임 타겟이 죽은 상태라면 return
+        {
+          //  Debug.Log(_target.GetComponentInParent<BossAIController>());
+          //  _target = null;// 죽었을 때 처리
             return;
         }
         Quaternion lookAtTarget;
@@ -129,6 +134,10 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
     void EnemyTargetAndState(Define.MouseState evt)
     {
+        if(State == Define.State.Skill)
+        {
+            return;
+        }
 
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -204,10 +213,9 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
         }
     }
     
-    IEnumerator Stunned(float duration)
+    void OnEndStunned()
     {
-        yield return new WaitForSeconds(duration);
-        State = Define.State.Idle;
+       State = Define.State.Idle;
     }
 
     protected override void Dying()
@@ -221,8 +229,12 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
     void OnHitEvent()
     {
 
-        if (_target == null) return;
-        DungeonScene dungeonScene = null; // 던전 Scene을 생성
+        if (_target == null)
+        {
+            State = Define.State.Idle;
+            return;
+        }
+            DungeonScene dungeonScene = null; // 던전 Scene을 생성
         if(_scene is DungeonScene)
         {
             dungeonScene = _scene.GetComponent<DungeonScene>(); // 만약 해당 씬이 기본 던전 맵이면
@@ -272,7 +284,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
     void ComboAttackAnim(Animator anim)
     {
-        int randomAttack = Random.Range(0, 2) == 0 ? 1 : 3; // 50프로 확률
+        int randomAttack = Random.Range(1, 5);// == 0 ? 1 : 3; // 50프로 확률
 
         if (anim.GetBool("Attacking"))
         {
@@ -286,19 +298,11 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
         if (other != null)
         {
+
+            // 보스 점프 공격
             Vector3 pushDirection = transform.position - other.transform.position;
             GetComponent<Rigidbody>().AddForce(pushDirection.normalized * pushForce, ForceMode.Impulse);
             State = Define.State.CrowdControl;
-        }
-    }
-
-
-    void EndSkillAnim() // 스킬 애니메이션이 끝났다면
-    {
-        AnimatorStateInfo currentAnimationState = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
-        if(currentAnimationState.normalizedTime>=1.0f)
-        {
-            State = Define.State.Idle;
         }
     }
 

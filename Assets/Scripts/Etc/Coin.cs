@@ -10,9 +10,12 @@ public class Coin : MonoBehaviour
 
     int _coinValue=0;
 
+    AudioSource coinPickUp;
+
     public int CoinValue { get { return _coinValue; } }
     private void Start()
     {
+        coinPickUp = GetComponent<AudioSource>();
         if (CoinType == Define.Coin.Bronze)
         {
             _coinValue = 100;
@@ -34,8 +37,9 @@ public class Coin : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Managers.Data.Gold += CoinValue;
+            coinPickUp.Play();
             Managers.Data.PlayerDataChange(); // 이렇게 자주 넣어도 되나??
-            Destroy(gameObject);
+            Destroy(gameObject,0.5f);
         }
     }
 

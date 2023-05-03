@@ -66,7 +66,7 @@ public class DataManager
         PlayerData.playerStat.totalExp = PlayerStat.TotalExp;
         PlayerData.gold = _gold;
 #if UNITY_EDITOR
-        Debug.Log($"{PlayerData.equippedWeapon} 변경함");
+        Debug.Log("데이터 변경함");
 #endif
 
         WriteToJson(PlayerData, "PlayerData");
