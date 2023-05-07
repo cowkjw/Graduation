@@ -25,7 +25,7 @@ public class SkillController : MonoBehaviour  // 나중에 UI분리하기
     bool useSkillB;
     bool useSkillC;
 
-    bool notUseToSkill;
+    bool notUsedToSkill;
 
     float skillATime;
     float skillBTime;
@@ -37,7 +37,7 @@ public class SkillController : MonoBehaviour  // 나중에 UI분리하기
 
     void Start()
     {
-        notUseToSkill = false;
+        notUsedToSkill = true;
         useSkillA = true;
         useSkillB = true;
         useSkillC = true;
@@ -61,15 +61,15 @@ public class SkillController : MonoBehaviour  // 나중에 UI분리하기
 
     void SkillInputKey(Enum skill)
     {
-        if (notUseToSkill)
+        if (!notUsedToSkill)
         {
             return;
         }
-        notUseToSkill = true;
-
+        
         switch ((Define.Skill)skill)
         {
             case Define.Skill.A:
+                if (!useSkillA) return;
                 skillAImage.fillAmount = 0f;
                 skillATime = 8f;
                 animator.Play("Skill_A");
@@ -91,6 +91,7 @@ public class SkillController : MonoBehaviour  // 나중에 UI분리하기
                 StartCoroutine(SkillCCoolDown());
                 break;
         }
+        notUsedToSkill = false;
     }
 
     //void OnSkill_A()
@@ -202,12 +203,10 @@ public class SkillController : MonoBehaviour  // 나중에 UI분리하기
             yield return null;
         }
 
-        // 스킬 사용 가능 상태로 만들기
-        useSkillA = true;
-
         if (skillATime <= 0f)
         {
             skillAText.text = "";
+            useSkillA = true;
             yield break;
         }
     }
@@ -269,10 +268,10 @@ public class SkillController : MonoBehaviour  // 나중에 UI분리하기
     }
 
 
-    void OnEndSkillAnim() // 스킬 애니메이션이 끝났다면
+    void OnEndSkillAnim() // 스킬 애니메이션이 끝났다면 
     {
-        notUseToSkill = false;
+        notUsedToSkill = true;
         player.State = Define.State.Idle;
-    }
+    } 
 
 }

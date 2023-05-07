@@ -38,7 +38,7 @@ public class Coin : MonoBehaviour
         {
             Managers.Data.Gold += CoinValue;
             coinPickUp.Play();
-            Managers.Data.PlayerDataChange(); // 이렇게 자주 넣어도 되나??
+            //Managers.Data.PlayerDataChange(); // 이렇게 자주 넣어도 되나??
             Destroy(gameObject,0.5f);
         }
     }

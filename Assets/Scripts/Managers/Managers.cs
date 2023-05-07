@@ -48,7 +48,6 @@ public class Managers : MonoBehaviour // ΩÃ±€≈Ê
             s_Instance._data.Init();
             s_Instance._pool.LoadTheLastPosition();
         }
-
     }
 
 

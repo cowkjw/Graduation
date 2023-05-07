@@ -41,6 +41,7 @@ public class SceneController:MonoBehaviour
             case Define.Scene.BossDungeon:
                 break;
         }
+        Managers.Data.PlayerDataChange();
         CurrentScene = (Define.Scene)SceneManager.GetActiveScene().buildIndex;
     }
 }

@@ -92,7 +92,6 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
 
         if (sellSlot?.inItem == true && sellSlot.gameObject.layer == (int)Define.UI.Inventory) // null 체크
         {
-
             sellSlot.GetComponent<Image>().sprite = Resources.Load<Sprite>("items/emptySlot"); // 빈 슬롯 이미지로 변경
             sellSlot.inItem = false;
             Managers.Data.Gold += sellSlot.ItemInfo.SellPrice; // 판매 했으니까 판매가격만큼 골드 올리기
@@ -165,9 +164,6 @@ public class InventoryController : MonoBehaviour, IPointerDownHandler, IPointerE
         toolTip.SetItemInfo(tempSlot.ItemInfo.Name); // 툴팁에 해당 슬롯 아이템 정보 설정
         selectSlotIdx = tempSlot.transform.GetSiblingIndex();
     }
-
-
-
 
     public void OnPointerExit(PointerEventData eventData)
     {

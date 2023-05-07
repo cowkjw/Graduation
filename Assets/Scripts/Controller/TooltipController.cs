@@ -8,9 +8,6 @@ public class TooltipController : MonoBehaviour, IPointerExitHandler
 
     public ItemTooltip toolTip;
     bool isDown;
-
-
-   
     public void OnPointerExit(PointerEventData eventData)
     {
        // toolTip.gameObject.SetActive(false);

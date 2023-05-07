@@ -11,17 +11,18 @@ public class Slot : MonoBehaviour
     Contents.Item _itemInfo = new Contents.Item();
     public bool inItem = false;
     public Contents.Item ItemInfo { get { return _itemInfo; } private set { _itemInfo = value; } }
-
-    private void Start()
+    Image itemImage;
+    void Start()
     {
         Init();
-        this.GetComponent<Image>().sprite = inItem ? Resources.Load<Sprite>($"Items/{_itemInfo.Id}") : Resources.Load<Sprite>("Items/emptySlot");
+        itemImage.sprite = inItem ? Resources.Load<Sprite>($"Items/{_itemInfo.Id}") : Resources.Load<Sprite>("Items/emptySlot");
     }
 
     void Init()
     {
-        if (Managers.Data.ItemDict.TryGetValue(GetComponent<Image>().sprite.name != "emptySlot" ?
-            int.Parse(GetComponent<Image>().sprite.name) : -1, out Contents.Item tempItem))
+        itemImage = GetComponent<Image>();
+        if (Managers.Data.ItemDict.TryGetValue(itemImage.sprite.name != "emptySlot" ?
+            int.Parse(itemImage.sprite.name) : -1, out Contents.Item tempItem))
         {
             _itemInfo.ItemType = tempItem.ItemType;
             _itemInfo.Name = tempItem.Name;
@@ -46,6 +47,6 @@ public class Slot : MonoBehaviour
     {
         ItemInfo = item;
         inItem = true;
-        this.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Items/{ItemInfo.Id}");
+        itemImage.sprite = Resources.Load<Sprite>($"Items/{ItemInfo.Id}");
     }
 }
