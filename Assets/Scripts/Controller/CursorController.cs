@@ -60,7 +60,7 @@ public class CursorController : MonoBehaviour
     {
         if (hit.collider == null)
             return;
-        if (hit.collider.gameObject.transform.root.gameObject.layer == 3) // 해당 오브젝트의 부모가 Player라면 (플레이어가 가지고 있는 아이템이므로 무시)
+        if (hit.collider.transform.root.gameObject.layer == 3) // 해당 오브젝트의 부모가 Player라면 (플레이어가 가지고 있는 아이템이므로 무시)
             return;
         // 아이템이라면
         if (hit.collider.gameObject.layer == 11 && evt == Define.MouseState.LButtonDown)
@@ -70,23 +70,19 @@ public class CursorController : MonoBehaviour
             {
                 return;
             }
-            //////////////////다시 수정하기
+
             int itemID = hit.collider.GetComponent<Item>().Id;
-            if (Managers.Data.ItemDict.TryGetValue(itemID, out Contents.Item tempItem))
+            try
             {
-         
+                Contents.Item tempItem = Managers.Data.ItemDict[itemID];
                 if (_inventory.AddItem(tempItem))
                     Destroy(hit.collider.gameObject);
             }
-            else
+            catch (KeyNotFoundException)
             {
                 Debug.LogError("존재하지 않는 아이템 아이디입니다.");
             }
-            //_inventory.AchiveItem(hit.collider.GetComponent<Item>());
-            ////////////////////////////
-
         }
-
     }
 
     void SetCursorIcon()

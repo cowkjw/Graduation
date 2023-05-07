@@ -57,6 +57,7 @@ public class DataManager
             InvenDict.Remove(idx);
         }
         WriteToJson(InvenDict, "InventoryData");
+        PlayerDataChange();
     }
 
     public void PlayerDataChange()

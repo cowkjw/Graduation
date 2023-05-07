@@ -10,7 +10,7 @@ public class ShopController : MonoBehaviour, IPointerDownHandler, IPointerExitHa
     public ItemTooltip toolTip;
     Slot buySlot = null;
     Text price;
-
+    InventoryController inventory;
     void Start()
     {
         if (transform.childCount != 0)
@@ -18,7 +18,7 @@ public class ShopController : MonoBehaviour, IPointerDownHandler, IPointerExitHa
             price = transform.GetChild(0).GetComponent<Text>();
             price.text = GetComponent<Slot>().ItemInfo.Price + "G";
         }
-
+        inventory = FindObjectOfType<InventoryController>();
         Managers.Input.MouseAction -= BuyingItem;
         Managers.Input.MouseAction += BuyingItem;
     }
@@ -52,8 +52,6 @@ public class ShopController : MonoBehaviour, IPointerDownHandler, IPointerExitHa
             return;
 
         int itemPrice = buySlot.ItemInfo.Price;
-        //int itemPrice = Convert.ToInt32(buySlot.transform.GetChild(0).GetComponent<Text>().text.Trim('G'));
-        InventoryController inventory = FindObjectOfType<InventoryController>();
         if (Managers.Data.Gold < itemPrice)
         {
             Debug.Log("구매 불가");

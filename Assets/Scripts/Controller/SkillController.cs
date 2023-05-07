@@ -94,47 +94,6 @@ public class SkillController : MonoBehaviour  // 나중에 UI분리하기
         notUsedToSkill = false;
     }
 
-    //void OnSkill_A()
-    //{
-    //    skillAEffect.Play();// 이펙트 실행
-
-    //    Ray ray = new Ray(transform.position + Vector3.up, transform.forward * 1.2f);
-    //    RaycastHit[] hits; // 배열로 선언
-    //    int layerMask = 1 << LayerMask.NameToLayer("Enemy");
-
-    //    hits = Physics.RaycastAll(ray, 4f, layerMask); // 모든 충돌 오브젝트 검출
-    //    foreach (RaycastHit hit in hits) // 배열을 순회하면서 각 오브젝트에 대해 처리
-    //    {
-    //        GameObject enemy = hit.collider.gameObject;
-    //        // 플레이어와 오브젝트 사이의 방향 벡터
-    //        Vector3 dir = enemy.transform.position - transform.position;
-    //        // 플레이어의 forward 벡터와의 각도
-    //        float angle = Vector3.Angle(dir, transform.forward);
-    //        // 각도가 160도 이하이면 전방으로 판단하고 데미지를 준다
-    //        if (angle <= 160f)
-    //        {
-    //            DungeonScene dungeonScene = FindObjectOfType<DungeonScene>(); // 던전 씬
-    //            Stat enemyStat = enemy.transform.GetComponent<Stat>();
-
-    //            if (enemyStat == null) // 만약 null이면 부모에서 Stat 컴포넌트 찾기
-    //            {
-    //                enemyStat = enemy.transform.root.GetComponentInParent<Stat>();
-    //            }
-    //            float damage = stat.Attack + (stat.Attack * 1.3f);
-    //            Debug.Log(damage);
-    //            enemyStat.Attacked(enemyStat, this.gameObject, (int)damage);
-    //            if (dungeonScene != null) // 던전 씬이 null이 아니라면 HP UI 켜기
-    //            {
-    //                dungeonScene.ObjStat = enemyStat;
-    //                dungeonScene.ObjName = enemyStat.name;
-    //                dungeonScene.ObjNameText.gameObject.SetActive(true);
-    //                dungeonScene.HpBar.gameObject.SetActive(true);
-    //            }
-    //        }
-    //    }
-
-    //}
-
     void OnSkill_A()
     {
         skillAEffect.Play();// 이펙트 실행
@@ -166,7 +125,7 @@ public class SkillController : MonoBehaviour  // 나중에 UI분리하기
                     }
                     float damage = stat.Attack + (stat.Attack * 1.3f);
                     Debug.Log(damage);
-                    enemyStat.Attacked(enemyStat, this.gameObject, (int)damage);
+                    enemyStat.Attacked(stat, enemy, (int)damage);
                     if (dungeonScene != null) // 던전 씬이 null이 아니라면 HP UI 켜기
                     {
                         dungeonScene.ObjStat = enemyStat;
