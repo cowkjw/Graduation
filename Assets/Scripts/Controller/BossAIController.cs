@@ -6,6 +6,8 @@ using UnityEngine.AI;
 public class BossAIController : MonoBehaviour
 {
 
+    public Projector projector;
+
     public Define.State State = Define.State.Idle;
     float jumpAttackTimer = 30f;
     public GameObject areaPrefab;
@@ -169,6 +171,8 @@ public class BossAIController : MonoBehaviour
         isAnimationPlayed = false;
         initialPosition = transform.position;
         positionToJump = target.position;
+        projector.enabled = true;
+        projector.transform.position = target.position+Vector3.up*3f;
     }
 
     void JumpAttacking()
@@ -190,7 +194,7 @@ public class BossAIController : MonoBehaviour
 
         // 플레이어 위치 보간에 사용되는 점프 애니메이션의 진행 상황.
         jumpProgress += Time.deltaTime / jumpDuration;
-
+        projector.orthographicSize = jumpProgress * 10f;
         // 애니메이션이 아직 시작되지 않았고 점프 버튼이 눌린 후 시간이 애니메이션 시작 시간 내에 있으면, 점프 어택 애니메이션을 재생합니다.
         if (jumpProgress < animationStartTime / jumpDuration && !isAnimationPlayed)
         {
@@ -257,5 +261,6 @@ public class BossAIController : MonoBehaviour
         jumpAttackEffect.Play();
         areaPrefab.SetActive(false);
         isJumping = false;
+        projector.enabled = false;
     }
 }

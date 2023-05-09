@@ -18,7 +18,6 @@ public class EnemyController : BaseCharacterController
 
     protected override void Update()
     {
-        //if (!isUsing)
         if (State != Define.State.Die)
             Dying();
 

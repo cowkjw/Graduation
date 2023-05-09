@@ -18,7 +18,7 @@ public class PoolManager
     public void LoadTheLastPosition()
     {
         int playerScene = Managers.Data.PlayerData.location;
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
        // SceneManager.LoadScene(playerScene);
     }
 
