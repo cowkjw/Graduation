@@ -9,14 +9,15 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
 
     public ParticleSystem swordEffect;
-
     BaseScene _scene;
     int _mask = 1 << 6 | 1 << 8 | 1 << 9; // 6 Ground 8 Enemy 9 Dungeon1 5 UI
     bool _stopAttack = false;
     const float duration = 2f;
     [SerializeField]
     ParticleSystem levelUpParticle;
-
+    [SerializeField]
+    AudioClip attackSoundEffect;
+    AudioSource audioSource;
     public override Define.State State
     {
         get => _state;
@@ -50,9 +51,6 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
                 case Define.State.CrowdControl:
                     anim.Play("Stuned");
                     break;
-                //case Define.State.Skill:
-                //    anim.Play("Skill_A");
-                //    break;
             }
         }
     }
@@ -62,6 +60,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
         // BaseScene을 찾아온다 (어떤 Scene일지 모르기 때문)
         _scene = FindObjectOfType<BaseScene>();
         _stat = gameObject.GetComponent<PlayerStat>() as PlayerStat;
+        audioSource = GetComponent<AudioSource>();
         Managers.Input.MouseAction -= MouseEvent;
         Managers.Input.MouseAction += MouseEvent;
     }
@@ -241,6 +240,8 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
         }
         if (!_stopAttack)
         {
+            audioSource.clip = attackSoundEffect;
+            audioSource?.Play();
             Stat enemyStat = _target.GetComponentInParent<Stat>()??_target.GetComponentInParent<Stat>();// 해당 오브젝트에 없으면 부모의 오브젝트에서 찾기
             enemyStat.Attacked(_stat, _target);
             if(dungeonScene == null)
@@ -294,7 +295,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
     void OnParticleCollision(GameObject other)
     {
-        float pushForce = 8f;
+        float pushForce = 6f;
 
         if (other != null)
         {

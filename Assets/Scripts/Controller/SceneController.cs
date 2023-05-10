@@ -34,8 +34,8 @@ public class SceneController:MonoBehaviour
                     SceneManager.LoadScene((int)Define.Scene.Town);
                 }
                 else 
-                { 
-                    SceneManager.LoadScene((int)Define.Scene.BossDungeon);
+                {
+                  SceneManager.LoadScene((int)Define.Scene.BossDungeon);
                 }
                 break;
             case Define.Scene.BossDungeon:

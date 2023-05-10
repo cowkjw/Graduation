@@ -63,6 +63,12 @@ public class Define
         C
     }
 
+    public enum SkillType
+    {
+        Passive,
+        Attack,
+    }
+
     public enum Scene
     {
         Town,

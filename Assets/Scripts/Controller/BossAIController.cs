@@ -10,7 +10,6 @@ public class BossAIController : MonoBehaviour
 
     public Define.State State = Define.State.Idle;
     float jumpAttackTimer = 30f;
-    public GameObject areaPrefab;
     public ParticleSystem jumpAttackEffect;
     public Define.EnemyType EnemyType;
     bool isJumping;
@@ -28,6 +27,9 @@ public class BossAIController : MonoBehaviour
     BehaviorTree behaviorTree;
     Stat _stat;
     Animator animator;
+    AudioSource audioSource;
+    [SerializeField]
+    AudioClip jumpAttackSoundEffect;
 
     private void Awake()
     {
@@ -114,6 +116,8 @@ public class BossAIController : MonoBehaviour
 
     void Init()
     {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = jumpAttackSoundEffect;
         animator = GetComponent<Animator>();
         nma = GetComponent<NavMeshAgent>();
         nma.speed = speed;
@@ -165,8 +169,6 @@ public class BossAIController : MonoBehaviour
             attacking = false;
         }
         isJumping = true;
-        areaPrefab.transform.position = target.position;
-        areaPrefab.SetActive(true);
         jumpProgress = 0f;
         isAnimationPlayed = false;
         initialPosition = transform.position;
@@ -225,6 +227,12 @@ public class BossAIController : MonoBehaviour
             // 선형 보간과 추락 오프셋을 사용하여 플레이어 위치를 설정합니다.
             transform.position = Vector3.Lerp(positionToJump, initialPosition, fallingProgress) + Vector3.up * fallHeightOffset;
         }
+
+        if(jumpProgress>=0.4f)
+        {
+            audioSource.Play();
+            return;
+        }
     }
 
     void IncrementJumpAttackTimer()
@@ -259,7 +267,6 @@ public class BossAIController : MonoBehaviour
     void OnEndJumpAttack()
     {
         jumpAttackEffect.Play();
-        areaPrefab.SetActive(false);
         isJumping = false;
         projector.enabled = false;
     }
