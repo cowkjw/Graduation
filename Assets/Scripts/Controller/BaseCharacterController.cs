@@ -5,11 +5,10 @@ using UnityEngine;
 public class BaseCharacterController : MonoBehaviour
 {
 
-
+    protected Vector3 DestPos;
+    protected GameObject Target;
+    protected Stat Stat;
     protected Define.State _state = Define.State.Idle;
-    protected Vector3 _destPos;
-    protected GameObject _target;
-    protected Stat _stat;
 
    public virtual Define.State State
     {
@@ -39,13 +38,11 @@ public class BaseCharacterController : MonoBehaviour
         }
     }
 
-
     protected  virtual void Start()
     {
         Init();
     }
 
-    
     protected virtual void Update()
     {
         switch (State)

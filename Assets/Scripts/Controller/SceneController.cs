@@ -6,14 +6,11 @@ using UnityEngine.SceneManagement;
 public class SceneController:MonoBehaviour
 {
 
-    Define.Scene CurrentScene;
-    const int town = 0;
-    const int dungeon = 1;
-    const int bossDungeon = 2;
+    Define.Scene _currentScene;
 
     void Awake()
     {
-        CurrentScene = (Define.Scene)SceneManager.GetActiveScene().buildIndex;
+        _currentScene = (Define.Scene)SceneManager.GetActiveScene().buildIndex;
     }
 
     void OnTriggerEnter(Collider other)
@@ -23,7 +20,7 @@ public class SceneController:MonoBehaviour
             return;
         }
 
-        switch(CurrentScene)
+        switch(_currentScene)
         {
             case Define.Scene.Town:
                 SceneManager.LoadScene((int)Define.Scene.Dungeon);
@@ -42,6 +39,6 @@ public class SceneController:MonoBehaviour
                 break;
         }
         Managers.Data.PlayerDataChange();
-        CurrentScene = (Define.Scene)SceneManager.GetActiveScene().buildIndex;
+        _currentScene = (Define.Scene)SceneManager.GetActiveScene().buildIndex;
     }
 }

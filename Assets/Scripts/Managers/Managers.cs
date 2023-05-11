@@ -17,19 +17,15 @@ public class Managers : MonoBehaviour // ΩÃ±€≈Ê
     public static DataManager Data { get => Instance._data; }
     public static PoolManager Pool { get => Instance._pool; }
  
-
-
     void Start()
     {
         Init();
     }
 
-
     void Update()
     { 
         _input.MouseUpdate(); 
         _input.KeyboardUpdate();
-        //Clear();
     }
 
     static void Init()
@@ -49,7 +45,6 @@ public class Managers : MonoBehaviour // ΩÃ±€≈Ê
             s_Instance._pool.LoadTheLastPosition();
         }
     }
-
 
     public static void Clear()
     {

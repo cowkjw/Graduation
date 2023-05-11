@@ -8,6 +8,10 @@ using System.Linq;
 
 public class SkillController : MonoBehaviour  // 나중에 UI분리하기
 {
+    public ParticleSystem skillAEffect;
+    public ParticleSystem skillBEffect;
+    public ParticleSystem skillCEffect;
+
     const float SKILL_A_COOLDOWN = 8f;
     const float SKILL_B_COOLDOWN = 30f;
     const float SKILL_C_COOLDOWN = 60f;
@@ -20,10 +24,6 @@ public class SkillController : MonoBehaviour  // 나중에 UI분리하기
     [SerializeField] AudioClip aSkillSoundEffect;
     [SerializeField] AudioClip bSkillSoundEffect;
     //[SerializeField] AudioClip SKillSoundEffect;
-
-    public ParticleSystem skillAEffect;
-    public ParticleSystem skillBEffect;
-    public ParticleSystem skillCEffect;
     class SkillData // class로 안만들고 구조체로 만들면 pass by value로 코루틴 안에서 변경이 안된다
     {
         public bool used;

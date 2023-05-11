@@ -32,7 +32,7 @@ public class Define
 
     public enum CursorType
     {
-        Arrow, // Idle
+        Arrow, // ±âº»
         Attack,
     }
 

@@ -7,8 +7,8 @@ public class PlayerStat : Stat
 
     [SerializeField]
     int _totalExp;
-    public int TotalExp { get => _totalExp; private set => _totalExp = value; }
     int _level;
+    public int TotalExp { get => _totalExp; private set => _totalExp = value; }
     public int Level { get => _level; }
 
 
@@ -24,7 +24,9 @@ public class PlayerStat : Stat
                 if (_totalExp >= stat.totalExp)
                 {
                     LevelUp();
+#if UNITY_EDITOR
                     Debug.Log($"레벨 {_level}");
+#endif
                 }
             }
         }
@@ -39,7 +41,9 @@ public class PlayerStat : Stat
             if (_totalExp >= stat.totalExp)
             {
                 LevelUp();
+#if UNITY_EDITOR
                 Debug.Log($"레벨 {_level}");
+#endif
             }
             else
             {

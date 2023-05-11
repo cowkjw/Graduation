@@ -13,19 +13,22 @@ public class UI_Button : MonoBehaviour
     GameObject shop;
     [SerializeField]
     GameObject combination;
+
     public void NPCCloseButton()
     {
-
         if (npcUI.activeSelf)
+        {
             npcUI.SetActive(false);
-     
+        }
     }
 
-    //public void InventoryClose()
-    //{
-    //    if (inventoryUI.activeSelf)
-    //        inventoryUI.SetActive(false);
-    //}
+    public void InventoryClose()
+    {
+        if (inventoryUI.activeSelf)
+        {
+            inventoryUI.SetActive(false);
+        }
+    }
 
     public void DisplayShop()
     {

@@ -8,21 +8,22 @@ using UnityEngine.UI;
 public class ShopController : MonoBehaviour, IPointerDownHandler, IPointerExitHandler
 {
     public ItemTooltip toolTip;
-    Slot buySlot = null;
-    Text price;
-    InventoryController inventory;
+
+    Slot _buySlot = null;
+    Text _price;
+    InventoryController _inventory;
+    
     void Start()
     {
         if (transform.childCount != 0)
         {
-            price = transform.GetChild(0).GetComponent<Text>();
-            price.text = GetComponent<Slot>().ItemInfo.Price + "G";
+            _price = transform.GetChild(0).GetComponent<Text>();
+            _price.text = GetComponent<Slot>().ItemInfo.Price + "G";
         }
-        inventory = FindObjectOfType<InventoryController>();
+        _inventory = FindObjectOfType<InventoryController>();
         Managers.Input.MouseAction -= BuyingItem;
         Managers.Input.MouseAction += BuyingItem;
     }
-
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -30,7 +31,7 @@ public class ShopController : MonoBehaviour, IPointerDownHandler, IPointerExitHa
             return;
 
         GameObject pointer = eventData.pointerPressRaycast.gameObject;
-        buySlot = pointer.gameObject.GetComponent<Slot>();
+        _buySlot = pointer.gameObject.GetComponent<Slot>();
 
         if (pointer.CompareTag("Slot") && pointer.layer == (int)Define.UI.Shop)
         {
@@ -38,7 +39,7 @@ public class ShopController : MonoBehaviour, IPointerDownHandler, IPointerExitHa
             if (slot == null || !slot.inItem)
                 return;
 
-            toolTip.sellOrPurchase.text = "우클릭 구매";
+            toolTip.SellOrPurchaseText.text = "우클릭 구매";
             toolTip.gameObject.SetActive(true);
             toolTip.SetItemInfo(slot.ItemInfo.Name);
         }
@@ -46,29 +47,32 @@ public class ShopController : MonoBehaviour, IPointerDownHandler, IPointerExitHa
 
     public void BuyingItem(Define.MouseState evt)
     {
-        if (buySlot == null) // null 판단
+        if (_buySlot == null) // null 판단
             return;
-        if (evt != Define.MouseState.RButtonDown || buySlot.gameObject.layer != (int)Define.UI.Shop)
+        if (evt != Define.MouseState.RButtonDown || _buySlot.gameObject.layer != (int)Define.UI.Shop)
             return;
 
-        int itemPrice = buySlot.ItemInfo.Price;
+        int itemPrice = _buySlot.ItemInfo.Price;
         if (Managers.Data.Gold < itemPrice)
         {
+#if UNITY_EDITOR
             Debug.Log("구매 불가");
+#endif
             return;
         }
 
-        inventory.AddItem(buySlot.ItemInfo);
+        _inventory.AddItem(_buySlot.ItemInfo);
         Managers.Data.Gold -= itemPrice;
         Managers.Data.PlayerDataChange();
+#if UNITY_EDITOR
         Debug.Log("구매 가능");
-        buySlot = null;
+#endif
+        _buySlot = null;
     }
-
 
     public void OnPointerExit(PointerEventData eventData)
     {
         toolTip.gameObject.SetActive(false);
-        buySlot = null;
+        _buySlot = null;
     }
 }

@@ -3,21 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : BaseCharacterController//MonoBehaviour
+public class PlayerController : BaseCharacterController
 {
-
-
-
     public ParticleSystem swordEffect;
-    BaseScene _scene;
-    int _mask = 1 << 6 | 1 << 8 | 1 << 9; // 6 Ground 8 Enemy 9 Dungeon1 5 UI
+
+    int _mask = 1 << 6 | 1 << 8 | 1 << 9; // 6 Ground 8 Enemy 9 Dungeon1
     bool _stopAttack = false;
-    const float duration = 2f;
+    const float _duration = 2f;
+    BaseScene _scene;
+    AudioSource audioSource;
     [SerializeField]
     ParticleSystem levelUpParticle;
     [SerializeField]
     AudioClip attackSoundEffect;
-    AudioSource audioSource;
+
     public override Define.State State
     {
         get => _state;
@@ -59,7 +58,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
     {
         // BaseScene을 찾아온다 (어떤 Scene일지 모르기 때문)
         _scene = FindObjectOfType<BaseScene>();
-        _stat = gameObject.GetComponent<PlayerStat>() as PlayerStat;
+        Stat = gameObject.GetComponent<PlayerStat>() as PlayerStat;
         audioSource = GetComponent<AudioSource>();
         Managers.Input.MouseAction -= MouseEvent;
         Managers.Input.MouseAction += MouseEvent;
@@ -106,26 +105,26 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
    
     override protected void Attacking()
     {
-        if(_target==null)
+        if(Target==null)
         {
             return;
         }
-        if (!((_target.transform.position - transform.position).sqrMagnitude <= 1f)
-            || _target.GetComponent<EnemyController>()?.State == Define.State.Die || 
-            _target.GetComponentInParent<BossAIController>()?.State == Define.State.Die) // 제곱근 연산 줄임 타겟이 죽은 상태라면 return
+        if (!((Target.transform.position - transform.position).sqrMagnitude <= 1f)
+            || Target.GetComponent<EnemyController>()?.State == Define.State.Die || 
+            Target.GetComponentInParent<BossAIController>()?.State == Define.State.Die) // 제곱근 연산 줄임 타겟이 죽은 상태라면 return
         {
           //  Debug.Log(_target.GetComponentInParent<BossAIController>());
           //  _target = null;// 죽었을 때 처리
             return;
         }
         Quaternion lookAtTarget;
-        if (_target.gameObject.name == "Boss")
+        if (Target.gameObject.name == "Boss")
         {
-            lookAtTarget = Quaternion.LookRotation((_target.transform.parent.position - transform.position).normalized);
+            lookAtTarget = Quaternion.LookRotation((Target.transform.parent.position - transform.position).normalized);
         }
         else
         {
-            lookAtTarget = Quaternion.LookRotation((_target.transform.position - transform.position).normalized);
+            lookAtTarget = Quaternion.LookRotation((Target.transform.position - transform.position).normalized);
         }
         transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 25 * Time.deltaTime);
         State = Define.State.Attack;
@@ -149,26 +148,26 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
                 
                 if (raycastHit)
                 {
-                    _destPos = hit.point;
+                    DestPos = hit.point;
                     State = Define.State.Moving;
                     _stopAttack = false;
 
                     if (hit.collider.gameObject.layer == 8)
                     {
-                        _target = hit.collider.gameObject;
+                        Target = hit.collider.gameObject;
                     }
 
                     else
                     {
-                        _target = null;
+                        Target = null;
                     }
                 }
                 break;
             case Define.MouseState.Press:
                 {
-                    if (_target == null && raycastHit)
+                    if (Target == null && raycastHit)
                     {
-                        _destPos = hit.point;
+                        DestPos = hit.point;
                     }
                 }
                 break;
@@ -184,7 +183,7 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
     {
         if (State == Define.State.CrowdControl) // 군중 제어 상태이면 리턴
             return;
-        Vector3 dir = _destPos - transform.position;
+        Vector3 dir = DestPos - transform.position;
         dir.y = 0;
 
         Attacking();
@@ -219,52 +218,88 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
     protected override void Dying()
     {
-        if (_stat.Hp == 0)
+        if (Stat.Hp == 0)
         {
             Destroy(gameObject);
         }
     }
 
+    //void OnHitEvent()
+    //{
+
+    //    if (_target == null)
+    //    {
+    //        State = Define.State.Idle;
+    //        return;
+    //    }
+    //    DungeonScene dungeonScene = null; // 던전 Scene을 생성
+    //    if(_scene is DungeonScene)
+    //    {
+    //        dungeonScene = _scene.GetComponent<DungeonScene>(); // 만약 해당 씬이 기본 던전 맵이면
+    //    }
+    //    if (!_stopAttack)
+    //    {
+    //        audioSource.clip = attackSoundEffect;
+    //        audioSource?.Play();
+    //        Stat enemyStat = _target.GetComponentInParent<Stat>()??_target.GetComponentInParent<Stat>();// 해당 오브젝트에 없으면 부모의 오브젝트에서 찾기
+    //        enemyStat.Attacked(_stat, _target);
+    //        if(dungeonScene == null)
+    //            return;
+
+    //        dungeonScene.ObjStat = enemyStat;
+    //        dungeonScene.ObjName = enemyStat.name;
+    //        dungeonScene.ObjNameText.gameObject.SetActive(true);
+    //        dungeonScene.HpBar.gameObject.SetActive(true);
+
+    //        State = Define.State.Attack;
+    //    }
+    //    else
+    //    { 
+    //        if (dungeonScene == null)
+    //            return;
+    //        dungeonScene.HpBar.gameObject.SetActive(false);
+    //        dungeonScene.ObjNameText.gameObject.SetActive(false);
+    //        State = Define.State.Idle;
+    //    }
+    //}
     void OnHitEvent()
     {
-
-        if (_target == null)
+        if (Target == null)
         {
             State = Define.State.Idle;
             return;
         }
-            DungeonScene dungeonScene = null; // 던전 Scene을 생성
-        if(_scene is DungeonScene)
-        {
-            dungeonScene = _scene.GetComponent<DungeonScene>(); // 만약 해당 씬이 기본 던전 맵이면
-        }
+
+        DungeonScene dungeonScene = _scene as DungeonScene;
+
         if (!_stopAttack)
         {
             audioSource.clip = attackSoundEffect;
             audioSource?.Play();
-            Stat enemyStat = _target.GetComponentInParent<Stat>()??_target.GetComponentInParent<Stat>();// 해당 오브젝트에 없으면 부모의 오브젝트에서 찾기
-            enemyStat.Attacked(_stat, _target);
-            if(dungeonScene == null)
-                return;
+            Stat enemyStat = Target.GetComponentInParent<Stat>();
+            enemyStat.Attacked(Stat, Target);
 
-            dungeonScene.ObjStat = enemyStat;
-            dungeonScene.ObjName = enemyStat.name;
-            dungeonScene.ObjNameText.gameObject.SetActive(true);
-            dungeonScene.HpBar.gameObject.SetActive(true);
-            
+            if (dungeonScene != null)
+            {
+                dungeonScene.ObjStat = enemyStat;
+                dungeonScene.ObjName = enemyStat.name;
+                dungeonScene.ObjNameText.gameObject.SetActive(true);
+                dungeonScene.HpBar.gameObject.SetActive(true);
+            }
+
             State = Define.State.Attack;
         }
-        else//(_stopAttack)
-        { 
-            if (dungeonScene == null)
-                return;
-            dungeonScene.HpBar.gameObject.SetActive(false);
-            dungeonScene.ObjNameText.gameObject.SetActive(false);
-        //    swordEffect.Stop();
+        else
+        {
+            if (dungeonScene != null)
+            {
+                dungeonScene.HpBar.gameObject.SetActive(false);
+                dungeonScene.ObjNameText.gameObject.SetActive(false);
+            }
+
             State = Define.State.Idle;
         }
     }
-
 
     void OnAttackEffect()
     {
@@ -299,7 +334,6 @@ public class PlayerController : BaseCharacterController//MonoBehaviour
 
         if (other != null)
         {
-
             // 보스 점프 공격
             Vector3 pushDirection = transform.position - other.transform.position;
             GetComponent<Rigidbody>().AddForce(pushDirection.normalized * pushForce, ForceMode.Impulse);

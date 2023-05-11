@@ -11,7 +11,7 @@ public class InventoryController : MonoBehaviour/*, IPointerDownHandler//, IPoin
 
     public Slot[] Slots;
     Text _goldText;
-    BaseScene baseScene;
+    BaseScene _baseScene;
 
     void Start()
     {
@@ -26,7 +26,7 @@ public class InventoryController : MonoBehaviour/*, IPointerDownHandler//, IPoin
     void Init()
     {
         _goldText = transform.GetChild(1).GetChild(0).GetComponent<Text>();
-        baseScene = FindObjectOfType<BaseScene>();
+        _baseScene = FindObjectOfType<BaseScene>();
         for (int i = 0; i < Slots.Length; i++)
         {
             Slot slot = Slots[i];
@@ -49,7 +49,9 @@ public class InventoryController : MonoBehaviour/*, IPointerDownHandler//, IPoin
         int idx = Array.FindIndex(Slots, slot => !slot.inItem); // 람다식 사용
         if (idx < 0) // 없으면 -1 반환하기 때문
         {
+#if UNITY_EDITOR
             Debug.LogError("인벤토리 꽉참");
+#endif
             return false;
         }
         Managers.Data.UpdateInventoryData(idx, item);

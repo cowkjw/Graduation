@@ -7,17 +7,13 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField]
     GameObject _player = null;
-
     [SerializeField]
     Vector3 _delta = new Vector3(-9f, 9f, 3f);
-
     Material _material;
-    Color matColor;
-
     HashSet<Renderer> _obsList;
+    Color _matColor;
 
     public void SetPlayer(GameObject player) { _player = player; }
-
 
     private void Start()
     {
@@ -35,9 +31,9 @@ public class CameraController : MonoBehaviour
             foreach (Renderer i in _obsList)
             {
                 _material = i.material;
-                matColor = _material.color;
-                matColor.a = 0f;
-                _material.color = matColor;
+                _matColor = _material.color;
+                _matColor.a = 0f;
+                _material.color = _matColor;
             }
 
 
@@ -47,11 +43,11 @@ public class CameraController : MonoBehaviour
             foreach (Renderer renderer in _obsList)
             {
                 _material = renderer.material;
-                matColor = _material.color;
-                if (matColor.a == 0f)
+                _matColor = _material.color;
+                if (_matColor.a == 0f)
                 {
-                    matColor.a = 1f;
-                    _material.color = matColor;
+                    _matColor.a = 1f;
+                    _material.color = _matColor;
                 }
             }
             _obsList.Clear();

@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-
+    public int CoinValue { get { return _coinValue; } }
+    
     [SerializeField]
     Define.Coin CoinType;
-
+    AudioSource _coinPickUp;
     int _coinValue=0;
 
-    AudioSource coinPickUp;
-
-    public int CoinValue { get { return _coinValue; } }
     private void Start()
     {
-        coinPickUp = GetComponent<AudioSource>();
+        _coinPickUp = GetComponent<AudioSource>();
         if (CoinType == Define.Coin.Bronze)
         {
             _coinValue = 100;
@@ -37,7 +35,7 @@ public class Coin : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Managers.Data.Gold += CoinValue;
-            coinPickUp.Play();
+            _coinPickUp.Play();
             //Managers.Data.PlayerDataChange(); // 이렇게 자주 넣어도 되나??
             Destroy(gameObject,0.5f);
         }

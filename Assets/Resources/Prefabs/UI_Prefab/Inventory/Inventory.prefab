@@ -234,8 +234,6 @@ MonoBehaviour:
   - {fileID: 581551379835788681}
   - {fileID: 581551379982884387}
   - {fileID: 581551381015438739}
-  toolTip: {fileID: 0}
-  clickInven: 0
 --- !u!1 &6274437204778755594
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,7 +252,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4188552859882185723
 RectTransform:
   m_ObjectHideFlags: 0

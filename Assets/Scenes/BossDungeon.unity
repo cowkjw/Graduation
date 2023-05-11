@@ -7739,11 +7739,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf43cdcff84956b4e989231ebcb71657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projector: {fileID: 1109945348}
-  State: 0
-  jumpAttackEffect: {fileID: 1048604002}
+  Projector: {fileID: 0}
+  JumpAttackEffect: {fileID: 0}
   EnemyType: 501
-  jumpAttackSoundEffect: {fileID: 8300000, guid: 3055f919af77b6e42b6505d0f4b69e60, type: 3}
+  State: 0
+  _jumpAttackSoundEffect: {fileID: 0}
 --- !u!54 &268184567
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -26103,11 +26103,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 402256, guid: 41ec293d7ae663c418439466f0d7c93e, type: 3}
   m_PrefabInstance: {fileID: 1044992082}
   m_PrefabAsset: {fileID: 0}
---- !u!198 &1048604002 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 198662300647181020, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
-  m_PrefabInstance: {fileID: 1128021448}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1058408062
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32162,7 +32157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f753504d0ef72dd4da7e3c1c5f83952e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _clickEffect: {fileID: 892622632713860640, guid: 0f622400e36845b4896226162d4632be, type: 3}
+  ClickEffect: {fileID: 892622632713860640, guid: 0f622400e36845b4896226162d4632be, type: 3}
 --- !u!114 &1342137574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32237,11 +32232,11 @@ Transform:
   m_GameObject: {fileID: 1342137572}
   m_LocalRotation: {x: -0.65245575, y: 0.0058792806, z: 0.09319981, w: -0.75205106}
   m_LocalPosition: {x: 2.89, y: 19.3, z: -20.29}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1.9999999, y: 2.0000002, z: 2.0000002}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 78.598, y: -41.294, z: -48.409}
 --- !u!1001 &1346276153
 PrefabInstance:
@@ -42265,7 +42260,7 @@ Transform:
   - {fileID: 851643614}
   - {fileID: 412947195}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1779354252
 PrefabInstance:

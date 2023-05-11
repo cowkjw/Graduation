@@ -58867,7 +58867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f753504d0ef72dd4da7e3c1c5f83952e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _clickEffect: {fileID: 892622632713860640, guid: 0f622400e36845b4896226162d4632be, type: 3}
+  ClickEffect: {fileID: 892622632713860640, guid: 0f622400e36845b4896226162d4632be, type: 3}
 --- !u!114 &2111123654
 MonoBehaviour:
   m_ObjectHideFlags: 0

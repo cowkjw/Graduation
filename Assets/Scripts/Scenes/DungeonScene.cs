@@ -5,18 +5,17 @@ using UnityEngine.UI;
 
 public class DungeonScene : BaseScene  // @Scene에 Add
 {
-
-
-    protected Slider _hpBar;
-    protected Stat _objStat;
-    protected Text _hpValue;
-    protected Text _objNameText;
-    protected string _objName;
-
     public Slider HpBar { get { return _hpBar; } }
     public Stat ObjStat { set { _objStat = value; } }
     public string ObjName { set { _objName = value; } }
     public Text ObjNameText { get { return _objNameText; } }
+
+    Slider _hpBar;
+    Stat _objStat;
+    Text _hpValue;
+    Text _objNameText;
+    string _objName;
+
     public override void Init()
     {
         base.Init();
@@ -33,10 +32,10 @@ public class DungeonScene : BaseScene  // @Scene에 Add
         //spawningPool?.AddComponent<EnemySpawnController>();
 
 
-        playerPos = new Vector3(-7, 1.4f, 31); // 던전은 고정
-        _player = Managers.Game.SpawnPlayer(playerPos);
+        PlayerPos = new Vector3(-7, 1.4f, 31); // 던전은 고정
+        Player = Managers.Game.SpawnPlayer(PlayerPos);
 
-        Camera.main.gameObject.GetComponent<CameraController>().SetPlayer(_player);
+        Camera.main.gameObject.GetComponent<CameraController>().SetPlayer(Player);
 
         GameObject Ui = GameObject.Find("UI");
         _hpBar = Ui.transform.GetChild(1).GetComponent<Slider>();

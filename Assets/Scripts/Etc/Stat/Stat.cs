@@ -88,7 +88,9 @@ public class Stat : MonoBehaviour
 
         if (target == null)
         {
+#if UNITY_EDITOR
             Debug.LogError("Target is null");
+#endif
             return;
         }
         int damage;
@@ -113,7 +115,9 @@ public class Stat : MonoBehaviour
                 {
                     Managers.Game.GetPlayer().GetComponent<PlayerStat>().Exp = tempExpData.Exp;
 
+#if UNITY_EDITOR
                     Debug.Log(Managers.Game.GetPlayer().GetComponent<PlayerStat>().TotalExp);
+#endif
                 }
             }
         }

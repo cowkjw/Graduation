@@ -6,15 +6,13 @@ using UnityEngine.UI;
 
 public class ItemTooltip : MonoBehaviour
 {
+    public Text SellOrPurchaseText;
     [SerializeField]
-    Text ItemNameTooltip;// 아이템 이름 툴팁
-    
-    public Text sellOrPurchase;
-
+    Text _itemNameTooltip;// 아이템 이름 툴팁
 
     public void SetItemInfo(string name)
     {
-        ItemNameTooltip.text = name;
+        _itemNameTooltip.text = name;
     }
     void Update()
     {

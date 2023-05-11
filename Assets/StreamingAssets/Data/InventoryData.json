@@ -24,6 +24,22 @@
         "SellPrice": 8000,
         "Name": "천둥의 검",
         "Id": 101
+      },
+      "0": {
+        "ItemType": 0,
+        "Attack": 20,
+        "Price": 15000,
+        "SellPrice": 8000,
+        "Name": "천둥의 검",
+        "Id": 101
+      },
+      "3": {
+        "ItemType": 0,
+        "Attack": 10,
+        "Price": 3000,
+        "SellPrice": 1500,
+        "Name": "강철의 검",
+        "Id": 100
       }
     }
   ]
