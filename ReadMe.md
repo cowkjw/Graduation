@@ -1,5 +1,3 @@
-# 졸업작품
-
 ## Treasure Hunter
 
 
