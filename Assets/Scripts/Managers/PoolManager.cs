@@ -18,15 +18,21 @@ public class PoolManager
     public void LoadTheLastPosition()
     {
         int playerScene = Managers.Data.PlayerData.location;
-        SceneManager.LoadScene(1);
-       // SceneManager.LoadScene(playerScene);
+        if (playerScene == (int)Define.Scene.BossDungeon)
+        {
+            SceneManager.LoadScene((int)Define.Scene.Dungeon);
+        }
+        else
+        {
+            SceneManager.LoadScene(playerScene);
+        }
     }
 
     public void Init()
     {
-        if(GameObject.FindObjectOfType<DungeonScene>() is BossDungeonScene) // 던전이 보스 던전이라면
+        if (GameObject.FindObjectOfType<DungeonScene>() is BossDungeonScene) // 던전이 보스 던전이라면
         {
-            return; 
+            return;
         }
         _monsterPrefab = Resources.Load<GameObject>("Prefabs/Skelton");
         _poolManagers = new GameObject { name = "@PoolManagers" };
@@ -48,7 +54,4 @@ public class PoolManager
         }
 
     }
-
-
-
 }

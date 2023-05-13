@@ -93,7 +93,8 @@ public class Stat : MonoBehaviour
 #endif
             return;
         }
-        int damage;
+        
+        int damage = 0;
         if (skillDamage==0) // 스킬 공격이 아닐 때
         {
             damage= Mathf.Max(0, attackObject.Attack - Defense);

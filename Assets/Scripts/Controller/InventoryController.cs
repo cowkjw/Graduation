@@ -10,8 +10,9 @@ public class InventoryController : MonoBehaviour/*, IPointerDownHandler//, IPoin
 {
 
     public Slot[] Slots;
-    Text _goldText;
-    BaseScene _baseScene;
+    
+    private Text _goldText;
+    private BaseScene _baseScene;
 
     void Start()
     {

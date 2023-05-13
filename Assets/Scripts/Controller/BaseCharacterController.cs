@@ -38,7 +38,7 @@ public class BaseCharacterController : MonoBehaviour
         }
     }
 
-    protected  virtual void Start()
+    protected virtual void Start()
     {
         Init();
     }
