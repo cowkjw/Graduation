@@ -83,6 +83,7 @@ public class Managers : MonoBehaviour // 싱글톤
     
     
 # BehavoirTree
+* 직접 BehaviorTree의 간단한 노드들을 구현하고 이를 통해 Boss AI에 적용
 ![mermaid-diagram-2023-05-08-183754](https://github.com/cowkjw/Graduation/assets/83215829/13cbb036-3474-477a-9540-da655a2f122b)
 <details>
 <summary>BehaviorTree</summary>
