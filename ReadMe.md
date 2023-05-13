@@ -16,3 +16,10 @@
 * 스텟 시스템
 * 스킬 시스템
 * 인벤토리 시스템
+* 상점 시스템
+
+## 구현 특징
+* Singleton
+* Object Pooling
+* newtonJson.sotf를 활용한 저장
+* Behaviortree 구현을 통한 Boss AI
