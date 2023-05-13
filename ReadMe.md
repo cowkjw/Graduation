@@ -22,7 +22,7 @@
 * 인벤토리 시스템
 * 상점 시스템
 
-## 구현 특징
+## 주요 구현 특징
 * Singleton
 * Object Pooling
 * Newtonsoft.Json 라이브러리 활용
