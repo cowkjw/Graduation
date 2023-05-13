@@ -32,6 +32,35 @@
 ![mermaid-diagram-2023-05-08-183754](https://github.com/cowkjw/Graduation/assets/83215829/13cbb036-3474-477a-9540-da655a2f122b)
 
 <details>
+<summary>BehaviorTree</summary>
+<div markdown="1">
+    
+```C#
+public interface INode
+{
+    bool Execute();
+}
+
+public class BehaviorTree
+{
+    INode rootNode;
+
+    public void SetRootNode(INode rootNode)
+    {
+        this.rootNode = rootNode;
+    }
+
+    public void Update()
+    {
+        rootNode.Execute();
+    }
+}
+
+````
+</div>
+</details>
+
+<details>
 <summary>Sequence Node</summary>
 <div markdown="1">
     
@@ -60,6 +89,61 @@ public class Sequence : INode
 ````
 </div>
 </details>
+<details>
+<summary>Selector Node</summary>
+<div markdown="1">
+    
+```C#
+public class Selector : INode
+{
+    List<INode> children = new List<INode>();
+
+    public void AddChild(INode child)
+    {
+        children.Add(child);
+    }
+
+    public bool Execute()
+    {
+        foreach (INode child in children)
+        {
+            if (child.Execute())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+````
+</div>
+</details>
+</div>
+</details>
+<details>
+<summary>Condition Node</summary>
+<div markdown="1">
+    
+```C#
+public class ConditionNode : INode
+{
+    Func<bool> condition; // 참인지 확인
+
+    public ConditionNode(Func<bool> condition)
+    {
+        this.condition = condition;
+    }
+
+    public bool Execute()
+    {
+        return condition();
+    }
+}
+````
+</div>
+</details>        
+
+   
 
 # Object Pooling
 
