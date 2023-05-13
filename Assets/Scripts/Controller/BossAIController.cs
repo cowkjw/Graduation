@@ -11,29 +11,30 @@ public class BossAIController : MonoBehaviour
     public Define.EnemyType EnemyType;
     public Define.State State = Define.State.Idle;
 
-    bool _isJumping;
-    bool _attacking;
-    bool _dying;
-    bool _isAnimationPlayed;
-    float _jumpAttackTimer = 30f;
-    float _jumpAttackCooldown = 30f;
-    float _speed = 2.5f;
-    float _jumpProgress = 0f;
-    Vector3 _initialPosition;
-    Vector3 _positionToJump;
-    Transform _target;
-    NavMeshAgent _nma;
-    BehaviorTree _behaviorTree;
-    Stat _stat;
-    Animator _animator;
-    AudioSource _audioSource;
+    private bool _isJumping;
+    private bool _attacking;
+    private bool _dying;
+    private bool _isAnimationPlayed;
+    private float _jumpAttackTimer = 30f;
+    private float _jumpAttackCooldown = 30f;
+    private float _speed = 2.5f;
+    private float _jumpProgress = 0f;
+    private Vector3 _initialPosition;
+    private Vector3 _positionToJump;
+    private Transform _target;
+    private NavMeshAgent _nma;
+    private BehaviorTree _behaviorTree;
+    private Stat _stat;
+    private Animator _animator;
+    private AudioSource _audioSource;
     [SerializeField]
     AudioClip _jumpAttackSoundEffect;
 
-    private void Awake()
+    void Awake()
     {
         Init();
     }
+
     void Start()
     {
         _target = Managers.Game.GetPlayer().transform;
@@ -259,10 +260,12 @@ public class BossAIController : MonoBehaviour
             playerStat.Attacked(_stat, _target.gameObject); // 몬스터의 스탯을 넘겨줌
         }
     }
+
     void OnEndAttack() // 공격 애니메이션 종료
     {
         _attacking = false;
     }
+
     void OnEndJumpAttack()
     {
         JumpAttackEffect.Play();

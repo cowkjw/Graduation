@@ -3789,6 +3789,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 422452, guid: 52301af46bf2aca4cba80ecf307a7777, type: 3}
   m_PrefabInstance: {fileID: 153221467}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &153371282 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198662300647181020, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
+  m_PrefabInstance: {fileID: 1128021448}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &154111422
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7739,11 +7744,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf43cdcff84956b4e989231ebcb71657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Projector: {fileID: 0}
-  JumpAttackEffect: {fileID: 0}
+  Projector: {fileID: 1109945348}
+  JumpAttackEffect: {fileID: 153371282}
   EnemyType: 501
   State: 0
-  _jumpAttackSoundEffect: {fileID: 0}
+  _jumpAttackSoundEffect: {fileID: 8300000, guid: 3055f919af77b6e42b6505d0f4b69e60, type: 3}
 --- !u!54 &268184567
 Rigidbody:
   m_ObjectHideFlags: 0

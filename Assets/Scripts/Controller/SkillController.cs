@@ -8,9 +8,9 @@ using System.Linq;
 
 public class SkillController : MonoBehaviour  // 나중에 UI분리하기
 {
-    public ParticleSystem skillAEffect;
-    public ParticleSystem skillBEffect;
-    public ParticleSystem skillCEffect;
+    public ParticleSystem aSkillEffect;
+    public ParticleSystem bSkillEffect;
+    public ParticleSystem cSkillEffect;
 
     const float SKILL_A_COOLDOWN = 8f;
     const float SKILL_B_COOLDOWN = 30f;
@@ -106,6 +106,7 @@ public class SkillController : MonoBehaviour  // 나중에 UI분리하기
                     return;
                 }
                 bSkillData.time = SKILL_B_COOLDOWN;
+                audioSource.clip = bSkillSoundEffect;
                 UseSkill(bSkillImage, SKILL_B_COOLDOWN, SkillBCoolDown(), SKILL_B_MANA_COST, "Skill_B");
                 break;
             case Define.Skill.C:
@@ -113,7 +114,7 @@ public class SkillController : MonoBehaviour  // 나중에 UI분리하기
                 {
                     return;
                 }
-                skillCEffect.Play();
+                cSkillEffect.Play();
                 StartCoroutine(RestoreHealth(SKILL_C_RECOVERY_AMOUNT,SKILL_C_RECOVERY_PERSECOND)); // 5초에 걸쳐
                 cSkillData.time = SKILL_C_COOLDOWN;
                 UseSkill(cSkillImage, SKILL_C_COOLDOWN, SkillCCoolDown(), SKILL_C_MANA_COST);
@@ -136,7 +137,7 @@ public class SkillController : MonoBehaviour  // 나중에 UI분리하기
 
     void OnSkill_A()
     {
-        skillAEffect?.Play();// 이펙트 실행
+        aSkillEffect?.Play();// 이펙트 실행
         audioSource?.Play();
         Vector3[] directions = new Vector3[] { transform.forward, transform.forward + transform.right, transform.forward - transform.right };
 
@@ -151,8 +152,15 @@ public class SkillController : MonoBehaviour  // 나중에 UI분리하기
                 enemies.Add(hit.transform.gameObject);
             }
         }
-        foreach (GameObject enemy in enemies) // 배열을 순회하면서 각 오브젝트에 대해 처리
+        foreach (GameObject enemy in enemies) // 순회하면서 각 오브젝트에 대해 처리
         {
+            if(enemy?.GetComponent<EnemyController>()?.State==Define.State.Die) // 이미 죽은 몬스터 처리(순회 중 죽은 몬스터에 대해서 경험치 얻기를 방지함)
+            {
+#if UNITY_EDITOR
+                Debug.Log("Enemy is Died");
+#endif
+                continue;
+            }
             // 플레이어와 오브젝트 사이의 방향 벡터
             Vector3 dir = enemy.transform.position - transform.position;
             // 플레이어의 forward 벡터와의 각도
@@ -182,7 +190,8 @@ public class SkillController : MonoBehaviour  // 나중에 UI분리하기
 
     void OnSkill_B()
     {
-        skillBEffect.Play();
+        bSkillEffect?.Play();
+        audioSource?.Play();
         int layerMask = 1 << LayerMask.NameToLayer("Enemy"); // 적 레이어 마스크
         Collider[] enemies = Physics.OverlapSphere(transform.position, 3f, layerMask);
 
@@ -211,7 +220,7 @@ public class SkillController : MonoBehaviour  // 나중에 UI분리하기
             playerStat.Hp = Math.Min(playerStat.Hp + recoveryAmount, playerStat.MaxHp);
             yield return new WaitForSeconds(1f);
         }
-        skillCEffect.Stop();
+        cSkillEffect.Stop();
     }
 
 

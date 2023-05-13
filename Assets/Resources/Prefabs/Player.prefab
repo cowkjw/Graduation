@@ -2526,11 +2526,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e89365b4712c47b4682bfe25c644e0cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aSkillEffect: {fileID: 7059185748404539680}
+  bSkillEffect: {fileID: 86459388222134587}
+  cSkillEffect: {fileID: 7308243798601226907}
   aSkillSoundEffect: {fileID: 8300000, guid: f51df4f92b8c5e24985ec3c6fabdebd0, type: 3}
-  bSkillSoundEffect: {fileID: 0}
-  skillAEffect: {fileID: 7059185748404539680}
-  skillBEffect: {fileID: 86459388222134587}
-  skillCEffect: {fileID: 7308243798601226907}
+  bSkillSoundEffect: {fileID: 8300000, guid: 7b6a89a18abd3cc4b807f459cf482e97, type: 3}
 --- !u!82 &3514005863131149854
 AudioSource:
   m_ObjectHideFlags: 0
