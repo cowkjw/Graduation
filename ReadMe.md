@@ -21,7 +21,7 @@
 ## 구현 특징
 * Singleton
 * Object Pooling
-* newtonJson.sotf를 활용한 저장
+* Newtonsoft.Json 라이브러리 활용
 * Behaviortree 구현을 통한 Boss AI
 
 
@@ -29,3 +29,6 @@
 # SingleTon
 
 # Behavoirtree
+
+# Object Pooling
+
