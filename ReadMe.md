@@ -170,7 +170,7 @@ public class ActionNode : INode
    
 
 # Object Pooling
-### EnemyDict의 데이터를 Queue에 삽입하고 리스폰 시에는 Stack을 활용하여 죽은 상태인 몬스터부터 스폰하도록 구현
+* EnemyDict의 데이터를 Queue에 삽입하고 리스폰 시에는 Stack을 활용하여 죽은 상태인 몬스터부터 스폰하도록 구현
     
 ```C#
   public void Init()
