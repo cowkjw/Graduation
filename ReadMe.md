@@ -254,6 +254,10 @@ public class VectorConverter // 몬스터 위치 변환
 ```
 </div>
 </details>
+
+<details>
+<summary>Pool Manager</summary>
+<div markdown="1">    
     
 ```C#
   public void Init()
@@ -283,6 +287,13 @@ public class VectorConverter // 몬스터 위치 변환
 
     }
 ```
+</div>
+</details>    
+
+<details>
+<summary>EnemySpawnController</summary>
+<div markdown="1">    
+    
 ```C#
     int _maximumEnemy = 9;
     float _spawnDelay = 5.0f;
@@ -324,6 +335,7 @@ public class VectorConverter // 몬스터 위치 변환
         }
     }
 ```
-
+</div>
+</details>  
 
 
