@@ -29,7 +29,7 @@
 # Singleton
 * 싱글톤 패턴을 사용하여 데이터의 중복 생성을 방지로 메모리 낭비를 막고, 데이터 간 공유를 쉽도록 구현
 <details>
-<summary>Singleton Code</summary>
+<summary>Singleton 코드</summary>
 <div markdown="1">
 
 ```C#
@@ -338,4 +338,6 @@ public class VectorConverter // 몬스터 위치 변환
 </div>
 </details>  
 
+#Newtonsoft.Json
+* Newtonsoft.Json 라이브러리를 사용하여 JsonUtility에서 사용할 수 없는 non-array 들을 직렬화 역직렬화 할 수 있다. 
 
