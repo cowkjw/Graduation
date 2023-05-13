@@ -15,11 +15,6 @@
  
 [![Alt text](https://img.youtube.com/vi/-05XPydsDnY/0.jpg)](https://www.youtube.com/watch?v=-05XPydsDnY)
 
-## 전투 장면
-
-![Uploading 보스 전투장면.gif…]()
-
-
 ## 게임 시스템
 * 레벨 시스템
 * 스텟 시스템
