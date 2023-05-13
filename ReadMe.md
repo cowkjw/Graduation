@@ -78,6 +78,9 @@ public class Managers : MonoBehaviour // 싱글톤
     }
 }
 ```
+</div>
+</details>    
+    
 <details>
 <summary>Sequence Node</summary>
 <div markdown="1">
