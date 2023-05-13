@@ -34,6 +34,7 @@
 <details>
 <summary>Sequence Node</summary>
 <div markdown="1">
+    
 ```C#
 public class Sequence : INode
 {
