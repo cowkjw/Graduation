@@ -27,6 +27,54 @@
 
 
 # Singleton
+* 싱글톤 패턴을 사용하여 데이터의 중복 생성을 방지로 메모리 낭비를 막고, 데이터 간 공유를 쉽도록 구현
+
+```C#
+public class Managers : MonoBehaviour // 싱글톤
+{
+    static Managers s_Instance;
+    static Managers Instance { get { Init(); return s_Instance; } } // 프로퍼티 사용
+
+    InputManager _input = new InputManager();
+    GameManagerExt _game = new GameManagerExt();
+    DataManager _data = new DataManager();
+    PoolManager _pool = new PoolManager();
+
+    public static GameManagerExt Game { get => Instance._game; }
+    public static InputManager Input { get => Instance._input; }
+    public static DataManager Data { get => Instance._data; }
+    public static PoolManager Pool { get => Instance._pool; }
+ 
+    void Start()
+    {
+        Init();
+    }
+
+    void Update()
+    { 
+        _input.MouseUpdate(); 
+        _input.KeyboardUpdate();
+    }
+
+    static void Init()
+    {
+        if (s_Instance == null)
+        {
+            GameObject go = GameObject.Find("@Managers");
+            if (go == null)
+            {
+                go = new GameObject { name = "@Managers" };
+                go.AddComponent<Managers>();
+            }
+            DontDestroyOnLoad(go);
+            s_Instance = go.GetComponent<Managers>();
+
+            s_Instance._data.Init();
+            s_Instance._pool.LoadTheLastPosition();
+        }
+    }
+}
+```
 
 # BehavoirTree
 ![mermaid-diagram-2023-05-08-183754](https://github.com/cowkjw/Graduation/assets/83215829/13cbb036-3474-477a-9540-da655a2f122b)
