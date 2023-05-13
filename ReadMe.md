@@ -1,4 +1,4 @@
-## Treasure Hunter
+# Treasure Hunter
 
 
 ## 게임 개요
