@@ -30,6 +30,10 @@
 
 # BehavoirTree
 ![mermaid-diagram-2023-05-08-183754](https://github.com/cowkjw/Graduation/assets/83215829/13cbb036-3474-477a-9540-da655a2f122b)
+
+<details>
+<summary>Sequence Node</summary>
+<div markdown="1">
 ```C#
 public class Sequence : INode
 {
@@ -53,5 +57,8 @@ public class Sequence : INode
     }
 }
 ````
+</div>
+</details>
+
 # Object Pooling
 
