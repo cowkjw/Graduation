@@ -13,7 +13,7 @@
 
 ## 전투 영상
  
-<iframe width="800" height="600" src="https://youtu.be/-05XPydsDnY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+https://youtu.be/-05XPydsDnY
 
 ## 게임 시스템
 * 레벨 시스템
