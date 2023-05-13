@@ -22,13 +22,13 @@
 * Singleton
 * Object Pooling
 * Newtonsoft.Json 라이브러리 활용
-* Behaviortree 구현을 통한 Boss AI
+* BehaviorTree 구현을 통한 Boss AI
 
 
 
 # SingleTon
 
-# Behavoirtree
+# BehavoirTree
 ![mermaid-diagram-2023-05-08-183754](https://github.com/cowkjw/Graduation/assets/83215829/13cbb036-3474-477a-9540-da655a2f122b)
 # Object Pooling
 
