@@ -11,7 +11,7 @@
 ## 게임 소개
 도굴꾼이 된 검사가 몬스터를 사냥하며 금화와 경험치를 모아 성장하고 새로운 무기를 얻어 최종 보스 몬스터를 처치하는 것이 목적인 쿼터뷰 시점 3D RPG 게임
 
-## 전투 장면
+## 플레이 영상
  
 [![Alt text](https://img.youtube.com/vi/-05XPydsDnY/0.jpg)](https://www.youtube.com/watch?v=-05XPydsDnY)
 
