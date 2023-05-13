@@ -201,7 +201,7 @@ public class ActionNode : INode
     }
 ```
 ```C#
-int _maximumEnemy = 9;
+    int _maximumEnemy = 9;
     float _spawnDelay = 5.0f;
     Stack<GameObject> _enemyStack = new Stack<GameObject>();
     public void Start()
