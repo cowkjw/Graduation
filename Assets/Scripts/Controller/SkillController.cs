@@ -46,7 +46,7 @@ public class SkillController : MonoBehaviour  // 나중에 UI분리하기
     Stat stat;
     DungeonScene dungeonScene;
     Define.SkillType SkillType;
-
+    TutorialScene tutorialScene; // 수정사항
     void Start()
     {
         notUsedToSkill = true;
@@ -72,10 +72,15 @@ public class SkillController : MonoBehaviour  // 나중에 UI분리하기
         Managers.Input.KeyboardAction -= SkillInputKey;
         Managers.Input.KeyboardAction += SkillInputKey;
         player = Managers.Game.GetPlayer()?.GetComponent<PlayerController>();
+        if(player==null)
+        {
+            
+        }
         playerStat = player?.GetComponent<PlayerStat>();
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         stat = GetComponent<PlayerStat>();
+        tutorialScene = FindObjectOfType<TutorialScene>();
     }
 
     void SkillInputKey(Enum skill)
@@ -86,6 +91,10 @@ public class SkillController : MonoBehaviour  // 나중에 UI분리하기
             {
                 notUsedToSkill = true;
             }
+            return;
+        }
+        if(tutorialScene != null) // 수정사항
+        {
             return;
         }
 
@@ -165,8 +174,11 @@ public class SkillController : MonoBehaviour  // 나중에 UI분리하기
             Vector3 dir = enemy.transform.position - transform.position;
             // 플레이어의 forward 벡터와의 각도
             float angle = Vector3.Angle(dir, transform.forward);
-            // 각도가 160도 이하이면 전방으로 판단하고 데미지를 준다
-            if (angle <= 160f)
+#if UNITY_EDITOR
+            Debug.Log(angle);
+#endif
+            // 각도가 일정각도 이하이면 전방으로 판단하고 데미지를 준다
+            if (angle <= 70f)
             {
                 Stat enemyStat = enemy.transform.GetComponent<Stat>();
                 if (enemyStat == null) // 만약 null이면 부모에서 Stat 컴포넌트 찾기
@@ -202,8 +214,16 @@ public class SkillController : MonoBehaviour  // 나중에 UI분리하기
             {
                 enemyStat = enemy.transform.root.GetComponentInParent<Stat>();
             }
-            float damage = stat.Attack + (stat.Attack * 1.3f);
+            float damage = stat.Attack + (stat.Attack * 1.2f);
             enemyStat.Attacked(stat, enemy.gameObject, (int)damage);
+
+            if (dungeonScene != null) // 던전 씬이 null이 아니라면 HP UI 켜기 수정
+            {
+                dungeonScene.ObjStat = enemyStat;
+                dungeonScene.ObjName = enemyStat.name;
+                dungeonScene.ObjNameText.gameObject.SetActive(true);
+                dungeonScene.HpBar.gameObject.SetActive(true);
+            }
         }
     }
 
