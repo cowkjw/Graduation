@@ -11,14 +11,6 @@ public class InputManager
     public Action KeyAction = null;
     public Action<Define.MouseState> MouseAction = null;
     public Action<Enum> KeyboardAction = null;
-    //public event Action<bool> OnTutorialResult = null;
-    //Func<KeyCode, bool> _tutorialFunc = (mouseState) =>
-    //{
-    //    if (mouseState == KeyCode.Space)
-    //        return true;
-    //    else 
-    //        return false;
-    //};
 
 
     bool _press = false;
@@ -40,8 +32,6 @@ public class InputManager
                 if (!_press)
                 {
                     MouseAction.Invoke(Define.MouseState.LButtonDown);
-                    //bool result = _tutorialFunc.Invoke(Define.MouseState.LButtonDown);
-                    //OnTutorialResult?.Invoke(result);
                     _pressedTime = Time.time;
                 }
                 MouseAction.Invoke(Define.MouseState.Press);
@@ -99,13 +89,6 @@ public class InputManager
             {
                 KeyboardAction.Invoke(Define.Skill.C);
             }
-
-            //// 수정사항
-            //if (Input.GetKeyDown(KeyCode.Space))
-            //{
-            //    bool result = _tutorialFunc.Invoke(KeyCode.Space);
-            //    OnTutorialResult?.Invoke(result);
-            //}
 
             if (Input.GetKeyDown(KeyCode.Escape)) // 게임 종료
             {

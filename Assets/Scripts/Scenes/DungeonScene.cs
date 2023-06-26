@@ -20,6 +20,8 @@ public class DungeonScene : BaseScene  // @Scene에 Add
     {
         base.Init();
 
+        SceneType = Define.Scene.Dungeon;
+
         Managers.Pool.Init(); // PoolManager 초기화
 
         if (!(this is BossDungeonScene))

@@ -73,7 +73,8 @@ public class Define
     {
         Town,
         Dungeon,
-        BossDungeon
+        BossDungeon,
+        Base
     }
 
 }

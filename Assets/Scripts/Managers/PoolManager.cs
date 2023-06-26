@@ -1,10 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
-using Newtonsoft.Json;
-using System.IO;
-using System;
 using UnityEngine.SceneManagement;
 
 public class PoolManager
@@ -31,13 +26,15 @@ public class PoolManager
 
     public void Init()
     {
-        if (GameObject.FindObjectOfType<DungeonScene>() is BossDungeonScene) // 던전이 보스 던전이라면
+        DungeonScene scene = GameObject.FindObjectOfType<DungeonScene>(); // 던전이 보스 던전이라면
+        if (scene == null || scene is BossDungeonScene)
         {
             return;
         }
+
         _monsterPrefab = Resources.Load<GameObject>("Prefabs/Skelton");
         _poolManagers = new GameObject { name = "@PoolManagers" };
-        MonsterPool = new Queue<GameObject>();
+        MonsterPool = new Queue<GameObject>(Managers.Data.EnemyDict.Count);
         foreach (var data in Managers.Data.EnemyDict)
         {
             if (_monsterPrefab == null)

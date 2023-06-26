@@ -8,17 +8,16 @@ public class TownScene : BaseScene
     Vector3 npcPos; // NPC 위치
     Vector3 dis; // NPC와 나의 거리
 
-    public GameObject NPCUI { get { return NpcUI; } }
-
     public override void Init()
     {
         base.Init();
+
+        SceneType = Define.Scene.Town;
 
         PlayerPos = new Vector3(0, -0.7f, 0);
         Player = Managers.Game.SpawnPlayer(PlayerPos);
 
         Camera.main.gameObject.GetComponent<CameraController>().SetPlayer(Player);
-        NpcUI = GameObject.Find("UI").transform.Find("NPC").gameObject;
         Managers.Input.MouseAction -= ClickNPC;
         Managers.Input.MouseAction += ClickNPC;
     }
@@ -42,10 +41,10 @@ public class TownScene : BaseScene
                 dis = Player.transform.position - npcPos; // 나와 NPC 거리
                 if (dis.magnitude <= 1)
                 {
-                    if (NpcUI.activeSelf == false)
+                    if (Managers.UI.NpcUI.activeSelf == false)
                     {
-                        NpcUI.SetActive(true);
-                        Inventory.SetActive(true);
+                        Managers.UI.NpcUI.SetActive(true);
+                        Managers.UI.Inventory.SetActive(true);
                     }
                 }
             }
@@ -55,10 +54,10 @@ public class TownScene : BaseScene
                 if (dis.magnitude >= 3)
                 {
 
-                    if (NpcUI.activeSelf == true)
+                    if (Managers.UI.NpcUI.activeSelf == true)
                     {
-                        NpcUI.SetActive(false);
-                        Inventory.SetActive(false);
+                        Managers.UI.NpcUI.SetActive(false);
+                        Managers.UI.Inventory.SetActive(false);
                     }
                 }
             }

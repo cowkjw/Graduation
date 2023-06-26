@@ -1,13 +1,13 @@
 {
   "items": [
     {
-      "1": {
+      "0": {
         "ItemType": 0,
-        "Attack": 10,
-        "Price": 3000,
-        "SellPrice": 1500,
-        "Name": "강철의 검",
-        "Id": 100
+        "Attack": 40,
+        "Price": 30000,
+        "SellPrice": 18000,
+        "Name": "용암의 검",
+        "Id": 102
       },
       "2": {
         "ItemType": 0,
@@ -25,7 +25,7 @@
         "Name": "천둥의 검",
         "Id": 101
       },
-      "0": {
+      "1": {
         "ItemType": 0,
         "Attack": 20,
         "Price": 15000,

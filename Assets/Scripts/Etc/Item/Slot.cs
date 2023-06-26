@@ -49,7 +49,7 @@ public class Slot : MonoBehaviour, IPointerDownHandler, IPointerExitHandler
 
     void Equip() // 장비 장착
     {
-        if (_townScene!=null && _townScene.NPCUI.activeSelf)
+        if (_townScene!=null && Managers.UI.NpcUI.activeSelf)
         {
             return;
         }
@@ -97,7 +97,7 @@ public class Slot : MonoBehaviour, IPointerDownHandler, IPointerExitHandler
         }
         if (ToolTip != null && ToolTip.gameObject.activeSelf && eventData.button == PointerEventData.InputButton.Right) // toolTip이 null인지 확인
         {
-            if (_townScene != null && _townScene.NPCUI.activeSelf) // townScene이 null인지 확인
+            if (_townScene != null && Managers.UI.NpcUI.activeSelf) // townScene이 null인지 확인
             {
                 Sell();
             }
@@ -112,7 +112,7 @@ public class Slot : MonoBehaviour, IPointerDownHandler, IPointerExitHandler
 
         if (ToolTip != null) // toolTip이 null인지 확인
         {
-            if (_townScene != null && _townScene.NPCUI.activeSelf) // townScene이 null인지 확인
+            if (_townScene != null && Managers.UI.NpcUI.activeSelf) // townScene이 null인지 확인
             {
                 ToolTip.SellOrPurchaseText.text = "우클릭 판매"; // 인벤토리 텍스 판매로 변경
             }
