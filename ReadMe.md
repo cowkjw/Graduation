@@ -301,13 +301,14 @@ public class VectorConverter // 몬스터 위치 변환
 ```C#
     int _maximumEnemy = 9;
     float _spawnDelay = 5.0f;
-    Stack<GameObject> _enemyStack = new Stack<GameObject>();
+    Queue<GameObject> _enemyQueue = new Queue<GameObject>();
+    
     public void Start()
     {
         InitSpawnEnemies();
         StartCoroutine(SpawnEnemiesCoroutine(_spawnDelay));
     }
-    
+
     IEnumerator SpawnEnemiesCoroutine(float delay)
     {
         while (true)
@@ -315,15 +316,15 @@ public class VectorConverter // 몬스터 위치 변환
             while (Managers.Pool.MonsterPool.Count != 0) // 소환 후 리스폰을 위함으로 큐가 빌때까지
             {
                 GameObject enemy = Managers.Pool.MonsterPool.Peek();
-                _enemyStack.Push(enemy); // 순서대로 스택에 넣어둠
+                _enemyQueue.Enqueue(enemy);
                 Managers.Pool.MonsterPool.Dequeue();
             }
 
             yield return new WaitForSeconds(delay);
 
-            while(_enemyStack.Count!=0) // 순서대로 넣었기 때문에 죽은 순서로 들어감 
+            while(_enemyQueue.Count!=0) // 순서대로 넣었기 때문에 죽은 순서로 들어감 
             {
-                _enemyStack.Pop().SetActive(true);
+                _enemyQueue.Dequeue().SetActive(true);
             }
         }
 
