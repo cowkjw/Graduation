@@ -1,0 +1,42 @@
+﻿[
+  {
+    "CharacterName": "NPC",
+    "DialogueText": "안녕, 모험가!"
+  },
+  {
+    "CharacterName": "NPC",
+    "DialogueText": "튜토리얼에 온걸 환영해! 마우스를 땅에 클릭해서 이동해봐!!"
+  },
+  {
+    "CharacterName": "NPC",
+    "DialogueText": "잘했어!! 다음으로는 공격을 진행해볼거야!"
+  },
+  {
+    "CharacterName": "NPC",
+    "DialogueText": "앞의 몬스터에게 다가가 마우스로 공격을 해봐!"
+  },
+  {
+    "CharacterName": "NPC",
+    "DialogueText": "잘했어!! 다음으로는 스킬을 사용해 볼거야 먼저 Q를 눌러봐 Q 스킬은 3번의 연속 공격으로 적에게 공격력의 30%의 데미지를 줄 수 있어"
+  },
+  {
+    "CharacterName": "NPC",
+    "DialogueText": "다음으로는 W를 눌러봐 W는 360도 적을 공격할 수 있어"
+  },
+  {
+    "CharacterName": "NPC",
+    "DialogueText": "다음으로는 E를 눌러봐 E 스킬은 일정시간동안 HP를 회복할 수 있어"
+  },
+  {
+    "CharacterName": "NPC",
+    "DialogueText": "자! 기본 조작은 끝났어 앞으로의 목표를 말해줄게"
+  },
+  {
+    "CharacterName": "NPC",
+    "DialogueText": "던전에 들어가게 되면 몬스터들이 존재해 해당 몬스터들을 처치하고 성장해 나가면 돼!"
+  },
+  {
+    "CharacterName": "NPC",
+    "DialogueText": "보스를 처치하고 다시 돌아와서 우리를 지켜줘"
+  }
+]

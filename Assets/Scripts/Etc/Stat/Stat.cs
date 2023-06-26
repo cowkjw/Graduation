@@ -114,6 +114,11 @@ public class Stat : MonoBehaviour
                 if (Managers.Data.EnemyExpDict.TryGetValue(target.gameObject.tag,
                      out Contents.ExpData tempExpData))
                 {
+                    if (Managers.Game.GetPlayer() == null)
+                    {
+                        Managers.Game.SetPlayer(GameObject.FindGameObjectWithTag("Player"));
+                    }
+                    if(FindObjectOfType<TutorialScene>()==null) // 수정 사항
                     Managers.Game.GetPlayer().GetComponent<PlayerStat>().Exp = tempExpData.Exp;
 
 #if UNITY_EDITOR

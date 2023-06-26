@@ -18,6 +18,7 @@ public class PoolManager
     public void LoadTheLastPosition()
     {
         int playerScene = Managers.Data.PlayerData.location;
+        SceneManager.LoadScene(playerScene);
         if (playerScene == (int)Define.Scene.BossDungeon)
         {
             SceneManager.LoadScene((int)Define.Scene.Dungeon);

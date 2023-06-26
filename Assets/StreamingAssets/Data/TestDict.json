@@ -1,0 +1,53 @@
+{
+  "Move": [
+
+    {
+      "CharacterName": "고스트",
+      "DialogueText": "안녕, 모험가!"
+    },
+    {
+      "CharacterName": "고스트",
+      "DialogueText": "튜토리얼에 온걸 환영해! 기본 조작법에 대해서 알려줄게!!"
+    },
+    {
+      "CharacterName": "고스트",
+      "DialogueText": "캐릭터의 이동은 마우스 좌클릭을 통해서 가능해!"
+    }
+  ],
+  "Attack": [
+    {
+      "CharacterName": "고스트",
+      "DialogueText": "공격은 마우스 좌클릭을 이용하고 몬스터와 일정거리 가까워지면 공격할 수 있어"
+    }
+  ],
+  "Skill": [
+    {
+      "CharacterName": "고스트",
+      "DialogueText": "다음으로는 스킬을 설명해줄게 스킬은 총 3가지야"
+    },
+    {
+      "CharacterName": "고스트",
+      "DialogueText": "Q 스킬은 3번의 연속 공격으로 적을 공격할 수 있어!"
+    },
+    {
+      "CharacterName": "고스트",
+      "DialogueText": "다음으로는 W 스킬이야 W는 둘러 싼 적에게 한번에 공격을 할 수 있어!"
+    },
+    {
+      "CharacterName": "고스트",
+      "DialogueText": "마지막으로는 E 스킬이야 E 스킬은 일정 시간동안 HP를 회복할 수 있어!"
+    },
+    {
+      "CharacterName": "고스트",
+      "DialogueText": "자! 기본 조작 설명은 끝났어 앞으로의 목표를 말해줄게"
+    },
+    {
+      "CharacterName": "고스트",
+      "DialogueText": "던전에 들어가게 되면 몬스터들이 존재해 해당 몬스터들을 처치하고 성장해 나가면 돼!"
+    },
+    {
+      "CharacterName": "고스트",
+      "DialogueText": "보스를 처치하고 다시 돌아와서 우리를 구해줘"
+    }
+  ]
+}

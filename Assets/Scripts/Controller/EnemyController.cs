@@ -14,9 +14,11 @@ public class EnemyController : BaseCharacterController
     protected float FindRange = 5f;
     protected Vector3 OriginalPostition; // 원래 위치로
 
+    TutorialScene tutorialScene;
+
     protected override void Update()
     {
-        if (State != Define.State.Die)
+        if (State != Define.State.Die&& tutorialScene==null) // 튜토리얼 씬이 아닐 때
             Dying();
 
         switch (State)
@@ -48,6 +50,7 @@ public class EnemyController : BaseCharacterController
         OriginalPostition = transform.position;
         State = Define.State.Idle;
         EnemyType = Define.EnemyType.Skelton;
+        tutorialScene = FindObjectOfType<TutorialScene>();
 
     }
 
@@ -60,7 +63,7 @@ public class EnemyController : BaseCharacterController
 
     protected override void Dying()
     {
-        if (Stat.Hp <= 0)
+        if (Stat?.Hp <= 0)
         {
             State = Define.State.Die;
             this.GetComponent<CapsuleCollider>().isTrigger = true; // 죽은 상태로 플레이어를 막지 않게 하기 위해 트리거 on
