@@ -6,11 +6,8 @@ using UnityEngine.EventSystems;
 public class TooltipController : MonoBehaviour, IPointerExitHandler
 {
 
-    public ItemTooltip toolTip;
+    public ItemTooltip ToolTip;
     bool isDown;
-
-
-   
     public void OnPointerExit(PointerEventData eventData)
     {
        // toolTip.gameObject.SetActive(false);
@@ -19,7 +16,7 @@ public class TooltipController : MonoBehaviour, IPointerExitHandler
 
     void Start()
     {
-        toolTip = transform.root.GetChild(3).GetComponent<ItemTooltip>();
-        toolTip.gameObject.SetActive(false);
+        ToolTip = transform.root.GetChild(3).GetComponent<ItemTooltip>();
+        ToolTip.gameObject.SetActive(false);
     }
 }

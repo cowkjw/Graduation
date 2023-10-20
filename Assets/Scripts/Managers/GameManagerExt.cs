@@ -5,12 +5,7 @@ using UnityEngine;
 
 public class GameManagerExt
 {
-    //GameObject _player = null;
-
-    //public GameObject _Player { get { return _player; } }
-
     GameObject Player { get; set; }
-
 
     public GameObject SpawnPlayer(Vector3 spawnPos)
     {

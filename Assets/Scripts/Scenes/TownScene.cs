@@ -8,17 +8,17 @@ public class TownScene : BaseScene
     Vector3 npcPos; // NPC 위치
     Vector3 dis; // NPC와 나의 거리
 
-    public GameObject NPCUI { get { return npcUI; } }
+    public GameObject NPCUI { get { return NpcUI; } }
 
     public override void Init()
     {
         base.Init();
 
-        playerPos = new Vector3(0, -0.7f, 0);
-        _player = Managers.Game.SpawnPlayer(playerPos);
+        PlayerPos = new Vector3(0, -0.7f, 0);
+        Player = Managers.Game.SpawnPlayer(PlayerPos);
 
-        Camera.main.gameObject.GetComponent<CameraController>().SetPlayer(_player);
-        npcUI = GameObject.Find("UI").transform.Find("NPC").gameObject;
+        Camera.main.gameObject.GetComponent<CameraController>().SetPlayer(Player);
+        NpcUI = GameObject.Find("UI").transform.Find("NPC").gameObject;
         Managers.Input.MouseAction -= ClickNPC;
         Managers.Input.MouseAction += ClickNPC;
     }
@@ -39,26 +39,26 @@ public class TownScene : BaseScene
             if (hit.collider.gameObject.layer == 12) //NPC 클릭
             {
                 npcPos = hit.collider.gameObject.transform.position; // NPC 위치 할당
-                dis = _player.transform.position - npcPos; // 나와 NPC 거리
+                dis = Player.transform.position - npcPos; // 나와 NPC 거리
                 if (dis.magnitude <= 1)
                 {
-                    if (npcUI.activeSelf == false)
+                    if (NpcUI.activeSelf == false)
                     {
-                        npcUI.SetActive(true);
-                        inventory.SetActive(true);
+                        NpcUI.SetActive(true);
+                        Inventory.SetActive(true);
                     }
                 }
             }
             else // 땅을 찍고 이동할 때
             {
-                dis = _player.transform.position - npcPos; // NPC와 나와의 거리 
+                dis = Player.transform.position - npcPos; // NPC와 나와의 거리 
                 if (dis.magnitude >= 3)
                 {
 
-                    if (npcUI.activeSelf == true)
+                    if (NpcUI.activeSelf == true)
                     {
-                        npcUI.SetActive(false);
-                        inventory.SetActive(false);
+                        NpcUI.SetActive(false);
+                        Inventory.SetActive(false);
                     }
                 }
             }

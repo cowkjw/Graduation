@@ -7,21 +7,17 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField]
     GameObject _player = null;
-
     [SerializeField]
     Vector3 _delta = new Vector3(-9f, 9f, 3f);
-
     Material _material;
-    Color matColor;
-
-    public List<Renderer> _obsList;
+    HashSet<Renderer> _obsHashSet;
+    Color _matColor;
 
     public void SetPlayer(GameObject player) { _player = player; }
 
-
     private void Start()
     {
-        _obsList = new List<Renderer>();
+        _obsHashSet = new HashSet<Renderer>();
     }
 
     void Update()
@@ -30,31 +26,29 @@ public class CameraController : MonoBehaviour
         if (Physics.Raycast(_player.transform.position, _delta, out hit, _delta.magnitude, LayerMask.GetMask("Wall")))
         {
 
-            if (!_obsList.Contains(hit.transform.gameObject.GetComponentInChildren<Renderer>()))
-                _obsList.Add(hit.transform.gameObject.GetComponentInChildren<Renderer>());
-            foreach (var i in _obsList)
+            if (!_obsHashSet.Contains(hit.transform.gameObject.GetComponentInChildren<Renderer>()))
+                _obsHashSet.Add(hit.transform.gameObject.GetComponentInChildren<Renderer>());
+            foreach (Renderer i in _obsHashSet)
             {
                 _material = i.material;
-                matColor = _material.color;
-                matColor.a = 0f;
-                _material.color = matColor;
+                _matColor = _material.color;
+                _matColor.a = 0f;
+                _material.color = _matColor;
             }
-
-
         }
         else
         {
-            foreach (var renderer in _obsList)
+            foreach (Renderer renderer in _obsHashSet)
             {
                 _material = renderer.material;
-                matColor = _material.color;
-                if (matColor.a == 0f)
+                _matColor = _material.color;
+                if (_matColor.a == 0f)
                 {
-                    matColor.a = 1f;
-                    _material.color = matColor;
+                    _matColor.a = 1f;
+                    _material.color = _matColor;
                 }
             }
-            _obsList.Clear();
+            _obsHashSet.Clear();
         }
     }
 

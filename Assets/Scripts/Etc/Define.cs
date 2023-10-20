@@ -8,6 +8,7 @@ public class Define
     public enum EnemyType
     {
         Skelton = 500,
+        Boss
     }
 
     public enum State
@@ -15,6 +16,8 @@ public class Define
         Idle,
         Moving,
         Attack,
+        CrowdControl,
+        Skill,
         Die,
     }
 
@@ -29,7 +32,7 @@ public class Define
 
     public enum CursorType
     {
-        Arrow, // Idle
+        Arrow, // ±âº»
         Attack,
     }
 
@@ -51,6 +54,26 @@ public class Define
         Gold,
         Sliver,
         Bronze
+    }
+
+    public enum Skill
+    {
+        A,
+        B,
+        C
+    }
+
+    public enum SkillType
+    {
+        Passive,
+        Attack,
+    }
+
+    public enum Scene
+    {
+        Town,
+        Dungeon,
+        BossDungeon
     }
 
 }

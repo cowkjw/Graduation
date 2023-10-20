@@ -11,6 +11,9 @@ TagManager:
   - NPC
   - Skelton
   - LevelUI
+  - Boss
+  - Skill_A
+  - Sword
   layers:
   - Default
   - TransparentFX

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,16 +8,15 @@ using UnityEngine.UI;
 
 public class BaseScene : MonoBehaviour
 {
-
-    protected Vector3 playerPos;
-    protected GameObject _player = null;
+    protected Vector3 PlayerPos;
+    protected GameObject Player = null;
     protected GameObject Ui = null;
-    protected GameObject inventory = null; //inventory UI
-    protected GameObject npcUI = null; // NPC UI 오브젝트   
-    protected Slider _playerHpBar;
-    protected Stat _playerStat;
-    protected TextMeshProUGUI _playerLevelText;
-
+    protected GameObject Inventory = null; //inventory UI
+    protected GameObject NpcUI = null; // NPC UI 오브젝트   
+    protected Slider PlayerHpBar;
+    protected Slider PlayerMpBar;
+    protected Stat PlayerStat;
+    protected TextMeshProUGUI PlayerLevelText;
 
     void Awake()
     {
@@ -25,18 +25,21 @@ public class BaseScene : MonoBehaviour
 
     void Start()
     {
-        _playerStat = Managers.Game.GetPlayer().GetComponent<PlayerStat>();
-        inventory = GameObject.Find("UI").transform.Find("Inventory").gameObject;
-        _playerHpBar = GameObject.FindGameObjectWithTag("PlayerUI").transform.GetChild(1).GetComponent<Slider>();
-        _playerLevelText = GameObject.FindGameObjectWithTag("LevelUI").GetComponent<TextMeshProUGUI>();
+        PlayerStat = Managers.Game.GetPlayer().GetComponent<PlayerStat>();
+        Inventory = GameObject.Find("UI").transform.Find("Inventory").gameObject;
+        GameObject playerUI = GameObject.FindGameObjectWithTag("PlayerUI");
+        PlayerHpBar = playerUI.transform.GetChild(1).GetComponent<Slider>();
+        PlayerMpBar = playerUI.transform.GetChild(2).GetComponent<Slider>();
+        PlayerLevelText = GameObject.FindGameObjectWithTag("LevelUI").GetComponent<TextMeshProUGUI>();
         Managers.Input.KeyboardAction -= InputUIHotKey;
         Managers.Input.KeyboardAction += InputUIHotKey;
     }
 
     protected virtual void Update() // 플레이어의 HPUI 업데이트를 위함
     {
-        _playerHpBar.value = _playerStat.Hp / (float)_playerStat.MaxHp;
-        _playerLevelText.text = $"LELVEL {Managers.Data.PlayerStat.Level}";
+        PlayerHpBar.value = PlayerStat.Hp / (float)PlayerStat.MaxHp;
+        PlayerMpBar.value = PlayerStat.Mp / (float)PlayerStat.MaxMp;
+        PlayerLevelText.text = $"LELVEL {Managers.Data.PlayerStat.Level}";
     }
 
     public virtual void Init()
@@ -46,27 +49,27 @@ public class BaseScene : MonoBehaviour
         Ui.name = "UI";
     }
 
-    void InputUIHotKey(Define.UI uiType)
+    void InputUIHotKey(Enum uiType)
     {
-        if (uiType == Define.UI.Inventory)
+        if ((Define.UI)uiType == Define.UI.Inventory)
         {
-            if (inventory.activeSelf) // 인벤토리가 켜져있다면
+            if (Inventory.activeSelf) // 인벤토리가 켜져있다면
             {
                 if (GameObject.FindGameObjectWithTag("NPC")) // 해당 맵에 상점 NPC가 있다면
                 {
-                    if (npcUI?.activeSelf == false) // NPC 널체크 상점이 안켜져있을 때 인벤토리 비활성화
+                    if (NpcUI?.activeSelf == false) // NPC 널체크 상점이 안켜져있을 때 인벤토리 비활성화
                     {
-                        inventory.SetActive(false);
+                        Inventory.SetActive(false);
                     }
                 }
                 else
                 {
-                    inventory.SetActive(false);
+                    Inventory.SetActive(false);
                 }
             }
             else
             {
-                inventory.SetActive(true);
+                Inventory.SetActive(true);
             }
         }
     }

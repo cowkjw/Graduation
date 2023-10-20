@@ -10,11 +10,9 @@ public class SwordWeapon : Item
     protected override void Start()
     {
         base.Start();
-        UseItem();
     }
     public override void UseItem()
     {
         base.UseItem();
-        Debug.Log("°Ë ¹«±â");
     }
 }

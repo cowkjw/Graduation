@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LevelUpUI : MonoBehaviour
 {
-
     [SerializeField]
     GameObject levelUpText;
 
@@ -12,6 +11,5 @@ public class LevelUpUI : MonoBehaviour
     {
         GameObject tempLevelText = Instantiate(levelUpText);
         tempLevelText.transform.SetParent(this.transform);
-
     }
 }

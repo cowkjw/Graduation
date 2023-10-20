@@ -887,7 +887,7 @@ GameObject:
   - component: {fileID: 8293660835968812318}
   - component: {fileID: 386535754764925248}
   m_Layer: 5
-  m_Name: ItemInfo
+  m_Name: IteamName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1301,8 +1301,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aa1d488651401947ba3d33015714a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemNameTooltip: {fileID: 386535754764925248}
-  sellOrPurchase: {fileID: 9050511535070887606}
+  SellOrPurchaseText: {fileID: 9050511535070887606}
+  _itemNameTooltip: {fileID: 386535754764925248}
 --- !u!1 &7410127107196725650
 GameObject:
   m_ObjectHideFlags: 0
@@ -1525,7 +1525,7 @@ GameObject:
   - component: {fileID: 632322793142243126}
   - component: {fileID: 9050511535070887606}
   m_Layer: 5
-  m_Name: RightMouse
+  m_Name: SellOrPurchase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1722,6 +1722,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3713118459124903488}
     m_Modifications:
+    - target: {fileID: 1620923324795254654, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
     - target: {fileID: 2484048345162704795, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -1846,6 +1850,14 @@ PrefabInstance:
       propertyPath: inItem
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3593762531495583933, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 3593762531495583933, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
     m_RemovedComponents:
     - {fileID: 2512607309322981045, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
@@ -1879,6 +1891,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3713118459124903488}
     m_Modifications:
+    - target: {fileID: 1620923324795254654, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
     - target: {fileID: 2484048345162704796, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1987,6 +2003,14 @@ PrefabInstance:
       propertyPath: toolTip
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3593762531495583933, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 3593762531495583933, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
     m_RemovedComponents:
     - {fileID: 2512607309322981045, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
@@ -2020,6 +2044,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3713118459124903488}
     m_Modifications:
+    - target: {fileID: 1620923324795254654, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
     - target: {fileID: 2484048345162704796, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2128,6 +2156,14 @@ PrefabInstance:
       propertyPath: toolTip
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3593762531495583933, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 3593762531495583933, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
     m_RemovedComponents:
     - {fileID: 2512607309322981045, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
@@ -2161,6 +2197,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3713118459124903488}
     m_Modifications:
+    - target: {fileID: 1620923324795254654, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
     - target: {fileID: 2484048345162704796, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2269,6 +2309,14 @@ PrefabInstance:
       propertyPath: toolTip
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3593762531495583933, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 3593762531495583933, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
     m_RemovedComponents:
     - {fileID: 2512607309322981045, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
@@ -2302,6 +2350,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3713118459124903488}
     m_Modifications:
+    - target: {fileID: 1620923324795254654, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
     - target: {fileID: 2484048345162704796, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2414,6 +2466,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3593762531495583933, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 3593762531495583933, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
     m_RemovedComponents:
     - {fileID: 2512607309322981045, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
@@ -2447,6 +2507,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3713118459124903488}
     m_Modifications:
+    - target: {fileID: 1620923324795254654, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
     - target: {fileID: 2484048345162704795, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -2567,6 +2631,14 @@ PrefabInstance:
       propertyPath: inItem
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3593762531495583933, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 3593762531495583933, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
     m_RemovedComponents:
     - {fileID: 2512607309322981045, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
@@ -2600,6 +2672,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3713118459124903488}
     m_Modifications:
+    - target: {fileID: 1620923324795254654, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
     - target: {fileID: 2484048345162704795, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -2720,6 +2796,14 @@ PrefabInstance:
       propertyPath: inItem
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3593762531495583933, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 3593762531495583933, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
     m_RemovedComponents:
     - {fileID: 2512607309322981045, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
@@ -2753,6 +2837,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3713118459124903488}
     m_Modifications:
+    - target: {fileID: 1620923324795254654, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
     - target: {fileID: 2484048345162704796, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2861,6 +2949,14 @@ PrefabInstance:
       propertyPath: toolTip
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3593762531495583933, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 3593762531495583933, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
     m_RemovedComponents:
     - {fileID: 2512607309322981045, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 92fa2d9bf4f35d64ebe72c577cbb53cd, type: 3}
@@ -3618,6 +3714,126 @@ PrefabInstance:
       propertyPath: m_FontData.m_FontStyle
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1996381965645532292, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381965645532292, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381965783173079, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381965783173079, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381965852795571, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381965852795571, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381966168011405, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381966168011405, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381966199119214, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381966199119214, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381966802492962, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381966802492962, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381966835167657, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381966835167657, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381966885345539, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381966885345539, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381966948852453, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381966948852453, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381967015980228, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381967015980228, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381967074384553, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381967074384553, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381967095206678, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381967095206678, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381967339431235, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381967339431235, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381967438769892, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381967438769892, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381967550197295, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 1996381967550197295, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
     - target: {fileID: 2126969916524410527, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
       propertyPath: toolTip
       value: 
@@ -3946,6 +4162,14 @@ PrefabInstance:
       propertyPath: toolTip
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4165141487016135934, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: ToolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
+    - target: {fileID: 4165141487016135934, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
+      propertyPath: toolTip
+      value: 
+      objectReference: {fileID: 2609522813994439403}
     - target: {fileID: 4188552859882185723, guid: 2cca3ccb645cedf45af7a4cc02e36042, type: 3}
       propertyPath: m_RootOrder
       value: 3

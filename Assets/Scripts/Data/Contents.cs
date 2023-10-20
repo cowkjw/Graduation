@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Schema;
+using Newtonsoft.Json.Linq;
 using UnityEngine.SceneManagement;
 
 namespace Contents
 {
-
-
     [Serializable]
     public class Item
     {
@@ -105,13 +105,10 @@ namespace Contents
     {
         public List<Dictionary<string, ExpData>> EnemyExp = new List<Dictionary<string, ExpData>>();
 
-        public Dictionary<string, ExpData> MakeDict()
+        public Dictionary<string, ExpData> MakeList()
         {
             return EnemyExp[0];
         }
 
     }
-
-
-
 }
