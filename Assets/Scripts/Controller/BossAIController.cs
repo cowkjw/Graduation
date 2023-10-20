@@ -182,7 +182,7 @@ public class BossAIController : MonoBehaviour
         // 점프 애니메이션의 총 시간.
         float jumpDuration = 5f;
 
-        // 점프 버튼을 누른 후 점프 애니메이션을 시작하는 데 걸리는 시간.
+        // 점프 애니메이션을 시작하는 데 걸리는 시간.
         float animationStartTime = 1.5f;
 
         // 점프의 최대 높이.

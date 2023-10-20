@@ -19,4 +19,9 @@ public class GameManagerExt
         return Player ?? null;
     }
 
+    public void SetPlayer(GameObject player) // 수정사항
+    {
+        Player = player;
+    }
+
 }

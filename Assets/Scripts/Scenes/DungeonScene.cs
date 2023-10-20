@@ -27,10 +27,6 @@ public class DungeonScene : BaseScene  // @Scene에 Add
             GameObject spawningPool = new GameObject("SpawningPool", typeof(EnemySpawnController));
             spawningPool.transform.SetParent(transform);
         }
-        //GameObject spawningPool = new GameObject { name = "SpawningPool" };
-        //spawningPool.transform.SetParent(this.transform);
-        //spawningPool?.AddComponent<EnemySpawnController>();
-
 
         PlayerPos = new Vector3(-7, 1.4f, 31); // 던전은 고정
         Player = Managers.Game.SpawnPlayer(PlayerPos);
